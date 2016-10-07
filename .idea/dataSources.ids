@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="dataSourceStorage">
+  <data-source name="H2 - test;AUTO_SERVER=TRUE" uuid="02b7f572-e9d9-4650-ab12-929cfb05bc50">
+    <database-info product="H2" version="1.4.192 (2016-05-26)" jdbc-version="4.0" driver-name="H2 JDBC Driver" driver-version="1.4.192 (2016-05-26)">
+      <identifier-quote-string>&quot;</identifier-quote-string>
+    </database-info>
+    <case-sensitivity plain-identifiers="upper" quoted-identifiers="exact"/>
+    <schema name="PUBLIC" catalog="TEST"/>
+    <table name="USERS" schema="PUBLIC" catalog="TEST" type="TABLE">
+      <column name="ID" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" def="KE5FWFQgVkFMVUUgRk9SIFBVQkxJQy5TWVNURU1fU0VRVUVOQ0VfREJCQzQwMzhfODEyMl80Q0ZGX0FCQ0ZfQzQ0MEFFODE2QkYzKQ==" autoIncrement="true"/>
+      <column name="ADDRESS" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="EMAIL" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="PASSWORD" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="PHONE_NUMBER" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="USER_NAME" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="CONSTRAINT_4" columns="ID"/>
+      <exported-key name="FK_QAO3GB02YJB1RV7T3ID7M4GUV" table="USER_LOG" schema="PUBLIC" catalog="TEST" columns="USER_ID"/>
+    </table>
+    <table name="USER_LOG" schema="PUBLIC" catalog="TEST" type="TABLE">
+      <column name="ID" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" def="KE5FWFQgVkFMVUUgRk9SIFBVQkxJQy5TWVNURU1fU0VRVUVOQ0VfODBCMTM3RjNfMkNEOF80OUQyX0IxMjRfOUYyODM0MDA3QjcxKQ==" autoIncrement="true"/>
+      <column name="DEVICE_TOKEN" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="LOGIN_TIME" sqlType="TIMESTAMP" precision="23" scale="10" nullable="true" jdbcType="93"/>
+      <column name="SESSION_ID" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="USER_ID" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <primary-key name="CONSTRAINT_1" columns="ID"/>
+      <foreign-key name="FK_QAO3GB02YJB1RV7T3ID7M4GUV" columns="USER_ID" ref-table="USERS" ref-schema="PUBLIC" ref-catalog="TEST" ref-columns="ID" update-rule="1" delete-rule="1" deferrability="2"/>
+      <index name="FK_QAO3GB02YJB1RV7T3ID7M4GUV_INDEX_1" unique="false" columns="USER_ID"/>
+    </table>
+  </data-source>
+</component>
