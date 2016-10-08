@@ -1,12 +1,5 @@
 package com.mx.view;
 
-import com.alibaba.fastjson.JSONObject;
-import com.mx.HttpUtil;
-import com.mx.LogUtil;
-import com.mx.Util;
-import com.mx.domain.User;
-import com.mx.domain.UserLog;
-import com.mx.domain.UserUtils;
 import com.mx.repositories.UserLogRepository;
 import com.mx.repositories.UserRepository;
 import com.mx.service.LoginService;
