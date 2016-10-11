@@ -73,22 +73,27 @@
 
         // 指定图表的配置项和数据
         var option = {
-            title: {
-                text: '温度历史数据表 单位°C'
-            },
-            tooltip: {},
-            legend: {
-                data:['温度']
-            },
-            xAxis: {
-                data: ["1","2","3","4","5","6"]
-            },
-            yAxis: {},
-            series: [{
-                name: '温度',
-                type: 'line',
-                data: [5, 20, 36, 10, 10, 20]
-            }]
+          title: {
+            text: '温度历史数据表 单位°C'
+          },
+          tooltip: {},
+          legend: {
+            data:['温度']
+          },
+          xAxis: {
+            data: ['周一','周二','周三','周四','周五','周六','周日']
+          },
+          yAxis: {
+            type: 'value',
+            axisLabel: {
+              formatter: '{value} °C'
+            }
+          },
+          series: [{
+            name: '温度',
+            type: 'line',
+            data: [5, 20, 36, 10, 10, 20]
+          }]
         };
 
         // 使用刚指定的配置项和数据显示图表。
