@@ -122,10 +122,14 @@
           <element id="library" level="project" name="Maven: com.opencsv:opencsv:3.5" />
           <element id="library" level="project" name="Maven: org.mybatis:mybatis-spring:1.2.2" />
           <element id="library" level="project" name="Maven: org.mybatis:mybatis:3.3.0" />
+          <element id="library" level="project" name="Maven: org.fusesource.mqtt-client:mqtt-client:1.2" />
+          <element id="library" level="project" name="Maven: org.fusesource.hawtdispatch:hawtdispatch-transport:1.11" />
+          <element id="library" level="project" name="Maven: org.fusesource.hawtdispatch:hawtdispatch:1.11" />
+          <element id="library" level="project" name="Maven: org.fusesource.hawtbuf:hawtbuf:1.9" />
         </element>
       </element>
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="C:\work\private\shmashine\113\maixin_project\target/MANIFEST.MF" />
+        <element id="file-copy" path="C:\work\private\shmashine\oldSvn\maixin_project\target/MANIFEST.MF" />
       </element>
       <element id="javaee-facet-resources" facet="mx/web/Web" />
     </root>

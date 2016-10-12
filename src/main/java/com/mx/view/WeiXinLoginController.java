@@ -3,6 +3,7 @@ package com.mx.view;
 import com.mx.repositories.UserLogRepository;
 import com.mx.repositories.UserRepository;
 import com.mx.service.LoginService;
+import com.mx.service.MxService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +19,9 @@ import java.util.Date;
 @Transactional
 @RequestMapping("/WeiXinLogin")
 public class WeiXinLoginController {
+    @Autowired
+    private MxService mxService;
+
     @Autowired
     private LoginService loginService;
     @Autowired

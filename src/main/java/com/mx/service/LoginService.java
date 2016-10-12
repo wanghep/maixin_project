@@ -3,6 +3,7 @@ package com.mx.service;
 import com.mx.domain.User;
 import com.mx.domain.UserLog;
 import com.mx.repositories.UserLogRepository;
+import org.fusesource.mqtt.client.MQTT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +19,7 @@ public class LoginService {
 
     @Autowired
     private UserLogRepository userLogRepository;
+
 
     public User checkLogIn(String sessionId) {
         UserLog log = userLogRepository.findBySessionId(sessionId);

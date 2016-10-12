@@ -24,6 +24,9 @@ public class Message {
     @JoinColumn(name = "deviceId")
     private  Devices device; // 那个device的消息
 
+    private String type; //是什么类型消息消息
+
+
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(style = "M-")
     private Date time;
@@ -60,5 +63,14 @@ public class Message {
 
     public void setContext(String context) {
         this.context = context;
+    }
+
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }
