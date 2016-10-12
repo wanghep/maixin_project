@@ -20,9 +20,21 @@
   <body>
   	<div class="container">
   	  <ul class="list-inline">
-  		  <li><img src="img/img_btn_add_small.png" /></li>	 
-  		  <li><img src="img/img_device_thumbnail.png" /></li>
-  		  <li><img src="img/img_btn_add_small.png" /></li>
+  		  <li>
+          <a href="qr-code.html">
+            <img src="img/img_btn_add_small.png" />
+          </a>
+        </li>
+  		  <li>
+          <a href="device-avatar.html">
+            <img src="img/img_device_thumbnail.png" />
+          </a>
+        </li>
+  		  <li>
+          <button type="button" id="myButton" class="btn btn-primary" autocomplete="off">
+            手动
+          </button>
+        </li>
       </ul>
     </div>
 
@@ -30,7 +42,11 @@
   		<li class="list-group-item">
         <div class="container">
           <ul class="list-inline">
-            <li><img src="img/img_device_default.png" /></li>   
+            <li>
+              <a href="device.html">
+                <img src="img/img_device_default.png" />
+              </a>
+            </li> 
             <li><p>设备1</p></li>
             <li><img src="img/img_indicator_green.png" /></li>
           </ul>
@@ -135,5 +151,15 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      $("#myButton").on('click', function() {
+        var btn = document.getElementById("myButton")
+        if (btn.innerHTML == "手动") {
+          btn.innerHTML="自动"
+        } else {
+          btn.innerHTML="手动"
+        }
+      })
+    </script>
   </body>
 </html>
