@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>麦信智能生态花园</title>
+    <title>设备头像</title>
 
     <!-- Bootstrap -->
     <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
@@ -19,33 +19,21 @@
   </head>
   <body>
 
-    <ul class="list-group">
-		  <li class="list-group-item">
-        <a href="manager.jsp">
-    			<ul class="list-inline">
-            <li><img src="${pageContext.request.contextPath}/img/img_default_garden.png" /></li>
-            <li><p>我的花园</p></li>
-            <li><p>3台设备</p></li>
-    			</ul>
-        </a>
-		  </li>
-		  <li class="list-group-item">
-        <a href="manager.jsp">
-    			<ul class="list-inline">
-            <li><img src="${pageContext.request.contextPath}/img/img_grandfather_garden.png" /></li>
-            <li><p>爷爷的养殖场</p></li>
-            <li><p>0台设备</p></li>
-    			</ul>
-        </a>
-		  </li>
-    </ul>
+    <div class="container" align="center">
+      <h4>原头像</h4>
+      <img src="${pageContext.request.contextPath}/img/img_device_default.png" />
+    </div>
 
+    <div class="container" align="center">
+      <h4>新头像</h4>
+      <img src="${pageContext.request.contextPath}/img/img_device_default.png" />
+    </div>
 
-  	<div class="container">
-      <a href="farm-create.jsp">
-        <img  src="${pageContext.request.contextPath}/img/img_btn_add.png" />
-      </a>
-  	</div>
+    <div class="container" align="center" style="margin-top:30px;">
+      <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off">
+      保存
+      </button>
+    </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
