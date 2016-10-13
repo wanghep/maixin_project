@@ -8,7 +8,7 @@
     <title>农场监测控制</title>
 
     <!-- Bootstrap -->
-    <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet"> 
+    <link href="${pageContext.request.contextPath}/views/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -22,7 +22,7 @@
     <ul class="list-group">
 		  <li class="list-group-item">
   			<ul class="list-inline">
-          <li><img src="${pageContext.request.contextPath}/img/img_device_default.png" /></li>
+          <li><img src="${pageContext.request.contextPath}/views/img/img_device_default.png" /></li>
           <li><p>我的花园</p></li>
           <li><p>设备1</p></li>
   			</ul>
@@ -65,8 +65,8 @@
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
-    <script src="${pageContext.request.contextPath}/js/echarts.js"></script>
+    <script src="${pageContext.request.contextPath}/views/js/bootstrap.min.js"></script>
+    <script src="${pageContext.request.contextPath}/views/js/echarts.js"></script>
     <script>
         // 基于准备好的dom，初始化echarts实例
         var myChart = echarts.init(document.getElementById('myChart'));

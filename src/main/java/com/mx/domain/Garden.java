@@ -31,6 +31,9 @@ public class Garden {
     @JoinColumn(name = "user_id")
     private User user;
 
+    private String avatarUrl;
+
+    private long deviceCount;
 
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(style = "M-")
@@ -74,5 +77,21 @@ public class Garden {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
+    }
+
+    public long getDeviceCount() {
+        return deviceCount;
+    }
+
+    public void setDeviceCount(long deviceCount) {
+        this.deviceCount = deviceCount;
     }
 }

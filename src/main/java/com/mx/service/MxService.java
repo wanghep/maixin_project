@@ -9,7 +9,7 @@ import com.mx.service.mqttService.MessageListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -77,6 +77,8 @@ public class MxService implements MessageListener {
         message.setDevice( device );
         message.setType( type );
         message.setContext( data1 );
+
+        message.setTime( new Date() );
 
         mssageRepository.save( message );
 

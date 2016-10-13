@@ -8,7 +8,7 @@
     <title>设备管理</title>
 
     <!-- Bootstrap -->
-    <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/views/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -22,12 +22,12 @@
   	  <ul class="list-inline">
   		  <li>
           <a href="qr-code.jsp">
-            <img src="${pageContext.request.contextPath}/img/img_btn_add_small.png" />
+            <img src="${pageContext.request.contextPath}/views/img/img_btn_add_small.png" />
           </a>
         </li>
   		  <li>
           <a href="device-avatar.jsp">
-            <img src="${pageContext.request.contextPath}/img/img_device_thumbnail.png" />
+            <img src="${pageContext.request.contextPath}/views/img/img_device_thumbnail.png" />
           </a>
         </li>
   		  <li>
@@ -44,18 +44,18 @@
           <ul class="list-inline">
             <li>
               <a href="device.jsp">
-                <img src="${pageContext.request.contextPath}/img/img_device_default.png" />
+                <img src="${pageContext.request.contextPath}/views/img/img_device_default.png" />
               </a>
             </li> 
             <li><p>设备1</p></li>
-            <li><img src="${pageContext.request.contextPath}/img/img_indicator_green.png" /></li>
+            <li><img src="${pageContext.request.contextPath}/views/img/img_indicator_green.png" /></li>
           </ul>
         </div>
 
         <ul class="list-group">
           <li class="list-group-item">
             <ul class="list-inline">
-              <li><img src="${pageContext.request.contextPath}/img/img_indicator_happy.png" /></li>
+              <li><img src="${pageContext.request.contextPath}/views/img/img_indicator_happy.png" /></li>
               <li><p>温度</p></li>
               <li><button type="button" class="btn btn-default">通风降温</button></li>
               <li>
@@ -66,7 +66,7 @@
           </li>
           <li class="list-group-item">
             <ul class="list-inline">
-              <li><img src="${pageContext.request.contextPath}/img/img_indicator_happy.png" /></li>
+              <li><img src="${pageContext.request.contextPath}/views/img/img_indicator_happy.png" /></li>
               <li><p>湿度</p></li>
               <li><button type="button" class="btn btn-default">浇水</button></li>
               <li>
@@ -86,7 +86,7 @@
           </li>
           <li class="list-group-item">
             <ul class="list-inline">
-              <li><img src="${pageContext.request.contextPath}/img/img_indicator_sad.png" /></li>
+              <li><img src="${pageContext.request.contextPath}/views/img/img_indicator_sad.png" /></li>
               <li><p>水位</p></li>
               <li><p>请您亲自浇水</p></li>
             </ul>
@@ -98,16 +98,16 @@
   		<li class="list-group-item">
         <div class="container">
           <ul class="list-inline">
-            <li><img src="${pageContext.request.contextPath}/img/img_device_default.png" /></li>   
+            <li><img src="${pageContext.request.contextPath}/views/img/img_device_default.png" /></li>
             <li><p>设备2</p></li>
-            <li><img src="${pageContext.request.contextPath}/img/img_indicator_green.png" /></li>
+            <li><img src="${pageContext.request.contextPath}/views/img/img_indicator_green.png" /></li>
           </ul>
         </div>
 
         <ul class="list-group">
           <li class="list-group-item">
             <ul class="list-inline">
-              <li><img src="${pageContext.request.contextPath}/img/img_indicator_happy.png" /></li>
+              <li><img src="${pageContext.request.contextPath}/views/img/img_indicator_happy.png" /></li>
               <li><p>温度</p></li>
               <li><button type="button" class="btn btn-default">通风降温</button></li>
               <li>
@@ -118,7 +118,7 @@
           </li>
           <li class="list-group-item">
             <ul class="list-inline">
-              <li><img src="${pageContext.request.contextPath}/img/img_indicator_happy.png" /></li>
+              <li><img src="${pageContext.request.contextPath}/views/img/img_indicator_happy.png" /></li>
               <li><p>湿度</p></li>
               <li><button type="button" class="btn btn-default">浇水</button></li>
               <li>
@@ -128,7 +128,7 @@
           </li>
           <li class="list-group-item">
             <ul class="list-inline">
-              <li><img src="${pageContext.request.contextPath}/img/img_indicator_happy.png" /></li>
+              <li><img src="${pageContext.request.contextPath}/views/img/img_indicator_happy.png" /></li>
               <li><p>光照</p></li>
               <li><button type="button" class="btn btn-default">增加光照</button></li>
               <li>
@@ -138,7 +138,7 @@
           </li>
           <li class="list-group-item">
             <ul class="list-inline">
-              <li><img src="img/img_indicator_sad.png" /></li>
+              <li><img src="../img/img_indicator_sad.png" /></li>
               <li><p>水位</p></li>
               <li><p>请您亲自浇水</p></li>
             </ul>
@@ -150,7 +150,7 @@
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+    <script src="${pageContext.request.contextPath}/views/js/bootstrap.min.js"></script>
     <script type="text/javascript">
       $("#myButton").on('click', function() {
         var btn = document.getElementById("myButton")

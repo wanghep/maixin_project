@@ -19,8 +19,6 @@ import java.util.Date;
 @Transactional
 @RequestMapping("/WeiXinLogin")
 public class WeiXinLoginController {
-    @Autowired
-    private MxService mxService;
 
     @Autowired
     private LoginService loginService;
