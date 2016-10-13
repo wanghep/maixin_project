@@ -8,7 +8,7 @@
     <title>农场监测控制</title>
 
     <!-- Bootstrap -->
-    <link href="${pageContext.request.contextPath}/views/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/views/css/bootstrap.min.css" rel="stylesheet"> 
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -18,18 +18,20 @@
     <![endif]-->
   </head>
   <body>
-
+  <%
+    Device dev = (Device)request.getAttribute("GardenDevice");
+  %>
     <ul class="list-group">
-		  <li class="list-group-item">
-  			<ul class="list-inline">
+      <li class="list-group-item">
+        <ul class="list-inline">
           <li><img src="${pageContext.request.contextPath}/views/img/img_device_default.png" /></li>
-          <li><p>我的花园</p></li>
-          <li><p>设备1</p></li>
-  			</ul>
-		  </li>
+          <li><p><%= dev.getName() %></p></li>
+          <li><p>设备<%= dev.getCount() %></p></li>
+        </ul>
+      </li>
     </ul>
 
-    <div id="myChart" style="width: 400px;height:300px;"></div>
+    <div id="tempture" style="width: 400px;height:300px;"></div>
 
     <ul class="list-group">
       <li class="list-group-item">
@@ -62,6 +64,51 @@
       </li>                           
     </ul>
 
+    <div id="moisture" style="width: 400px;height:300px;"></div>
+
+    <ul class="list-group">
+      <li class="list-group-item">
+        <ul class="list-inline">
+          <li><p>自动模式上限</p></li>
+          <li><input type="text"></input></li>
+          <li><p>%RH</p></li>
+        </ul>
+      </li>
+      <li class="list-group-item">
+        <ul class="list-inline">
+          <li><p>自动模式下限</p></li>
+          <li><input type="text"></input></li>
+          <li><p>%RH</p></li>
+        </ul>
+      </li>
+      <li class="list-group-item">
+        <ul class="list-inline">
+          <li><p>手动模式浇水时间</p></li>
+          <li><input type="text"></input></li>
+          <li><p>分钟</p></li>
+        </ul>
+      </li>                        
+    </ul>
+
+    <div id="light" style="width: 400px;height:300px;"></div>
+
+    <ul class="list-group">
+      <li class="list-group-item">
+        <ul class="list-inline">
+          <li><p>自动模式上限</p></li>
+          <li><input type="text"></input></li>
+          <li><p>μmol</p></li>
+        </ul>
+      </li>
+      <li class="list-group-item">
+        <ul class="list-inline">
+          <li><p>自动模式下限</p></li>
+          <li><input type="text"></input></li>
+          <li><p>μmol</p></li>
+        </ul>
+      </li>                         
+    </ul>    
+
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
@@ -69,7 +116,9 @@
     <script src="${pageContext.request.contextPath}/views/js/echarts.js"></script>
     <script>
         // 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(document.getElementById('myChart'));
+        var myChart = echarts.init(document.getElementById('tempture'));
+        var myChart2 = echarts.init(document.getElementById('moisture'));
+        var myChart3 = echarts.init(document.getElementById('light'));
 
         // 指定图表的配置项和数据
         var option = {
@@ -97,7 +146,9 @@
         };
 
         // 使用刚指定的配置项和数据显示图表。
-        myChart.setOption(option);    
+        myChart.setOption(option);
+        myChart2.setOption(option);
+        myChart3.setOption(option);
     </script>
   </body>
 </html>

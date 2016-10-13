@@ -18,12 +18,14 @@
     <![endif]-->
   </head>
   <body>
-
+  <%
+    Garden garden = (Device)request.getAttribute("Garden");
+  %>
     <ul class="list-group">
 		  <li class="list-group-item">
   			<ul class="list-inline">
           <li>
-            <h2 style="color:blue;">我的花园</h2>
+            <h2 style="color:blue;"><%= garden.getName() %></h2>
           </li>
           <li><p>长按修改花园名称</p></li>
   			</ul>
@@ -31,7 +33,7 @@
     </ul>
 
     <div class="container" align="center">
-      <img src="${pageContext.request.contextPath}/views/img/img_default_garden.png" />
+      <img src=<%= garden.getAvatarUrl() %> />
     </div>
 
   	<div class="container" align="center" style="margin-top:30px;">

@@ -18,6 +18,9 @@
     <![endif]-->
   </head>
   <body>
+  <%
+    Garden garden = (Device)request.getAttribute("Garden");
+  %>    
   	<div class="container">
   	  <ul class="list-inline">
   		  <li>
@@ -25,9 +28,9 @@
             <img src="${pageContext.request.contextPath}/views/img/img_btn_add_small.png" />
           </a>
         </li>
-  		  <li>
-          <a href="device-avatar.jsp">
-            <img src="${pageContext.request.contextPath}/views/img/img_device_thumbnail.png" />
+        <li>
+          <a href="farm-avatar.html">
+            <img src=<%= garden.getAvatarUrl() %> />
           </a>
         </li>
   		  <li>
@@ -51,100 +54,69 @@
             <li><img src="${pageContext.request.contextPath}/views/img/img_indicator_green.png" /></li>
           </ul>
         </div>
+    <ul class="list-group">
+      <%
+        ArrayList list = (ArrayList)request.getAttribute("GardenList");
 
-        <ul class="list-group">
-          <li class="list-group-item">
-            <ul class="list-inline">
-              <li><img src="${pageContext.request.contextPath}/views/img/img_indicator_happy.png" /></li>
-              <li><p>温度</p></li>
-              <li><button type="button" class="btn btn-default">通风降温</button></li>
-              <li>
-                <progress value="42" max="100" style="width:4.8em;height:18px;">
-              </li>
-              <li><button type="button" class="btn btn-default">加温升温</button></li>
-            </ul>
-          </li>
-          <li class="list-group-item">
-            <ul class="list-inline">
-              <li><img src="${pageContext.request.contextPath}/views/img/img_indicator_happy.png" /></li>
-              <li><p>湿度</p></li>
-              <li><button type="button" class="btn btn-default">浇水</button></li>
-              <li>
-                <progress value="22" max="100">
-              </li>
-            </ul>
-          </li>
-          <li class="list-group-item">
-            <ul class="list-inline">
-              <li><img src="${pageContext.request.contextPath}/img/img_indicator_happy.png" /></li>
-              <li><p>光照</p></li>
-              <li><button type="button" class="btn btn-default">增加光照</button></li>
-              <li>
-                <progress value="22" max="100">
-              </li>
-            </ul>
-          </li>
-          <li class="list-group-item">
-            <ul class="list-inline">
-              <li><img src="${pageContext.request.contextPath}/views/img/img_indicator_sad.png" /></li>
-              <li><p>水位</p></li>
-              <li><p>请您亲自浇水</p></li>
-            </ul>
-          </li>                           
-        </ul>
-      </li>
+        for  (int i=0;i<list.size();i++) {
+      %>
 
-
-  		<li class="list-group-item">
+      <li class="list-group-item">
         <div class="container">
           <ul class="list-inline">
-            <li><img src="${pageContext.request.contextPath}/views/img/img_device_default.png" /></li>
-            <li><p>设备2</p></li>
-            <li><img src="${pageContext.request.contextPath}/views/img/img_indicator_green.png" /></li>
+            <li>
+              <a href="device.html">
+                <img src=<%= ((Garden)list.get(i)).getAvatarUrl() %> />
+              </a>
+            </li> 
+            <li><p>设备<%= i %></p></li>
+            <li><img src="img/img_indicator_green.png" /></li>
           </ul>
         </div>
 
-        <ul class="list-group">
-          <li class="list-group-item">
-            <ul class="list-inline">
-              <li><img src="${pageContext.request.contextPath}/views/img/img_indicator_happy.png" /></li>
-              <li><p>温度</p></li>
-              <li><button type="button" class="btn btn-default">通风降温</button></li>
-              <li>
-                <progress value="22" max="100" style="width:4.8em;height:18px;">
-              </li>
-              <li><button type="button" class="btn btn-default">加温升温</button></li>
-            </ul>
-          </li>
-          <li class="list-group-item">
-            <ul class="list-inline">
-              <li><img src="${pageContext.request.contextPath}/views/img/img_indicator_happy.png" /></li>
-              <li><p>湿度</p></li>
-              <li><button type="button" class="btn btn-default">浇水</button></li>
-              <li>
-                <progress value="22" max="100">
-              </li>
-            </ul>
-          </li>
-          <li class="list-group-item">
-            <ul class="list-inline">
-              <li><img src="${pageContext.request.contextPath}/views/img/img_indicator_happy.png" /></li>
-              <li><p>光照</p></li>
-              <li><button type="button" class="btn btn-default">增加光照</button></li>
-              <li>
-                <progress value="22" max="100">
-              </li>
-            </ul>
-          </li>
-          <li class="list-group-item">
-            <ul class="list-inline">
-              <li><img src="../img/img_indicator_sad.png" /></li>
-              <li><p>水位</p></li>
-              <li><p>请您亲自浇水</p></li>
-            </ul>
-          </li>                           
-        </ul>
-      </li>
+
+        <li class="list-group-item">
+          <ul class="list-inline">
+            <li><img src="img/img_indicator_happy.png" /></li>
+            <li><p>温度</p></li>
+            <li><button type="button" class="btn btn-default">通风降温</button></li>
+            <li>
+              <progress value="42" max="100" style="width:4.8em;height:18px;">
+            </li>
+            <li><button type="button" class="btn btn-default">加温升温</button></li>
+          </ul>
+        </li>
+        <li class="list-group-item">
+          <ul class="list-inline">
+            <li><img src="img/img_indicator_happy.png" /></li>
+            <li><p>湿度</p></li>
+            <li><button type="button" class="btn btn-default">浇水</button></li>
+            <li>
+              <progress value="22" max="100">
+            </li>
+          </ul>
+        </li>
+        <li class="list-group-item">
+          <ul class="list-inline">
+            <li><img src="img/img_indicator_happy.png" /></li>
+            <li><p>光照</p></li>
+            <li><button type="button" class="btn btn-default">增加光照</button></li>
+            <li>
+              <progress value="22" max="100">
+            </li>
+          </ul>
+        </li>
+        <li class="list-group-item">
+          <ul class="list-inline">
+            <li><img src="img/img_indicator_sad.png" /></li>
+            <li><p>水位</p></li>
+            <li><p>请您亲自浇水</p></li>
+          </ul>
+        </li>                           
+      </ul>
+      <%
+        }
+      %>
     </ul>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
