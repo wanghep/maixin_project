@@ -36,6 +36,14 @@
       <img src=<%= garden.getAvatarUrl() %> />
     </div>
 
+    <form id="form" enctype="multipart/form-data" method="post">
+      <div class="container" align="center">
+        <input id="profile-image-upload" class="hidden" type="file">
+        <div id="profile-image"><image src=<%= garden.getAvatarUrl() %> /></div>
+        <h4>点击上传花园头像</h4>
+      </div>
+    </form>
+    
   	<div class="container" align="center" style="margin-top:30px;">
       <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" style="color:red;">
       删除此花园
@@ -46,5 +54,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="${pageContext.request.contextPath}/views/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      $('#profile-image').on('click', function() {
+        $('#profile-image-upload').click();
+      });
+    </script>       
   </body>
 </html>
