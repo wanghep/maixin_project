@@ -32,9 +32,6 @@
 		  </li>
     </ul>
 
-    <div class="container" align="center">
-      <img src=<%= garden.getAvatarUrl() %> />
-    </div>
 
     <form id="form" enctype="multipart/form-data" method="post">
       <div class="container" align="center">
@@ -43,7 +40,7 @@
         <h4>点击上传花园头像</h4>
       </div>
     </form>
-    
+
   	<div class="container" align="center" style="margin-top:30px;">
       <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" style="color:red;">
       删除此花园

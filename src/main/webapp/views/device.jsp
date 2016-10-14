@@ -19,14 +19,70 @@
   </head>
   <body>
   <%
-    Device dev = (Device)request.getAttribute("GardenDevice");
+    Device dev = (Device)request.getAttribute("device");
+    ArrayList tempture = (ArrayList)request.getAttribute("messageTemperaterList");
+    ArrayList humidit = (ArrayList)request.getAttribute("MessageHumiditList");
+    ArrayList illumination = (ArrayList)request.getAttribute("messageIlluminationList");
+    ArrayList water = (ArrayList)request.getAttribute("messageWaterLevelList");
+
+    String temptureX[] = new String[tempture.size()];
+    int temptureY[] = new int[tempture.size()];
+    for(int i=0;i<tempture.size();i++) {
+      Message item = (Message)tempture.get(i);
+      temptureX[i] = item.getTime();
+      int temp = 0;
+      try {
+        temp = Integer.parseInt(item.getContext());
+      } catch(NumberFormatException e) {}
+      temptureY[i] = temp;
+
+    }
+
+    String humiditX[] = new String[humidit.size()];
+    int humiditY[] = new int[humidit.size()];
+    for(int i=0;i<humidit.size();i++) {
+      Message item = (Message)humidit.get(i);
+      humiditX[i] = item.getTime();
+      int temp = 0;
+      try {
+        temp = Integer.parseInt(item.getContext());
+      } catch(NumberFormatException e) {}
+      humiditY[i] = temp;
+
+    }
+
+    String illuminationX[] = new String[illumination.size()];
+    int illuminationY[] = new int[illumination.size()];
+    for(int i=0;i<illumination.size();i++) {
+      Message item = (Message)illumination.get(i);
+      illuminationX[i] = item.getTime();
+      int temp = 0;
+      try {
+        temp = Integer.parseInt(item.getContext());
+      } catch(NumberFormatException e) {}
+      illuminationY[i] = temp;
+
+    }
+
+    String waterX[] = new String[water.size()];
+    int waterY[] = new int[water.size()];
+    for(int i=0;i<water.size();i++) {
+      Message item = (Message)water.get(i);
+      waterX[i] = item.getTime();
+      int temp = 0;
+      try {
+        temp = Integer.parseInt(item.getContext());
+      } catch(NumberFormatException e) {}
+      waterY[i] = temp;
+
+    }            
   %>
     <ul class="list-group">
       <li class="list-group-item">
         <ul class="list-inline">
           <li><img src="${pageContext.request.contextPath}/views/img/img_device_default.png" /></li>
           <li><p><%= dev.getName() %></p></li>
-          <li><p>设备<%= dev.getCount() %></p></li>
+          <li><p>设备<%= dev.getId() %></p></li>
         </ul>
       </li>
     </ul>
@@ -116,12 +172,12 @@
     <script src="${pageContext.request.contextPath}/views/js/echarts.js"></script>
     <script>
         // 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(document.getElementById('tempture'));
+        var myChart1 = echarts.init(document.getElementById('tempture'));
         var myChart2 = echarts.init(document.getElementById('moisture'));
         var myChart3 = echarts.init(document.getElementById('light'));
 
         // 指定图表的配置项和数据
-        var option = {
+        var option1 = {
           title: {
             text: '温度历史数据表 单位°C'
           },
@@ -130,7 +186,7 @@
             data:['温度']
           },
           xAxis: {
-            data: ['周一','周二','周三','周四','周五','周六','周日']
+            data: <%= temptureX %>
           },
           yAxis: {
             type: 'value',
@@ -141,14 +197,62 @@
           series: [{
             name: '温度',
             type: 'line',
-            data: [5, 20, 36, 10, 10, 20]
+            data: <%= temptureY %>
           }]
         };
 
+        var option2 = {
+          title: {
+            text: '湿度历史数据表 单位%RH'
+          },
+          tooltip: {},
+          legend: {
+            data:['湿度']
+          },
+          xAxis: {
+            data: <%= humiditX %>
+          },
+          yAxis: {
+            type: 'value',
+            axisLabel: {
+              formatter: '{value} %RH'
+            }
+          },
+          series: [{
+            name: '湿度',
+            type: 'line',
+            data: <%= humiditY %>
+          }]
+        };
+
+        var option3 = {
+          title: {
+            text: '光照历史数据表 单位μmol'
+          },
+          tooltip: {},
+          legend: {
+            data:['光照']
+          },
+          xAxis: {
+            data: <%= illuminationY %>
+          },
+          yAxis: {
+            type: 'value',
+            axisLabel: {
+              formatter: '{value} μmol'
+            }
+          },
+          series: [{
+            name: '光照',
+            type: 'line',
+            data: <%= illuminationX %>
+          }]
+        };                
+
         // 使用刚指定的配置项和数据显示图表。
-        myChart.setOption(option);
-        myChart2.setOption(option);
-        myChart3.setOption(option);
+        myChart1.setOption(option1);
+        myChart2.setOption(option2);
+        myChart3.setOption(option3);
     </script>
   </body>
 </html>

@@ -19,7 +19,7 @@
   </head>
   <body>
   <%
-    Garden garden = (Device)request.getAttribute("Garden");
+    Garden garden = (Garden)request.getAttribute("Garden");
   %>    
   	<div class="container">
   	  <ul class="list-inline">
@@ -56,9 +56,10 @@
         </div>
     <ul class="list-group">
       <%
-        ArrayList list = (ArrayList)request.getAttribute("GardenList");
+        ArrayList list = (ArrayList)request.getAttribute("devicesList");
 
-        for  (int i=0;i<list.size();i++) {
+        for (int i=0;i<list.size();i++) {
+        Device dev = (Device)list.get(i);
       %>
 
       <li class="list-group-item">
@@ -66,15 +67,17 @@
           <ul class="list-inline">
             <li>
               <a href="device.html">
-                <img src=<%= ((Garden)list.get(i)).getAvatarUrl() %> />
+                <img src=<%= ((Device)list.get(i)).getAvatarUrl() %> />
               </a>
             </li> 
             <li><p>设备<%= i %></p></li>
-            <li><img src="img/img_indicator_green.png" /></li>
+            <li><img src="${pageContext.request.contextPath}/views/img/img_indicator_green.png" /></li>
           </ul>
         </div>
 
-
+        <% 
+          if((dev.getPropertyCombine()&0x01)==1) {
+        %>
         <li class="list-group-item">
           <ul class="list-inline">
             <li><img src="img/img_indicator_happy.png" /></li>
@@ -86,6 +89,13 @@
             <li><button type="button" class="btn btn-default">加温升温</button></li>
           </ul>
         </li>
+        <%
+        }
+        %>
+
+        <% 
+          if((dev.getPropertyCombine()&0x02)==1) {
+        %>        
         <li class="list-group-item">
           <ul class="list-inline">
             <li><img src="img/img_indicator_happy.png" /></li>
@@ -96,6 +106,13 @@
             </li>
           </ul>
         </li>
+        <%
+        }
+        %>
+        
+        <% 
+          if((dev.getPropertyCombine()&0x04)==1) {
+        %>          
         <li class="list-group-item">
           <ul class="list-inline">
             <li><img src="img/img_indicator_happy.png" /></li>
@@ -106,13 +123,23 @@
             </li>
           </ul>
         </li>
+        <%
+        }
+        %>
+        
+        <% 
+          if((dev.getPropertyCombine()&0x08)==1) {
+        %>          
         <li class="list-group-item">
           <ul class="list-inline">
             <li><img src="img/img_indicator_sad.png" /></li>
             <li><p>水位</p></li>
             <li><p>请您亲自浇水</p></li>
           </ul>
-        </li>                           
+        </li> 
+        <%
+        }
+        %>                                  
       </ul>
       <%
         }
