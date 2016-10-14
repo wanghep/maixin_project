@@ -17,5 +17,9 @@ public interface MessageRepository extends CrudRepository<Message, Long> {
 
     //根据id获取数据源
     @Query(value = "select * from message where device_id = ?1 and type = ?2  ", nativeQuery = true)
-    public List<Message> findStormManageByEnterTopic( int deviceId , int type );
+    public List<Message> findStormManageByDeviceAndType( long deviceId , int type );
+
+    @Query(value = "select * from message where device_id = ?1 ", nativeQuery = true)
+    public List<Message> findAllManageByDeviceId( long deviceId  );
+
 }

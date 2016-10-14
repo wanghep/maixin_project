@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿<%@ page import="com.mx.domain.Devices" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="com.mx.domain.Message" %>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -19,7 +22,7 @@
   </head>
   <body>
   <%
-    Device dev = (Device)request.getAttribute("device");
+    Devices dev = (Devices)request.getAttribute("device");
     ArrayList tempture = (ArrayList)request.getAttribute("messageTemperaterList");
     ArrayList humidit = (ArrayList)request.getAttribute("MessageHumiditList");
     ArrayList illumination = (ArrayList)request.getAttribute("messageIlluminationList");

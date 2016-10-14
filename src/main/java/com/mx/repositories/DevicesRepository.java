@@ -1,6 +1,5 @@
 package com.mx.repositories;
 
-import com.mx.domain.DeviceProperty;
 import com.mx.domain.Devices;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -16,5 +15,8 @@ public interface DevicesRepository extends CrudRepository<Devices, Long> {
     //根据id获取数据源
     @Query(value = "select * from devices where mac_address=?1 ", nativeQuery = true)
     public List<Devices> findDevicesByMac( String  macAddress );
+
+    @Query(value = "select * from devices where gardenId =? 1 ", nativeQuery = true)
+    public List<Devices> findDevicesByGardenId( long gardenId );
 
 }

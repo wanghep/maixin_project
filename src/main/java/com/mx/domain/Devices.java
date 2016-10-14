@@ -32,9 +32,7 @@ public class Devices {
     @JoinColumn(name = "gardenId")
     private Garden garden;
 
-    @OneToOne
-    @JoinColumn(name = "propertyId")
-    private  DeviceProperty property; // 具有哪些属性
+    private  int propertyCombine; // 具有哪些属性组合
 
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(style = "M-")
@@ -81,12 +79,12 @@ public class Devices {
         this.garden = garden;
     }
 
-    public DeviceProperty getProperty() {
-        return property;
+    public int getPropertyCombine() {
+        return propertyCombine;
     }
 
-    public void setProperty(DeviceProperty property) {
-        this.property = property;
+    public void setPropertyCombine(int propertyCombine) {
+        this.propertyCombine = propertyCombine;
     }
 
     public Date getTime() {

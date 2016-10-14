@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿<%@ page import="com.mx.domain.Garden" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="com.mx.domain.Devices" %>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -59,7 +62,7 @@
         ArrayList list = (ArrayList)request.getAttribute("devicesList");
 
         for (int i=0;i<list.size();i++) {
-        Device dev = (Device)list.get(i);
+          Devices dev = (Devices)list.get(i);
       %>
 
       <li class="list-group-item">
@@ -67,7 +70,7 @@
           <ul class="list-inline">
             <li>
               <a href="device.html">
-                <img src=<%= ((Device)list.get(i)).getAvatarUrl() %> />
+                <img src=<%= ((Devices)list.get(i)).getAvatarUrl() %> />
               </a>
             </li> 
             <li><p>设备<%= i %></p></li>

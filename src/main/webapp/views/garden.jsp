@@ -28,7 +28,7 @@
     for  (int i=0;i<list.size();i++) {
   %>
   <li class="list-group-item">
-    <a href="${pageContext.request.contextPath}/views/manager.jsp?gardenID=<%=((Garden)list.get(i)).getGardenId() %>">
+    <a href="${pageContext.request.contextPath}/views/manager.jsp?gardenID=<%=((Garden)list.get(i)).getId() %>">
       <ul class="list-inline">
         <li><img src=<%= ((Garden)list.get(i)).getAvatarUrl() %> /></li>
         <li><p><%= ((Garden) list.get(i)).getName() %></p></li>

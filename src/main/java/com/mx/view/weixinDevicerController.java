@@ -1,26 +1,40 @@
 package com.mx.view;
 
+import com.mx.LogUtil;
 import com.mx.Util;
+import com.mx.commonStuct.property;
+import com.mx.domain.Devices;
 import com.mx.domain.Garden;
+import com.mx.domain.Message;
 import com.mx.domain.User;
+import com.mx.repositories.DevicesRepository;
 import com.mx.repositories.GardenRepository;
 import com.mx.repositories.MessageRepository;
 import com.mx.repositories.UserRepository;
 import com.mx.service.LoginService;
 import com.mx.service.MxService;
 import com.mx.util.SignUtil;
+import org.hibernate.internal.util.ConfigHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpUtils;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 
@@ -46,6 +60,12 @@ public class weixinDevicerController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private DevicesRepository devicesRepository;
+
+    @Autowired
+    private MessageRepository messageRepository;
 
     @RequestMapping("myGarden")
     @ResponseBody
@@ -86,8 +106,14 @@ public class weixinDevicerController {
         response.setCharacterEncoding("UTF-8");
         User user =loginService.checkLogIn( Util.getUUID());
 
+        //request 中获取garden Id
+        long  gardenId = Long.parseLong(request.getParameter("gardenId"));
+
+        List<Devices> devices = devicesRepository.findDevicesByGardenId(gardenId);
+
+
         ModelAndView modelAndView = new ModelAndView("/manager");
-        modelAndView.addObject("name", "xxx");
+        modelAndView.addObject("devices", devices );
         return modelAndView;
     }
 
@@ -99,9 +125,38 @@ public class weixinDevicerController {
         response.setCharacterEncoding("UTF-8");
         User user =loginService.checkLogIn( Util.getUUID());
 
+        //request 中获取garden Id
+        long  deviceId = Long.parseLong(request.getParameter("deviceId"));
+
+        Devices device = devicesRepository.findOne( deviceId );
+
+        List<Message> messageTemperaterList = messageRepository.findStormManageByDeviceAndType( deviceId , property.DEVICE_MESSAGE_TYPE_TEMPERATURE );
+        List<Message> messageHumiditList = messageRepository.findStormManageByDeviceAndType(deviceId, property.DEVICE_MESSAGE_TYPE_HUMIDITY);
+        List<Message> messageIlluminationList = messageRepository.findStormManageByDeviceAndType( deviceId , property.DEVICE_MESSAGE_TYPE_ILLUMINATION );
+        List<Message> messageWaterLevelList = messageRepository.findStormManageByDeviceAndType( deviceId , property.DEVICE_MESSAGE_WATER_LEVEL );
+
         ModelAndView modelAndView = new ModelAndView("/device");
-        modelAndView.addObject("name", "xxx");
+        modelAndView.addObject("messageTemperaterList" , messageTemperaterList );
+        modelAndView.addObject("messageHumiditList" , messageHumiditList );
+        modelAndView.addObject("messageIlluminationList" , messageIlluminationList );
+        modelAndView.addObject("messageWaterLevelList" , messageWaterLevelList );
+
         return modelAndView;
     }
 
+    @RequestMapping("/gardenAvatarUpload")
+    @ResponseBody
+    public String gardenAvatarUpload(HttpServletRequest request,
+                             HttpServletResponse response,
+                             @RequestParam("files") CommonsMultipartFile[] files)
+            throws IllegalStateException, IOException {
+        try {
+            // 上传
+            files[0].transferTo(new File("kkk"));
+            return "success";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "fail";
+        }
+    }
 }

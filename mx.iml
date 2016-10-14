@@ -171,5 +171,10 @@
     <orderEntry type="library" name="Maven: org.fusesource.hawtdispatch:hawtdispatch-transport:1.11" level="project" />
     <orderEntry type="library" name="Maven: org.fusesource.hawtdispatch:hawtdispatch:1.11" level="project" />
     <orderEntry type="library" name="Maven: org.fusesource.hawtbuf:hawtbuf:1.9" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.ant:ant-compress:1.4" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.ant:ant:1.9.7" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.ant:ant-launcher:1.9.7" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.commons:commons-compress:1.7" level="project" />
+    <orderEntry type="library" name="Maven: org.tukaani:xz:1.4" level="project" />
   </component>
 </module>

@@ -1,14 +1,12 @@
 package com.mx.service;
 
 import java.util.ArrayList;
-
 import com.mx.Util;
 import com.mx.service.mqttService.EmqttProxy;
 import com.mx.service.mqttService.MessageListener;
 import org.fusesource.mqtt.client.*;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.ServletContext;
 
 @Service
 public class MQTTService {
@@ -21,7 +19,7 @@ public class MQTTService {
 			//new Topic("china/beijing", QoS.EXACTLY_ONCE),// 2
 			//new Topic("china/tianjin", QoS.AT_LEAST_ONCE),// 1
 			//new Topic("china/henan", QoS.AT_MOST_ONCE) ;// 0
-			new Topic("device/message",QoS.AT_MOST_ONCE)
+			new Topic("device/message", QoS.AT_MOST_ONCE)
 	};
 	private boolean isReceive = true;
 
