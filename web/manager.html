@@ -57,20 +57,20 @@
           <ul class="list-inline">
             <li><img src="img/img_indicator_happy.png" /></li>
             <li><p>温度</p></li>
-            <li><button type="button" class="btn btn-default">通风降温</button></li>
+            <li><button id="b01" type="button" class="btn btn-default" onclick='start1();'>通风降温</button></li>
             <li>
-              <progress value="42" max="100" style="width:4.8em;height:18px;">
+              <progress id="p01" value="0" max="100" style="width:4.8em;height:18px;">
             </li>
-            <li><button type="button" class="btn btn-default">加温升温</button></li>
+            <li><button type="button" class="btn btn-default" onclick='start1();'>加温升温</button></li>
           </ul>
         </li>
         <li class="list-group-item">
           <ul class="list-inline">
             <li><img src="img/img_indicator_happy.png" /></li>
             <li><p>湿度</p></li>
-            <li><button type="button" class="btn btn-default">浇水</button></li>
+            <li><button type="button" class="btn btn-default" onclick='start2();'>浇水</button></li>
             <li>
-              <progress value="22" max="100">
+              <progress id="p02" value="0" max="100">
             </li>
           </ul>
         </li>
@@ -78,9 +78,9 @@
           <ul class="list-inline">
             <li><img src="img/img_indicator_happy.png" /></li>
             <li><p>光照</p></li>
-            <li><button type="button" class="btn btn-default">增加光照</button></li>
+            <li><button type="button" class="btn btn-default" onclick='start3();'>增加光照</button></li>
             <li>
-              <progress value="22" max="100">
+              <progress id="p03" value="0" max="100">
             </li>
           </ul>
         </li>
@@ -152,6 +152,47 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
     <script type="text/javascript">
+		var c=0;
+		var t;
+		function timedCount1() {
+			document.getElementById("p01").value = c;
+			c = c+1;
+			t = setTimeout("timedCount1()", 1000);
+			if(c==100) {
+				clearTimeout(t);
+			}
+		}
+		function start1() {
+			clearTimeout(t);
+			c=0;
+			timedCount1();
+		}
+		function timedCount2() {
+			document.getElementById("p02").value = c;
+			c = c+1;
+			t = setTimeout("timedCount2()", 1000);
+			if(c==100) {
+				clearTimeout(t);
+			}			
+		}
+		function start2() {
+			clearTimeout(t);
+			c=0;
+			timedCount2();
+		}
+		function timedCount3() {
+			document.getElementById("p03").value = c;
+			c = c+1;
+			t = setTimeout("timedCount3()", 1000);
+			if(c==100) {
+				clearTimeout(t);
+			}			
+		}	
+		function start3() {
+			clearTimeout(t);
+			c=0;
+			timedCount3();
+		}
       $("#myButton").on('click', function() {
         var btn = document.getElementById("myButton")
         if (btn.innerHTML == "手动") {
