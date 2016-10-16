@@ -16,7 +16,7 @@ public interface DevicesRepository extends CrudRepository<Devices, Long> {
     @Query(value = "select * from devices where mac_address=?1 ", nativeQuery = true)
     public List<Devices> findDevicesByMac( String  macAddress );
 
-    @Query(value = "select * from devices where gardenId =? 1 ", nativeQuery = true)
+    @Query(value = "select * from devices where garden_id =?1 ", nativeQuery = true)
     public List<Devices> findDevicesByGardenId( long gardenId );
 
 }

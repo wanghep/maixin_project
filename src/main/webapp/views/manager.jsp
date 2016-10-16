@@ -22,7 +22,7 @@
   </head>
   <body>
   <%
-    Garden garden = (Garden)request.getAttribute("Garden");
+    Garden garden = (Garden)request.getAttribute("garden");
   %>    
   	<div class="container">
   	  <ul class="list-inline">
@@ -69,7 +69,7 @@
         <div class="container">
           <ul class="list-inline">
             <li>
-              <a href="device.html">
+              <a href="${pageContext.request.contextPath}/weiXinDevice/deviceChart?deviceId=<%=dev.getId() %>">
                 <img src=<%= ((Devices)list.get(i)).getAvatarUrl() %> />
               </a>
             </li> 

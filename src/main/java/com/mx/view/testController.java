@@ -1,6 +1,8 @@
 package com.mx.view;
 
+import com.mx.service.WeiXinService;
 import com.mx.util.SignUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +27,8 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/test")
 public class testController {
 
+    @Autowired
+    private WeiXinService weiXinService;
 
     @RequestMapping("testURL")
     public void testURL(HttpServletRequest request, HttpServletResponse response) throws IOException, InvocationTargetException, IllegalAccessException {
@@ -43,6 +47,36 @@ public class testController {
         }
         out.close();
         out = null;
+    }
+
+    @RequestMapping("test")
+    public void  test(HttpServletRequest request, HttpServletResponse response) throws IOException, InvocationTargetException, IllegalAccessException {
+
+        // 微信加密签名
+        String signature = request.getParameter("signature");
+        // 时间戳
+        String timestamp = request.getParameter("timestamp");
+        // 随机数
+        String nonce = request.getParameter("nonce");
+        // 随机字符串
+        String echostr = request.getParameter("echostr");
+
+        String ret = "";
+
+        if( weiXinService.getWxMpServiceInstance().checkSignature( timestamp ,nonce , signature  ))
+        {
+            ret =  echostr;
+        }
+        else
+        {
+
+
+            ret = " checkSignature fail";
+        }
+
+        PrintWriter out = response.getWriter();
+        out.print(ret);
+        out.close();
     }
 
 

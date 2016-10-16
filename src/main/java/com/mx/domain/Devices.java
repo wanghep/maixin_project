@@ -22,6 +22,8 @@ public class Devices {
 
     private  String name;       //设备 name
 
+    private String avatarUrl;
+
     private String macAddress;        //mac address
 
     @OneToOne
@@ -93,5 +95,13 @@ public class Devices {
 
     public void setTime(Date time) {
         this.time = time;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 }

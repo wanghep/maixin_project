@@ -28,11 +28,12 @@
     ArrayList illumination = (ArrayList)request.getAttribute("messageIlluminationList");
     ArrayList water = (ArrayList)request.getAttribute("messageWaterLevelList");
 
-    String temptureX[] = new String[tempture.size()];
-    int temptureY[] = new int[tempture.size()];
-    for(int i=0;i<tempture.size();i++) {
+    int temptureSize = ((tempture==null)?0:tempture.size());
+    String temptureX[] = new String[temptureSize];
+    int temptureY[] = new int[temptureSize];
+    for(int i=0;i<temptureSize;i++) {
       Message item = (Message)tempture.get(i);
-      temptureX[i] = item.getTime();
+      temptureX[i] = item.getTime().toString();
       int temp = 0;
       try {
         temp = Integer.parseInt(item.getContext());
@@ -41,11 +42,12 @@
 
     }
 
-    String humiditX[] = new String[humidit.size()];
-    int humiditY[] = new int[humidit.size()];
-    for(int i=0;i<humidit.size();i++) {
+    int humiditSize = ((humidit==null)?0:humidit.size());
+    String humiditX[] = new String[humiditSize];
+    int humiditY[] = new int[humiditSize];
+    for(int i=0;i<humiditSize;i++) {
       Message item = (Message)humidit.get(i);
-      humiditX[i] = item.getTime();
+      humiditX[i] = item.getTime().toString();
       int temp = 0;
       try {
         temp = Integer.parseInt(item.getContext());
@@ -54,11 +56,12 @@
 
     }
 
-    String illuminationX[] = new String[illumination.size()];
-    int illuminationY[] = new int[illumination.size()];
-    for(int i=0;i<illumination.size();i++) {
+    int illuminationSize = ((illumination==null)?0:illumination.size());
+    String illuminationX[] = new String[illuminationSize];
+    int illuminationY[] = new int[illuminationSize];
+    for(int i=0;i< illuminationSize;i++) {
       Message item = (Message)illumination.get(i);
-      illuminationX[i] = item.getTime();
+      illuminationX[i] = item.getTime().toString();
       int temp = 0;
       try {
         temp = Integer.parseInt(item.getContext());
@@ -67,11 +70,12 @@
 
     }
 
-    String waterX[] = new String[water.size()];
-    int waterY[] = new int[water.size()];
-    for(int i=0;i<water.size();i++) {
+    int waterSize = ((water==null)?0:water.size());
+    String waterX[] = new String[waterSize];
+    int waterY[] = new int[waterSize];
+    for(int i=0;i<waterSize;i++) {
       Message item = (Message)water.get(i);
-      waterX[i] = item.getTime();
+      waterX[i] = item.getTime().toString();
       int temp = 0;
       try {
         temp = Integer.parseInt(item.getContext());

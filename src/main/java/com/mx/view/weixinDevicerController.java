@@ -13,7 +13,10 @@ import com.mx.repositories.MessageRepository;
 import com.mx.repositories.UserRepository;
 import com.mx.service.LoginService;
 import com.mx.service.MxService;
+import com.mx.service.WeiXinService;
 import com.mx.util.SignUtil;
+import me.chanjar.weixin.common.bean.WxJsapiSignature;
+import me.chanjar.weixin.common.exception.WxErrorException;
 import org.hibernate.internal.util.ConfigHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -51,6 +54,9 @@ public class weixinDevicerController {
 
     @Autowired
     private MxService mxService;
+
+    @Autowired
+    private  WeiXinService weiXinService;
 
     @Autowired
     private LoginService loginService;
@@ -92,6 +98,7 @@ public class weixinDevicerController {
         List<Garden> GardenList = gardenRepository.findUserGarden(user.getId());
 
 
+
         ModelAndView modelAndView = new ModelAndView("/garden");
         modelAndView.addObject("GardenList", GardenList );
         return modelAndView;
@@ -107,13 +114,15 @@ public class weixinDevicerController {
         User user =loginService.checkLogIn( Util.getUUID());
 
         //request 中获取garden Id
-        long  gardenId = Long.parseLong(request.getParameter("gardenId"));
+        long  gardenId = Long.parseLong(request.getParameter("gardenID"));
 
-        List<Devices> devices = devicesRepository.findDevicesByGardenId(gardenId);
+        Garden garden = gardenRepository.findOne( gardenId );
+        List<Devices> devicesList = devicesRepository.findDevicesByGardenId(gardenId);
 
 
         ModelAndView modelAndView = new ModelAndView("/manager");
-        modelAndView.addObject("devices", devices );
+        modelAndView.addObject("garden", garden );
+        modelAndView.addObject("devicesList", devicesList );
         return modelAndView;
     }
 
@@ -143,6 +152,28 @@ public class weixinDevicerController {
 
         return modelAndView;
     }
+
+    @RequestMapping("addDevice")
+    @ResponseBody
+    public ModelAndView  addDevice(HttpServletRequest request, HttpServletResponse response) throws IOException, InvocationTargetException, IllegalAccessException {
+
+        response.setContentType("text/html; encoding=utf-8");
+        response.setCharacterEncoding("UTF-8");
+
+        WxJsapiSignature wxJsapiSignature = null;
+        try {
+            wxJsapiSignature = weiXinService.getWxMpServiceInstance().createJsapiSignature( request.getRequestURL().toString() );
+        } catch (WxErrorException e) {
+            e.printStackTrace();
+        }
+        ModelAndView modelAndView = new ModelAndView("/jsdemo");
+        modelAndView.addObject("appid" , wxJsapiSignature.getAppid());
+        modelAndView.addObject("timestamp" , wxJsapiSignature.getTimestamp()  );
+        modelAndView.addObject("nonceStr" , wxJsapiSignature.getNoncestr());
+        modelAndView.addObject("signature" , wxJsapiSignature.getSignature()  );
+        return modelAndView;
+    }
+
 
     @RequestMapping("/gardenAvatarUpload")
     @ResponseBody
