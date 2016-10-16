@@ -45,19 +45,6 @@
     </div>
 
     <ul class="list-group">
-  		<li class="list-group-item">
-        <div class="container">
-          <ul class="list-inline">
-            <li>
-              <a href="device.jsp">
-                <img src="${pageContext.request.contextPath}/views/img/img_device_default.png" />
-              </a>
-            </li> 
-            <li><p>设备1</p></li>
-            <li><img src="${pageContext.request.contextPath}/views/img/img_indicator_green.png" /></li>
-          </ul>
-        </div>
-    <ul class="list-group">
       <%
         ArrayList list = (ArrayList)request.getAttribute("devicesList");
 
