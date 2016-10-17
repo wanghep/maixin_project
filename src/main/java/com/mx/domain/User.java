@@ -23,6 +23,8 @@ public class User {
     private String password;
     private String phoneNumber;
 
+    private String openId; // 由微信登陆的时候使用
+
     private String address;
     private String email;
 
@@ -74,9 +76,18 @@ public class User {
         this.email = email;
     }
 
+    public String getOpenId() {
+        return openId;
+    }
+
+    public void setOpenId(String openId) {
+        this.openId = openId;
+    }
+
     public static User fromJson(JSONObject json) throws InvocationTargetException, IllegalAccessException {
         User user = new User();
         BeanUtils.copyProperties(user, json);
         return user;
     }
+
 }
