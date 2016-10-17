@@ -47,6 +47,8 @@
     <ul class="list-group">
       <%
         ArrayList list = (ArrayList)request.getAttribute("devicesList");
+        String ids[] = new String[list.size()*4];
+        int position = 0;
 
         for (int i=0;i<list.size();i++) {
           Devices dev = (Devices)list.get(i);
@@ -67,16 +69,21 @@
 
         <% 
           if((dev.getPropertyCombine()&0x01)==1) {
+            ids[position] = dev.getId()+"01";
         %>
         <li class="list-group-item">
           <ul class="list-inline">
-            <li><img src="img/img_indicator_happy.png" /></li>
+            <li><img id="indicator_01" src="img/img_indicator_happy.png" /></li>
             <li><p>温度</p></li>
-            <li><button type="button" class="btn btn-default" onclick='start1();'>通风降温</button></li>
             <li>
-              <progress id="p01" value="0" max="100" style="width:4.8em;height:18px;">
+              <input type="button" id="b01" type="button" class="btn btn-default" onclick='start1();' value="通风降温" style="width:80px; font-size:13px;" />
             </li>
-            <li><button type="button" class="btn btn-default" onclick='start1();'>加温升温</button></li>
+            <li>
+              <progress id="p01" value="0" max="100" style="width:100px;height:18px;">
+            </li>
+            <li>
+              <input type="button" class="btn btn-default" onclick='start1();' value="加温升温" style="width:80px; font-size:13px;"/>
+            </li>
           </ul>
         </li>
         <%
@@ -85,14 +92,18 @@
 
         <% 
           if((dev.getPropertyCombine()&0x02)==1) {
+            position += 1;
+            ids[position] = dev.getId()+"02";
         %>        
         <li class="list-group-item">
           <ul class="list-inline">
-            <li><img src="img/img_indicator_happy.png" /></li>
+            <li><img id=<%= ids[position] %> src="img/img_indicator_happy.png" /></li>
             <li><p>湿度</p></li>
-            <li><button type="button" class="btn btn-default" onclick='start2();'>浇水</button></li>
+             <li>
+              <input type="button" class="btn btn-default col-md-1" onclick='start2();' value="浇水" style="width:80px;font-size:13px;" />
+            </li>
             <li>
-              <progress id="p02" value="22" max="100">
+              <progress id="p02" value="22" max="100" style="width:100px;height:18px;">
             </li>
           </ul>
         </li>
@@ -102,14 +113,18 @@
         
         <% 
           if((dev.getPropertyCombine()&0x04)==1) {
+            position += 1;
+            ids[position] = dev.getId()+"03";
         %>          
         <li class="list-group-item">
           <ul class="list-inline">
-            <li><img src="img/img_indicator_happy.png" /></li>
+            <li><img id=<%= ids[position] %> src="img/img_indicator_happy.png" /></li>
             <li><p>光照</p></li>
-            <li><button type="button" class="btn btn-default" onclick='start3();'>增加光照</button></li>
             <li>
-              <progress id="p03" value="22" max="100">
+              <input  type="button" class="btn btn-default" onclick='start3();' value="增加光照" style="width:80px;font-size:13px;" />
+            </li>
+            <li>
+              <progress id="p03" value="22" max="100" style="width:100px;height:18px;">
             </li>
           </ul>
         </li>
@@ -119,10 +134,12 @@
         
         <% 
           if((dev.getPropertyCombine()&0x08)==1) {
+            position += 1;
+            ids[position] = dev.getId()+"04";
         %>          
         <li class="list-group-item">
           <ul class="list-inline">
-            <li><img src="img/img_indicator_sad.png" /></li>
+            <li><img id=<%= ids[position] %> src="img/img_indicator_sad.png" /></li>
             <li><p>水位</p></li>
             <li><p>请您亲自浇水</p></li>
           </ul>
@@ -141,6 +158,38 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="${pageContext.request.contextPath}/views/js/bootstrap.min.js"></script>
     <script type="text/javascript">
+    var testBool = 0;
+    function getIndicatorImg(){
+      //alert("work on me");
+      $.ajax({
+          url: 'http://localhost:8888',
+          type: 'get',
+          dataType: 'json',
+          cache: false,
+          timeout: 5000,
+          success: function(data){
+              //alert(data);
+              /*
+              * iterator on data to get tempture,humidity,.. of device#
+              * and update the image by get id
+              */
+              if(testBool == 0) {
+                document.getElementById("indicator_01").src="img/img_indicator_happy.png";
+                testBool = 1;
+              } else {
+                document.getElementById("indicator_01").src="img/img_indicator_sad.png";
+                testBool = 0;
+              }
+              
+          },
+          error: function(jqXHR, textStatus, errorThrown){
+              alert('error ' + textStatus + " " + errorThrown);  
+          }
+      });
+
+      setTimeout("getIndicatorImg()", 1000);
+    }
+
 		var c=0;
 		var t;
 		function timedCount1() {
@@ -190,6 +239,12 @@
           btn.innerHTML="手动"
         }
       })
+
+    window.onload = function() {
+      document.getElementById("myButton").innerHTML="手动"
+      getIndicatorImg()
+    }
+
     </script>
   </body>
 </html>
