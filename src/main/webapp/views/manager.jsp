@@ -47,7 +47,8 @@
     <ul class="list-group">
       <%
         ArrayList list = (ArrayList)request.getAttribute("devicesList");
-        String ids[] = new String[list.size()*4];
+        String image_ids[] = new String[list.size()*4];
+        String prog_ids[] = new String[list.size()*4];
         int position = 0;
 
         for (int i=0;i<list.size();i++) {
@@ -69,20 +70,21 @@
 
         <% 
           if((dev.getPropertyCombine()&0x01)==1) {
-            ids[position] = dev.getId()+"01";
+            image_ids[position] = "image_"+dev.getId()+"_01";
+            prog_ids[position] = "prog_"+dev.getId()+"_01";
         %>
         <li class="list-group-item">
           <ul class="list-inline">
-            <li><img id="indicator_01" src="img/img_indicator_happy.png" /></li>
-            <li><p>温度</p></li>
+            <li><img id=<%= image_ids[position] %> src="img/img_indicator_happy.png" /></li>
+            <li><p onload="getIndicatorImg(<%= image_ids[position] %>)">温度</p></li>
             <li>
-              <input type="button" id="b01" type="button" class="btn btn-default" onclick='start1();' value="通风降温" style="width:80px; font-size:13px;" />
+              <input type="button" id="b01" type="button" class="btn btn-default" onclick='start(<%= image_ids[position] %>);' value="通风降温" style="width:80px; font-size:13px;" />
             </li>
             <li>
-              <progress id="p01" value="0" max="100" style="width:100px;height:18px;">
+              <progress id=<%= prog_ids[position] %> value="0" max="100" style="width:100px;height:18px;">
             </li>
             <li>
-              <input type="button" class="btn btn-default" onclick='start1();' value="加温升温" style="width:80px; font-size:13px;"/>
+              <input type="button" class="btn btn-default" onclick='start(<%= image_ids[position] %>);' value="加温升温" style="width:80px; font-size:13px;"/>
             </li>
           </ul>
         </li>
@@ -93,17 +95,18 @@
         <% 
           if((dev.getPropertyCombine()&0x02)==1) {
             position += 1;
-            ids[position] = dev.getId()+"02";
+            image_ids[position] = "image_"+dev.getId()+"_02";
+            prog_ids[position] = "prog_"+dev.getId()+"_02";
         %>        
         <li class="list-group-item">
           <ul class="list-inline">
-            <li><img id=<%= ids[position] %> src="img/img_indicator_happy.png" /></li>
-            <li><p>湿度</p></li>
+            <li><img id=<%= image_ids[position] %> src="img/img_indicator_happy.png" /></li>
+            <li><p onload="getIndicatorImg(<%= image_ids[position] %>)">湿度</p></li>
              <li>
-              <input type="button" class="btn btn-default col-md-1" onclick='start2();' value="浇水" style="width:80px;font-size:13px;" />
+              <input type="button" class="btn btn-default col-md-1" onclick='start(<%= image_ids[position] %>);' value="浇水" style="width:80px;font-size:13px;" />
             </li>
             <li>
-              <progress id="p02" value="22" max="100" style="width:100px;height:18px;">
+              <progress id=<%= prog_ids[position] %> value="22" max="100" style="width:100px;height:18px;">
             </li>
           </ul>
         </li>
@@ -114,17 +117,18 @@
         <% 
           if((dev.getPropertyCombine()&0x04)==1) {
             position += 1;
-            ids[position] = dev.getId()+"03";
+            image_ids[position] = "image_"+dev.getId()+"_03";
+            prog_ids[position] = "prog_"+dev.getId()+"_03";
         %>          
         <li class="list-group-item">
           <ul class="list-inline">
-            <li><img id=<%= ids[position] %> src="img/img_indicator_happy.png" /></li>
-            <li><p>光照</p></li>
+            <li><img id=<%= image_ids[position] %> src="img/img_indicator_happy.png" /></li>
+            <li><p onload="getIndicatorImg(<%= image_ids[position] %>)">光照</p></li>
             <li>
-              <input  type="button" class="btn btn-default" onclick='start3();' value="增加光照" style="width:80px;font-size:13px;" />
+              <input  type="button" class="btn btn-default" onclick='start(<%= image_ids[position] %>);' value="增加光照" style="width:80px;font-size:13px;" />
             </li>
             <li>
-              <progress id="p03" value="22" max="100" style="width:100px;height:18px;">
+              <progress id=<%= prog_ids[position] %> value="22" max="100" style="width:100px;height:18px;">
             </li>
           </ul>
         </li>
@@ -135,12 +139,13 @@
         <% 
           if((dev.getPropertyCombine()&0x08)==1) {
             position += 1;
-            ids[position] = dev.getId()+"04";
+            image_ids[position] = "image_"+dev.getId()+"_04";
+            prog_ids[position] = "prog_"+dev.getId()+"_04";
         %>          
         <li class="list-group-item">
           <ul class="list-inline">
-            <li><img id=<%= ids[position] %> src="img/img_indicator_sad.png" /></li>
-            <li><p>水位</p></li>
+            <li><img id=<%= image_ids[position] %> src="img/img_indicator_sad.png" /></li>
+            <li><p onload="getIndicatorImg(<%= image_ids[position] %>)">水位</p></li>
             <li><p>请您亲自浇水</p></li>
           </ul>
         </li> 
@@ -159,7 +164,7 @@
     <script src="${pageContext.request.contextPath}/views/js/bootstrap.min.js"></script>
     <script type="text/javascript">
     var testBool = 0;
-    function getIndicatorImg(){
+    function getIndicatorImg(id){
       //alert("work on me");
       $.ajax({
           url: 'http://localhost:8888',
@@ -174,10 +179,10 @@
               * and update the image by get id
               */
               if(testBool == 0) {
-                document.getElementById("indicator_01").src="img/img_indicator_happy.png";
+                document.getElementById(id).src="img/img_indicator_happy.png";
                 testBool = 1;
               } else {
-                document.getElementById("indicator_01").src="img/img_indicator_sad.png";
+                document.getElementById(id).src="img/img_indicator_sad.png";
                 testBool = 0;
               }
               
@@ -187,62 +192,32 @@
           }
       });
 
-      setTimeout("getIndicatorImg()", 1000);
+      setTimeout(function() {
+        getIndicatorImg(id)
+      }, 1000);
     }
 
 		var c=0;
 		var t;
-		function timedCount1() {
-			document.getElementById("p01").value = c;
-			c = c+1;
-			t = setTimeout("timedCount1()", 1000);
-			if(c==100) {
-				clearTimeout(t);
-			}
-		}
-		function start1() {
-			clearTimeout(t);
-			c=0;
-			timedCount1();
-		}
-		function timedCount2() {
-			document.getElementById("p02").value = c;
-			c = c+1;
-			t = setTimeout("timedCount2()", 1000);
-			if(c==100) {
-				clearTimeout(t);
-			}			
-		}
-		function start2() {
-			clearTimeout(t);
-			c=0;
-			timedCount2();
-		}
-		function timedCount3() {
-			document.getElementById("p03").value = c;
-			c = c+1;
-			t = setTimeout("timedCount3()", 1000);
-			if(c==100) {
-				clearTimeout(t);
-			}			
-		}	
-		function start3() {
-			clearTimeout(t);
-			c=0;
-			timedCount3();
-		}	
-      $("#myButton").on('click', function() {
-        var btn = document.getElementById("myButton")
-        if (btn.innerHTML == "手动") {
-          btn.innerHTML="自动"
-        } else {
-          btn.innerHTML="手动"
-        }
-      })
+    function timedCount(id) {
+      //alert(id);
+      document.getElementById(id).value = c;
+      c = c+1;
+      t = setTimeout(function() {
+        timedCount(id);
+      }, 1000);
+      if(c==100) {
+        clearTimeout(t);
+      }
+    }
+    function start(id) {
+      clearTimeout(t);
+      c=0;
+      timedCount(id);
+    }
 
     window.onload = function() {
       document.getElementById("myButton").innerHTML="手动"
-      getIndicatorImg()
     }
 
     </script>
