@@ -225,13 +225,12 @@
       document.getElementById("myButton").innerHTML="手动"
       var test = new Array();
       <%
-          //String[] array = new String[]{"red","yellow","green"};
-          for (int i=0; i<image_ids.length; i++)
-          {
+        for (int i=0; i<image_ids.length; i++)
+        {
       %>
       test[<%=i%>] = '<%=image_ids[i]%>';
       <%
-          }
+        }
       %>
       for(var i=0;i<test.length;i++) {
         getIndicatorImg(test[i])
