@@ -3,10 +3,7 @@ package com.mx.view;
 import com.mx.LogUtil;
 import com.mx.Util;
 import com.mx.commonStuct.property;
-import com.mx.domain.Devices;
-import com.mx.domain.Garden;
-import com.mx.domain.Message;
-import com.mx.domain.User;
+import com.mx.domain.*;
 import com.mx.repositories.DevicesRepository;
 import com.mx.repositories.GardenRepository;
 import com.mx.repositories.MessageRepository;
@@ -79,22 +76,8 @@ public class weixinDevicerController {
 
         response.setContentType("text/html; encoding=utf-8");
         response.setCharacterEncoding("UTF-8");
-        User user = loginService.checkLogIn(Util.getUUID());
-        /*
-        if( user == null )
-        {
-            //调转到登陆
-            return "Login";
-        }
-        else
-        */
-        /*
-        for test
-        * */
 
-        long userId = 1;
-        user = userRepository.findOne(userId);
-
+       User user = UserUtils.getCurrentUser();
         List<Garden> GardenList = gardenRepository.findUserGarden(user.getId());
 
 
