@@ -29,6 +29,9 @@
     ArrayList water = (ArrayList)request.getAttribute("messageWaterLevelList");
 
     int temptureSize = ((tempture==null)?0:tempture.size());
+    String temptureX[] = {"1","2","3","4","5"};
+    int temptureY[] = {10,20,30,40,50};
+    /*
     String temptureX[] = new String[temptureSize];
     int temptureY[] = new int[temptureSize];
     for(int i=0;i<temptureSize;i++) {
@@ -41,6 +44,7 @@
       temptureY[i] = temp;
 
     }
+    */
 
     int humiditSize = ((humidit==null)?0:humidit.size());
     String humiditX[] = new String[humiditSize];
@@ -183,6 +187,27 @@
         var myChart2 = echarts.init(document.getElementById('moisture'));
         var myChart3 = echarts.init(document.getElementById('light'));
 
+        var testX = new Array();
+        <%
+            //String[] array = new String[]{"red","yellow","green"};
+            for (int i=0; i<temptureX.length; i++)
+            {
+        %>
+        testX[<%=i%>] = '<%=temptureX[i]%>';
+        <%
+            }
+        %>
+
+        var testY = new Array();
+        <%
+            //String[] array = new String[]{"red","yellow","green"};
+            for (int i=0; i<temptureY.length; i++)
+            {
+        %>
+        testY[<%=i%>] = '<%=temptureY[i]%>';
+        <%
+            }
+        %>
         // 指定图表的配置项和数据
         var option1 = {
           title: {
@@ -193,7 +218,7 @@
             data:['温度']
           },
           xAxis: {
-            data: <%= temptureX %>
+            data: testX
           },
           yAxis: {
             type: 'value',
@@ -204,10 +229,31 @@
           series: [{
             name: '温度',
             type: 'line',
-            data: <%= temptureY %>
+            data: testY
           }]
         };
 
+        var test2X = new Array();
+        <%
+            //String[] array = new String[]{"red","yellow","green"};
+            for (int i=0; i<humiditX.length; i++)
+            {
+        %>
+        test2X[<%=i%>] = '<%=humiditX[i]%>';
+        <%
+            }
+        %>
+
+        var test2Y = new Array();
+        <%
+            //String[] array = new String[]{"red","yellow","green"};
+            for (int i=0; i<humiditY.length; i++)
+            {
+        %>
+        test2Y[<%=i%>] = '<%=humiditY[i]%>';
+        <%
+            }
+        %>
         var option2 = {
           title: {
             text: '湿度历史数据表 单位%RH'
@@ -217,7 +263,7 @@
             data:['湿度']
           },
           xAxis: {
-            data: <%= humiditX %>
+            data: test2X
           },
           yAxis: {
             type: 'value',
@@ -228,9 +274,31 @@
           series: [{
             name: '湿度',
             type: 'line',
-            data: <%= humiditY %>
+            data: test2Y
           }]
         };
+
+        var test3X = new Array();
+        <%
+            //String[] array = new String[]{"red","yellow","green"};
+            for (int i=0; i<illuminationX.length; i++)
+            {
+        %>
+        test3X[<%=i%>] = '<%=illuminationX[i]%>';
+        <%
+            }
+        %>
+
+        var test3Y = new Array();
+        <%
+            //String[] array = new String[]{"red","yellow","green"};
+            for (int i=0; i<illuminationY.length; i++)
+            {
+        %>
+        test3Y[<%=i%>] = '<%=illuminationY[i]%>';
+        <%
+            }
+        %>
 
         var option3 = {
           title: {
@@ -241,7 +309,7 @@
             data:['光照']
           },
           xAxis: {
-            data: <%= illuminationY %>
+            data: test3X
           },
           yAxis: {
             type: 'value',
@@ -252,7 +320,7 @@
           series: [{
             name: '光照',
             type: 'line',
-            data: <%= illuminationX %>
+            data: test3Y
           }]
         };                
 

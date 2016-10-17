@@ -81,7 +81,7 @@ public class weixinDevicerController {
         {
             //for test
             user = new User();
-            long id = 0 ;
+            long id = 2 ;
             user.setId( id );
         }
         List<Garden> GardenList = gardenRepository.findUserGarden(user.getId());
@@ -148,6 +148,7 @@ public class weixinDevicerController {
         List<Message> messageWaterLevelList = messageRepository.findStormManageByDeviceAndType( deviceId , property.DEVICE_MESSAGE_WATER_LEVEL );
 
         ModelAndView modelAndView = new ModelAndView("/device");
+        modelAndView.addObject("device" , device );
         modelAndView.addObject("messageTemperaterList" , messageTemperaterList );
         modelAndView.addObject("messageHumiditList" , messageHumiditList );
         modelAndView.addObject("messageIlluminationList" , messageIlluminationList );

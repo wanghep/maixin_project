@@ -66,7 +66,7 @@ public class WeiXinLoginController {
         if( ( userList == null) || (userList.size() == 0) )
         {
             user = new User();
-            user.setOpenId("wxMpUser.getOpenId()");
+            user.setOpenId( wxMpUser.getOpenId() );
             userRepository.save( user );
         }
         else

@@ -75,16 +75,16 @@
         %>
         <li class="list-group-item">
           <ul class="list-inline">
-            <li><img id=<%= image_ids[position] %> src="img/img_indicator_happy.png" /></li>
-            <li><p onload="getIndicatorImg(<%= image_ids[position] %>)">温度</p></li>
+            <li><img id=<%= image_ids[position] %> src="${pageContext.request.contextPath}/views/img/img_indicator_happy.png" /></li>
+            <li><p>温度</p></li>
             <li>
-              <input type="button" id="b01" type="button" class="btn btn-default" onclick='start(<%= image_ids[position] %>);' value="通风降温" style="width:80px; font-size:13px;" />
+              <input type="button" id="b01" type="button" class="btn btn-default" onclick='start("<%= prog_ids[position] %>");' value="通风降温" style="width:80px; font-size:13px;" />
             </li>
             <li>
               <progress id=<%= prog_ids[position] %> value="0" max="100" style="width:100px;height:18px;">
             </li>
             <li>
-              <input type="button" class="btn btn-default" onclick='start(<%= image_ids[position] %>);' value="加温升温" style="width:80px; font-size:13px;"/>
+              <input type="button" class="btn btn-default" onclick='start("<%= prog_ids[position] %>");' value="加湿升温" style="width:80px; font-size:13px;"/>
             </li>
           </ul>
         </li>
@@ -100,10 +100,10 @@
         %>        
         <li class="list-group-item">
           <ul class="list-inline">
-            <li><img id=<%= image_ids[position] %> src="img/img_indicator_happy.png" /></li>
-            <li><p onload="getIndicatorImg(<%= image_ids[position] %>)">湿度</p></li>
+            <li><img id=<%= image_ids[position] %> src="${pageContext.request.contextPath}/views/img/img_indicator_happy.png" /></li>
+            <li><p>湿度</p></li>
              <li>
-              <input type="button" class="btn btn-default col-md-1" onclick='start(<%= image_ids[position] %>);' value="浇水" style="width:80px;font-size:13px;" />
+              <input type="button" class="btn btn-default col-md-1" onclick='start("<%= prog_ids[position] %>");' value="浇水" style="width:80px;font-size:13px;" />
             </li>
             <li>
               <progress id=<%= prog_ids[position] %> value="22" max="100" style="width:100px;height:18px;">
@@ -122,10 +122,10 @@
         %>          
         <li class="list-group-item">
           <ul class="list-inline">
-            <li><img id=<%= image_ids[position] %> src="img/img_indicator_happy.png" /></li>
-            <li><p onload="getIndicatorImg(<%= image_ids[position] %>)">光照</p></li>
+            <li><img id=<%= image_ids[position] %> src="${pageContext.request.contextPath}/views/img/img_indicator_happy.png" /></li>
+            <li><p>光照</p></li>
             <li>
-              <input  type="button" class="btn btn-default" onclick='start(<%= image_ids[position] %>);' value="增加光照" style="width:80px;font-size:13px;" />
+              <input  type="button" class="btn btn-default" onclick='start("<%= prog_ids[position] %>");' value="增加光照" style="width:80px;font-size:13px;" />
             </li>
             <li>
               <progress id=<%= prog_ids[position] %> value="22" max="100" style="width:100px;height:18px;">
@@ -144,8 +144,8 @@
         %>          
         <li class="list-group-item">
           <ul class="list-inline">
-            <li><img id=<%= image_ids[position] %> src="img/img_indicator_sad.png" /></li>
-            <li><p onload="getIndicatorImg(<%= image_ids[position] %>)">水位</p></li>
+            <li><img id=<%= image_ids[position] %> src="${pageContext.request.contextPath}/views/img/img_indicator_sad.png" /></li>
+            <li><p>水位</p></li>
             <li><p>请您亲自浇水</p></li>
           </ul>
         </li> 
@@ -166,6 +166,11 @@
     var testBool = 0;
     function getIndicatorImg(id){
       //alert("work on me");
+
+      setTimeout(function() {
+        getIndicatorImg(id)
+      }, 1000);
+
       $.ajax({
           url: 'http://localhost:8888',
           type: 'get',
@@ -173,16 +178,11 @@
           cache: false,
           timeout: 5000,
           success: function(data){
-              //alert(data);
-              /*
-              * iterator on data to get tempture,humidity,.. of device#
-              * and update the image by get id
-              */
               if(testBool == 0) {
-                document.getElementById(id).src="img/img_indicator_happy.png";
+                document.getElementById(id).src="${pageContext.request.contextPath}/views/img/img_indicator_happy.png";
                 testBool = 1;
               } else {
-                document.getElementById(id).src="img/img_indicator_sad.png";
+                document.getElementById(id).src="${pageContext.request.contextPath}/views/img/img_indicator_sad.png";
                 testBool = 0;
               }
               
@@ -192,15 +192,12 @@
           }
       });
 
-      setTimeout(function() {
-        getIndicatorImg(id)
-      }, 1000);
     }
 
 		var c=0;
 		var t;
     function timedCount(id) {
-      //alert(id);
+
       document.getElementById(id).value = c;
       c = c+1;
       t = setTimeout(function() {
@@ -215,9 +212,30 @@
       c=0;
       timedCount(id);
     }
+    $("#myButton").on('click', function() {
+      var btn = document.getElementById("myButton")
+      if (btn.innerHTML == "手动") {
+        btn.innerHTML="自动"
+      } else {
+        btn.innerHTML="手动"
+      }
+    })
 
     window.onload = function() {
       document.getElementById("myButton").innerHTML="手动"
+      var test = new Array();
+      <%
+          //String[] array = new String[]{"red","yellow","green"};
+          for (int i=0; i<image_ids.length; i++)
+          {
+      %>
+      test[<%=i%>] = '<%=image_ids[i]%>';
+      <%
+          }
+      %>
+      for(var i=0;i<test.length;i++) {
+        getIndicatorImg(test[i])
+      }
     }
 
     </script>
