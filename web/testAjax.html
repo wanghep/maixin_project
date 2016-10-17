@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>ajax demo</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <link href="" rel="stylesheet">
+</head>
+<body>
+<input type="button" value="点击一下" onclick="GetData();" />
+<div id="test">
+    this is a  ajax demo
+</div>
+</body>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>
+        function GetData(){
+            $.ajax({
+                    url: 'http://localhost:8888',
+                    type: 'get',
+                    dataType: 'json',
+                    cache: false,
+                    timeout: 5000,
+                    success: function(data){
+                        //alert(data);
+                        document.getElementById("test").innerHTML=data.data;
+                    },
+                    error: function(jqXHR, textStatus, errorThrown){
+                        alert('error ' + textStatus + " " + errorThrown);  
+                    }
+                });
+                /*
+            var xhr=new XMLHttpRequest();
+            xhr.open("GET","http://localhost:8888",true);
+            xhr.onreadystatechange=function() {
+                if(xhr.readyState==4) {
+                    if(xhr.status==200) {
+                        document.getElementById("test").innerHTML=xhr.responseText;
+                    }
+                }
+            }
+            xhr.send(null);
+            */
+        }
+    </script>
+</html>
