@@ -23,25 +23,25 @@
   <body>
   <%
     Garden garden = (Garden)request.getAttribute("garden");
-  %>    
-  	<div class="container">
-  	  <ul class="list-inline">
-  		  <li>
+  %>   
+    <div class="container">
+      <div class="btn-group btn-group-justified" role="group" aria-label="...">
+        <div class="btn-group" role="group">
           <a href="qr-code.jsp">
             <img src="${pageContext.request.contextPath}/views/img/img_btn_add_small.png" />
           </a>
-        </li>
-        <li>
+        </div>
+        <div class="btn-group" role="group">
           <a href="farm-avatar.html">
             <img src=<%= garden.getAvatarUrl() %> />
           </a>
-        </li>
-  		  <li>
+        </div>
+        <div class="btn-group" role="group">
           <button type="button" id="myButton" class="btn btn-primary" autocomplete="off">
             手动
           </button>
-        </li>
-      </ul>
+        </div>
+      </div>
     </div>
 
     <ul class="list-group">
