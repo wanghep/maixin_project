@@ -43,7 +43,7 @@
 
 
 <div class="container">
-  <a href="farm-create.jsp">
+  <a href="${pageContext.request.contextPath}/weiXinDevice/addGarden ">
     <img  src="${pageContext.request.contextPath}/views/img/img_btn_add.png" />
   </a>
 </div>

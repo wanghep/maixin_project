@@ -78,6 +78,12 @@ public class weixinDevicerController {
         response.setCharacterEncoding("UTF-8");
 
        User user = UserUtils.getCurrentUser();
+        {
+            //for test
+            user = new User();
+            long id = 0 ;
+            user.setId( id );
+        }
         List<Garden> GardenList = gardenRepository.findUserGarden(user.getId());
 
 
@@ -85,6 +91,20 @@ public class weixinDevicerController {
         ModelAndView modelAndView = new ModelAndView("/garden");
         modelAndView.addObject("GardenList", GardenList );
         return modelAndView;
+
+    }
+
+
+    @RequestMapping("addGarden")
+    @ResponseBody
+    public ModelAndView  addGarden(HttpServletRequest request, HttpServletResponse response) throws IOException, InvocationTargetException, IllegalAccessException {
+
+        response.setContentType("text/html; encoding=utf-8");
+        response.setCharacterEncoding("UTF-8");
+
+        ModelAndView modelAndView = new ModelAndView("/farm-create");
+        return modelAndView;
+
 
     }
 
