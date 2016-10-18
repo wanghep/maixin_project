@@ -100,21 +100,21 @@
       <li class="list-group-item">
         <ul class="list-inline">
           <li><p>自动模式上限</p></li>
-          <li><input type="text" id="0101" onfocusout="setParameter("0101", <%= dev.getId() %>, 1)"></input></li>
+          <li><input type="text" id="0101" onfocusout='setParameter("0101", <%= dev.getId() %>, 1)'></input></li>
           <li><p>°C</p></li>
         </ul>
       </li>
       <li class="list-group-item">
         <ul class="list-inline">
           <li><p>自动模式下限</p></li>
-          <li><input type="text" id="0102" onfocusout="setParameter("0102",<%= dev.getId() %>, 2)"></input></li>
+          <li><input type="text" id="0102" onfocusout='setParameter("0102",<%= dev.getId() %>, 2)'></input></li>
           <li><p>°C</p></li>
         </ul>
       </li>
       <li class="list-group-item">
         <ul class="list-inline">
           <li><p>手动模式通风时间</p></li>
-          <li><input type="text" id="0103" onfocusout="setParameter("0103",<%= dev.getId() %>, 3)"></input></li>
+          <li><input type="text" id="0103" onfocusout='setParameter("0103",<%= dev.getId() %>, 3)'></input></li>
           <li><p>分钟</p></li>
         </ul>
       </li>
@@ -133,21 +133,21 @@
       <li class="list-group-item">
         <ul class="list-inline">
           <li><p>自动模式上限</p></li>
-          <li><input type="text" id="0201" onfocusout="setParameter("0201",<%= dev.getId() %>, 5)"></input></li>
+          <li><input type="text" id="0201" onfocusout='setParameter("0201",<%= dev.getId() %>, 5)'></input></li>
           <li><p>%RH</p></li>
         </ul>
       </li>
       <li class="list-group-item">
         <ul class="list-inline">
           <li><p>自动模式下限</p></li>
-          <li><input type="text" id="0202" onfocusout="setParameter("0202",<%= dev.getId() %>, 6)"></input></li>
+          <li><input type="text" id="0202" onfocusout='setParameter("0202",<%= dev.getId() %>, 6)'></input></li>
           <li><p>%RH</p></li>
         </ul>
       </li>
       <li class="list-group-item">
         <ul class="list-inline">
           <li><p>手动模式浇水时间</p></li>
-          <li><input type="text" id="0203" onfocusout="setParameter("0203",<%= dev.getId() %>, 7)"></input></li>
+          <li><input type="text" id="0203" onfocusout='setParameter("0203",<%= dev.getId() %>, 7)'></input></li>
           <li><p>分钟</p></li>
         </ul>
       </li>                        
@@ -159,14 +159,14 @@
       <li class="list-group-item">
         <ul class="list-inline">
           <li><p>自动模式上限</p></li>
-          <li><input type="text" id="0301" onfocusout="setParameter("0301",<%= dev.getId() %>, 8)"></input></li>
+          <li><input type="text" id="0301" onfocusout='setParameter("0301",<%= dev.getId() %>, 8)'></input></li>
           <li><p>μmol</p></li>
         </ul>
       </li>
       <li class="list-group-item">
         <ul class="list-inline">
           <li><p>自动模式下限</p></li>
-          <li><input type="text" id="0302" onfocusout="setParameter("0302",<%= dev.getId() %>, 9)"></input></li>
+          <li><input type="text" id="0302" onfocusout='setParameter("0302",<%= dev.getId() %>, 9)'></input></li>
           <li><p>μmol</p></li>
         </ul>
       </li>                         
@@ -323,9 +323,9 @@
         var item = document.getElementById(id);
         //farm.value = farm.value.toUpperCase();
         $.ajax({
-            url: 'http://localhost:8888',
-            type: 'POST',
-            data: {value:item.value}
+            url: '${pageContext.request.contextPath}/weiXinDevice/deviceRuleIndication',
+            type: 'GET',
+            data: {"value":item.value ,"deviceId":devid, "type" : type},
             dataType: 'json',
             cache: false,
             timeout: 5000,

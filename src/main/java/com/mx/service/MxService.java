@@ -2,12 +2,10 @@ package com.mx.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.mx.LogUtil;
-import com.mx.domain.Devices;
-import com.mx.domain.Message;
-import com.mx.domain.User;
-import com.mx.domain.UserUtils;
+import com.mx.domain.*;
 import com.mx.repositories.DevicesRepository;
 import com.mx.repositories.GardenRepository;
+import com.mx.repositories.LatestMessageRepository;
 import com.mx.repositories.MessageRepository;
 import com.mx.service.mqttService.MessageListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +30,9 @@ public class MxService implements MessageListener {
     private DevicesRepository devicesRepository;
     @Autowired
     private MessageRepository mssageRepository;
+
+    @Autowired
+    private LatestMessageRepository latestMessageRepository;
 
     //???
     @Autowired
@@ -75,18 +76,36 @@ public class MxService implements MessageListener {
 
         Devices  device = null;
 
-        if( deviceList.size() > 0 )
+        if( deviceList != null && ( deviceList.size() > 0 ) )
         {
             device = deviceList.get( 0 );
+            message.setDevice( device );
+            message.setType( type );
+            message.setContext( data1 );
+
+            message.setTime( new Date() );
+
+            mssageRepository.save( message );
+
+            List<LatestMessage> lmList = latestMessageRepository.findByDeviceIdAndType(message.getDevice().getId() , message.getType() );
+
+
+            //更新到最新的消息库中
+            LatestMessage lm = null;
+            if( lmList != null && lmList.size() > 0 )
+            {
+                lm = lmList.get(0);
+            }
+            else
+            {
+                lm = new LatestMessage();
+
+            }
+            message.covertToLatestMessage( lm );
+            latestMessageRepository.save(lm);
         }
 
-        message.setDevice( device );
-        message.setType( type );
-        message.setContext( data1 );
 
-        message.setTime( new Date() );
-
-        mssageRepository.save( message );
 
     }
 

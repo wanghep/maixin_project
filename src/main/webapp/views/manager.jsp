@@ -1,6 +1,7 @@
 ﻿<%@ page import="com.mx.domain.Garden" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="com.mx.domain.Devices" %>
+<%@ page import="com.mx.util.ImageIds" %>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -104,7 +105,7 @@
     <ul class="list-group">
       <%
         ArrayList list = (ArrayList)request.getAttribute("devicesList");
-        String image_ids[] = new String[list.size()*4];
+        ArrayList<ImageIds> image_ids = new ArrayList<ImageIds>();
         String prog_ids[] = new String[list.size()*4];
         int position = 0;
 
@@ -126,13 +127,17 @@
         </div>
 
         <% 
-          if((dev.getPropertyCombine()&0x01)==1) {
-            image_ids[position] = "image_"+dev.getId()+"_01";
+          if((dev.getPropertyCombine()&0x01)==0x01) {
+            ImageIds item = new ImageIds();
+            item.idName = "image_"+dev.getId()+"_01";
+            item.deviceId = dev.getId();
+            item.typeId = 0x01;
+            image_ids.add(item);
             prog_ids[position] = "prog_"+dev.getId()+"_01";
         %>
         <li class="list-group-item">
           <ul class="list-inline">
-            <li><img id=<%= image_ids[position] %> src="${pageContext.request.contextPath}/views/img/img_indicator_happy.png" /></li>
+            <li><img id="<%= item.idName %>"src="${pageContext.request.contextPath}/views/img/img_indicator_happy.png" /></li>
             <li><p>温度</p></li>
             <li>
               <input type="button" id="b01" type="button" class="btn btn-default" onclick='start("<%= prog_ids[position] %>");' value="通风降温" style="width:80px; font-size:13px;" />
@@ -150,14 +155,18 @@
         %>
 
         <% 
-          if((dev.getPropertyCombine()&0x02)==1) {
+          if((dev.getPropertyCombine()&0x02)==0x02) {
             position += 1;
-            image_ids[position] = "image_"+dev.getId()+"_02";
+              ImageIds item = new ImageIds();
+              item.idName = "image_"+dev.getId()+"_02";
+              item.deviceId = dev.getId();
+              item.typeId = 0x02;
+              image_ids.add(item);
             prog_ids[position] = "prog_"+dev.getId()+"_02";
         %>        
         <li class="list-group-item">
           <ul class="list-inline">
-            <li><img id=<%= image_ids[position] %> src="${pageContext.request.contextPath}/views/img/img_indicator_happy.png" /></li>
+            <li><img id="<%= item.idName %>" src="${pageContext.request.contextPath}/views/img/img_indicator_happy.png" /></li>
             <li><p>湿度</p></li>
              <li>
               <input type="button" class="btn btn-default col-md-1" onclick='start("<%= prog_ids[position] %>");' value="浇水" style="width:80px;font-size:13px;" />
@@ -172,14 +181,18 @@
         %>
         
         <% 
-          if((dev.getPropertyCombine()&0x04)==1) {
+          if((dev.getPropertyCombine()&0x04)==0x04) {
             position += 1;
-            image_ids[position] = "image_"+dev.getId()+"_03";
+              ImageIds item = new ImageIds();
+              item.idName = "image_"+dev.getId()+"_04";
+              item.deviceId = dev.getId();
+              item.typeId = 0x04;
+              image_ids.add(item);
             prog_ids[position] = "prog_"+dev.getId()+"_03";
         %>          
         <li class="list-group-item">
           <ul class="list-inline">
-            <li><img id=<%= image_ids[position] %> src="${pageContext.request.contextPath}/views/img/img_indicator_happy.png" /></li>
+            <li><img id="<%= item.idName %>" src="${pageContext.request.contextPath}/views/img/img_indicator_happy.png" /></li>
             <li><p>光照</p></li>
             <li>
               <input  type="button" class="btn btn-default" onclick='start("<%= prog_ids[position] %>");' value="增加光照" style="width:80px;font-size:13px;" />
@@ -194,14 +207,18 @@
         %>
         
         <% 
-          if((dev.getPropertyCombine()&0x08)==1) {
+          if((dev.getPropertyCombine()&0x08)==0x08) {
             position += 1;
-            image_ids[position] = "image_"+dev.getId()+"_04";
+              ImageIds item = new ImageIds();
+              item.idName = "image_"+dev.getId()+"_08";
+              item.deviceId = dev.getId();
+              item.typeId = 0x08;
+              image_ids.add(item);
             prog_ids[position] = "prog_"+dev.getId()+"_04";
         %>          
         <li class="list-group-item">
           <ul class="list-inline">
-            <li><img id=<%= image_ids[position] %> src="${pageContext.request.contextPath}/views/img/img_indicator_sad.png" /></li>
+            <li><img id="<%= item.idName %>" src="${pageContext.request.contextPath}/views/img/img_indicator_sad.png" /></li>
             <li><p>水位</p></li>
             <li><p>请您亲自浇水</p></li>
           </ul>
@@ -222,17 +239,18 @@
     <script src="${pageContext.request.contextPath}/views/js/jquery.mobile-1.4.5.js"></script>
     <script type="text/javascript">
     var testBool = 0;
-    function getIndicatorImg(id){
+    function getIndicatorImg(id , deviceId , typeId ){
       //alert("work on me");
 
       setTimeout(function() {
-        getIndicatorImg(id)
+        getIndicatorImg(id , deviceId , typeId )
       }, 1000);
 
       $.ajax({
-          url: 'http://localhost:8888',
+          url: '${pageContext.request.contextPath}/weiXinDevice/deviceStatusIndication',
           type: 'get',
           dataType: 'json',
+          data: {"deviceId":deviceId , "Type":typeId},
           cache: false,
           timeout: 5000,
           success: function(data){
@@ -284,9 +302,9 @@
       }
 
       $.ajax({
-          url: 'weiXinDevice/mode',
-          type: 'post',
-          data: {mode:mode},
+          url: '${pageContext.request.contextPath}/weiXinDevice/mode',
+          type: 'get',
+          data: {"mode":mode , "gardenId":<%=garden.getId()%>},
           dataType: 'json',
           cache: false,
           timeout: 5000,
@@ -309,18 +327,29 @@
     })
 
     window.onload = function() {
-      document.getElementById("myButton").innerHTML="手动"
-      var test = new Array();
       <%
-        for (int i=0; i<image_ids.length; i++)
+      String runMode = "手动";
+      if( garden.getRunMode() == 1 )
+      {
+        runMode = "自动";
+      }
+      %>
+      document.getElementById("myButton").innerHTML="<%=runMode%>"
+      var allIdNames = new Array();
+        var allDeviceId = new Array();
+        var allTypeId = new Array();
+      <%
+        for (int i=0; i<image_ids.size(); i++)
         {
       %>
-      test[<%=i%>] = '<%=image_ids[i]%>';
+                allIdNames[<%=i%>] = '<%=image_ids.get(i).idName%>';
+        allDeviceId[<%=i%>] = '<%=image_ids.get(i).deviceId%>';
+        allTypeId[<%=i%>] = '<%=image_ids.get(i).typeId%>';
       <%
         }
       %>
-      for(var i=0;i<test.length;i++) {
-        getIndicatorImg(test[i])
+      for(var i=0;i<allIdNames.length;i++) {
+        getIndicatorImg(allIdNames[i],allDeviceId[i],allTypeId[i] )
       }
     }
 

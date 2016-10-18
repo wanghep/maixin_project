@@ -43,6 +43,10 @@ public class Garden {
         return time;
     }
 
+    public Garden()
+    {
+        runMode = 1;
+    }
     public void setTime(Date time) {
         this.time = time;
     }

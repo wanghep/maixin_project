@@ -41,6 +41,7 @@ public class Devices {
     @DateTimeFormat(style = "M-")
     private Date time;
 
+   // private int ruleId;
 
     public Devices()
     {

@@ -1,13 +1,11 @@
 package com.mx.view;
 
+import com.alibaba.fastjson.JSONObject;
 import com.mx.LogUtil;
 import com.mx.Util;
 import com.mx.commonStuct.property;
 import com.mx.domain.*;
-import com.mx.repositories.DevicesRepository;
-import com.mx.repositories.GardenRepository;
-import com.mx.repositories.MessageRepository;
-import com.mx.repositories.UserRepository;
+import com.mx.repositories.*;
 import com.mx.service.LoginService;
 import com.mx.service.MxService;
 import com.mx.service.WeiXinService;
@@ -28,11 +26,13 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpUtils;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -69,6 +69,9 @@ public class weixinDevicerController {
 
     @Autowired
     private MessageRepository messageRepository;
+
+    @Autowired
+    private LatestMessageRepository latestMessageRepository;
 
     @RequestMapping("myGarden")
     @ResponseBody
@@ -145,8 +148,14 @@ public class weixinDevicerController {
 
     @RequestMapping("mode")
     @ResponseBody
-    public void  mode(HttpServletRequest request, HttpServletResponse response) throws IOException, InvocationTargetException, IllegalAccessException {
+    public void  mode(HttpServletRequest request, HttpServletResponse response) throws IOException, InvocationTargetException, IllegalAccessException, ParseException {
 
+        int deviceId = Integer.parseInt( request.getParameter("gardenId") );
+        int mode = Integer.parseInt(request.getParameter("mode"));
+
+        LogUtil.info(this.getClass(),deviceId);
+        LogUtil.info(this.getClass(),mode);
+        //update into garden  ????
 
         return ;
     }
@@ -213,5 +222,39 @@ public class weixinDevicerController {
             e.printStackTrace();
             return "fail";
         }
+    }
+
+    @RequestMapping("deviceCommand")
+    @ResponseBody
+    public void  deviceCommand(HttpServletRequest request, HttpServletResponse response) throws IOException, InvocationTargetException, IllegalAccessException {
+
+    }
+
+    @RequestMapping("deviceStatusIndication")
+    @ResponseBody
+    /* 笑脸 */
+    public void  deviceStatusIndication(HttpServletRequest request, HttpServletResponse response) throws IOException, InvocationTargetException, IllegalAccessException {
+
+        long deviceId = Long.parseLong(request.getParameter("deviceId"));
+        int Type = Integer.parseInt(request.getParameter("Type"));
+
+        LogUtil.info(this.getClass(),deviceId);
+        LogUtil.info(this.getClass(),Type);
+    //device
+    }
+
+    @RequestMapping("deviceRuleIndication")
+    @ResponseBody
+    public void  deviceRuleIndication(HttpServletRequest request, HttpServletResponse response) throws IOException, InvocationTargetException, IllegalAccessException {
+        //device
+        long deviceId = Long.parseLong(request.getParameter("deviceId"));
+        int type = Integer.parseInt(request.getParameter("type"));
+        int value = Integer.parseInt(request.getParameter("value"));
+
+        LogUtil.info(this.getClass(),deviceId);
+        LogUtil.info(this.getClass(),type);
+        LogUtil.info(this.getClass(),value);
+
+
     }
 }
