@@ -23,9 +23,11 @@
 		  <li class="list-group-item">
   			<ul class="list-inline">
           <li>
-            <h2 style="color:blue;">新添花园名称</h2>
+            <div class="container">
+              <input id="name-farm" onfocusout="nameFarm()" type="text" style="font-size:16px;color:blue;border:none;" placeholder="新添花园名称"></input>
+            </div>
           </li>
-          <li><p>长按修改花园名称</p></li>
+          <li><p id="name-write" style="font-size:12px;">长按修改花园名称</p></li>
   			</ul>
 		  </li>
     </ul>
@@ -42,7 +44,34 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="${pageContext.request.contextPath}/views/js/bootstrap.min.js"></script>
+    <script src="${pageContext.request.contextPath}/views/js/jquery.mobile-1.4.5.js"></script>
     <script type="text/javascript">
+      function nameFarm() {
+        var farm = document.getElementById("name-farm");
+        //farm.value = farm.value.toUpperCase();
+        $.ajax({
+            url: 'http://localhost:8888',
+            type: 'POST',
+            data: {name:farm.value}
+            dataType: 'json',
+            cache: false,
+            timeout: 5000,
+            success: function(data){
+                if(data == 0) {
+                  farm.readOnly = true;
+                } 
+                
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                alert('error ' + textStatus + " " + errorThrown);  
+            }
+        });        
+
+      }
+
+      $('#name-write').on("tap",function(){
+        document.getElementById("name-farm").readOnly = false;
+      });
       $('#profile-image').on('click', function() {
         $('#profile-image-upload').click();
       });
