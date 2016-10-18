@@ -19,6 +19,7 @@ public class Devices {
     @Column(name = "id")
     private Long id;
 
+    private final String DEFAULT_AVATARURL = "web\\img\\img_device_default";
 
     private  String name;       //设备 name
 
@@ -41,6 +42,10 @@ public class Devices {
     private Date time;
 
 
+    public Devices()
+    {
+        avatarUrl = DEFAULT_AVATARURL ;
+    }
     public Long getId() {
         return id;
     }

@@ -21,15 +21,72 @@
     <![endif]-->
   </head>
   <body>
+  <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+
+  <%
+    String appId  = (String) request.getAttribute("appid");
+    long timestamp  = (long) request.getAttribute("timestamp");
+    String nonceStr  = (String) request.getAttribute("nonceStr");
+    String signature  = (String) request.getAttribute("signature");
+  %>
+
+  <script>
+  wx.config({
+              debug: true,
+              appId: '<%=appId %>',
+              timestamp:  <%=timestamp %>,
+              nonceStr: '<%=nonceStr %>',
+              signature: '<%=signature %>',
+              jsApiList: [
+              'checkJsApi',
+              'onMenuShareTimeline',
+              'onMenuShareAppMessage',
+              'onMenuShareQQ',
+              'onMenuShareWeibo',
+              'onMenuShareQZone',
+              'hideMenuItems',
+              'showMenuItems',
+              'hideAllNonBaseMenuItem',
+              'showAllNonBaseMenuItem',
+              'translateVoice',
+              'startRecord',
+              'stopRecord',
+              'onVoiceRecordEnd',
+              'playVoice',
+              'onVoicePlayEnd',
+              'pauseVoice',
+              'stopVoice',
+              'uploadVoice',
+              'downloadVoice',
+              'chooseImage',
+              'previewImage',
+              'uploadImage',
+              'downloadImage',
+              'getNetworkType',
+              'openLocation',
+              'getLocation',
+              'hideOptionMenu',
+              'showOptionMenu',
+              'closeWindow',
+              'scanQRCode',
+              'chooseWXPay',
+              'openProductSpecificView',
+              'addCard',
+              'chooseCard',
+              'openCard'
+  ]
+  });
+  </script>
+
   <%
     Garden garden = (Garden)request.getAttribute("garden");
   %>   
     <div class="container">
       <div class="btn-group btn-group-justified" role="group" aria-label="...">
         <div class="btn-group" role="group">
-          <a href="qr-code.jsp">
-            <img src="${pageContext.request.contextPath}/views/img/img_btn_add_small.png" />
-          </a>
+            <li>
+                <input type="image" id="scanQRCode1" src="${pageContext.request.contextPath}/views/img/img_btn_add_small.png" />
+            </li>
         </div>
         <div class="btn-group" role="group">
           <a href="farm-avatar.html">
@@ -159,9 +216,10 @@
     </ul>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="${pageContext.request.contextPath}/views/js/jquery-3.1.1.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="${pageContext.request.contextPath}/views/js/bootstrap.min.js"></script>
+    <script src="${pageContext.request.contextPath}/views/js/jquery.mobile-1.4.5.js"></script>
     <script type="text/javascript">
     var testBool = 0;
     function getIndicatorImg(id){
@@ -188,7 +246,7 @@
               
           },
           error: function(jqXHR, textStatus, errorThrown){
-              alert('error ' + textStatus + " " + errorThrown);  
+              //alert('error ' + textStatus + " " + errorThrown);
           }
       });
 
@@ -238,6 +296,34 @@
       }
     }
 
+    // 9.1.2 扫描二维码并返回结果
+    $("#scanQRCode1").on('click', function(){
+
+      wx.scanQRCode({
+        needResult: 1,
+        desc: 'scanQRCode desc',
+        success: function (res) {
+            alert(JSON.stringify(res));
+            $.ajax({
+                url: '${pageContext.request.contextPath}/weiXinDevice/addDevice',
+                type: 'get',
+                dataType: 'json',
+                data:{"gardenId":<%=garden.getId()%> , "scanQRCodeResult":JSON.stringify(res)},
+                cache: false,
+                timeout: 5000,
+                success: function(data){
+                   console.log( "scanQRCode result", JSON.stringify(res) );
+
+                },
+                error: function(jqXHR, textStatus, errorThrown){
+                    //alert('error ' + textStatus + " " + errorThrown);
+                }
+            });
+        }
+      });
+    });
     </script>
+
+
   </body>
 </html>

@@ -1,9 +1,13 @@
 package com.mx.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.mx.LogUtil;
 import com.mx.domain.Devices;
 import com.mx.domain.Message;
+import com.mx.domain.User;
+import com.mx.domain.UserUtils;
 import com.mx.repositories.DevicesRepository;
+import com.mx.repositories.GardenRepository;
 import com.mx.repositories.MessageRepository;
 import com.mx.service.mqttService.MessageListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +26,8 @@ public class MxService implements MessageListener {
     @Autowired
     private MQTTService mqttService;
 
+    @Autowired
+    private GardenRepository gardenRepository;
     @Autowired
     private DevicesRepository devicesRepository;
     @Autowired
@@ -82,6 +88,36 @@ public class MxService implements MessageListener {
 
         mssageRepository.save( message );
 
+    }
+
+    //"macId:"123456789","type"="3";
+    public void addA_DeviceByScanResult( String gardenId , String scanResult )
+    {
+        JSONObject json= JSONObject.parseObject(scanResult);
+        String errMsg = json.getString("errMsg");
+        String resultStr = json.getString("resultStr");
+
+        if( errMsg.equals( "scanQRCode:ok"))
+        { // 得到正确结果
+            JSONObject jsonDeviceInfo = JSONObject.parseObject( resultStr );
+            String mac = jsonDeviceInfo.getString("macId");
+            String type = jsonDeviceInfo.getString("type");
+            if( ( mac != null) && (type!= null)
+                    && ( mac != "") && (type!= ""))
+            {
+                Devices devices = new Devices();
+
+                devices.setName("新增设备");
+                devices.setGarden(gardenRepository.findOne(Long.parseLong(gardenId)));
+                User user = UserUtils.getCurrentUser();
+                devices.setUser(user);
+                devices.setMacAddress(mac);
+                devices.setPropertyCombine(Integer.parseInt(type));
+                devices.setTime(new Date());
+
+                devicesRepository.save(devices);
+            }
+        }
     }
 }
 

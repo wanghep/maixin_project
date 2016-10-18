@@ -124,6 +124,13 @@
 </div>
 </body>
 <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<%
+    String appId  = (String) request.getAttribute("appid");
+    long timestamp  = (long) request.getAttribute("timestamp");
+    String nonceStr  = (String) request.getAttribute("nonceStr");
+    String signature  = (String) request.getAttribute("signature");
+%>
+
 <script>
     /*
      * 注意：
@@ -136,12 +143,7 @@
      * 邮件主题：【微信JS-SDK反馈】具体问题
      * 邮件内容说明：用简明的语言描述问题所在，并交代清楚遇到该问题的场景，可附上截屏图片，微信团队会尽快处理你的反馈。
      */
-    <%
-        String appId  = (String) request.getAttribute("appid");
-        long timestamp  = (long) request.getAttribute("timestamp");
-        String nonceStr  = (String) request.getAttribute("nonceStr");
-        String signature  = (String) request.getAttribute("signature");
-    %>
+
     wx.config({
         debug: true,
         appId: '<%=appId %>',

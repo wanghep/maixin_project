@@ -122,10 +122,49 @@ public class weixinDevicerController {
         Garden garden = gardenRepository.findOne( gardenId );
         List<Devices> devicesList = devicesRepository.findDevicesByGardenId(gardenId);
 
-
+        WxJsapiSignature wxJsapiSignature = null;
+        try {
+            String queryString = request.getQueryString();
+            String fullPath = request.getRequestURL().toString() + "?"+queryString;   // 或者是url_buffer.toString()+queryString;
+            wxJsapiSignature = weiXinService.getWxMpServiceInstance().createJsapiSignature(  fullPath );
+        } catch (WxErrorException e) {
+            e.printStackTrace();
+        }
         ModelAndView modelAndView = new ModelAndView("/manager");
+
+        modelAndView.addObject("appid" , wxJsapiSignature.getAppid());
+        modelAndView.addObject("timestamp" , wxJsapiSignature.getTimestamp()  );
+        modelAndView.addObject("nonceStr" , wxJsapiSignature.getNoncestr());
+        modelAndView.addObject("signature" , wxJsapiSignature.getSignature()  );
+
+
         modelAndView.addObject("garden", garden );
         modelAndView.addObject("devicesList", devicesList );
+        return modelAndView;
+    }
+
+    @RequestMapping("mode")
+    @ResponseBody
+    public void  mode(HttpServletRequest request, HttpServletResponse response) throws IOException, InvocationTargetException, IllegalAccessException {
+
+
+        return ;
+    }
+
+    @RequestMapping("addDevice")
+    @ResponseBody
+    public ModelAndView  addDevice(HttpServletRequest request, HttpServletResponse response) throws IOException, InvocationTargetException, IllegalAccessException {
+
+        response.setContentType("text/html; encoding=utf-8");
+        response.setCharacterEncoding("UTF-8");
+
+        String gardenId = request.getParameter("gardenId");
+        String scanCode = request.getParameter("scanQRCodeResult");
+        LogUtil.info(this.getClass(), scanCode);
+
+        mxService.addA_DeviceByScanResult( gardenId , scanCode );
+        ModelAndView modelAndView = new ModelAndView("forward:/devices");
+
         return modelAndView;
     }
 
@@ -157,26 +196,7 @@ public class weixinDevicerController {
         return modelAndView;
     }
 
-    @RequestMapping("addDevice")
-    @ResponseBody
-    public ModelAndView  addDevice(HttpServletRequest request, HttpServletResponse response) throws IOException, InvocationTargetException, IllegalAccessException {
 
-        response.setContentType("text/html; encoding=utf-8");
-        response.setCharacterEncoding("UTF-8");
-
-        WxJsapiSignature wxJsapiSignature = null;
-        try {
-            wxJsapiSignature = weiXinService.getWxMpServiceInstance().createJsapiSignature( request.getRequestURL().toString() );
-        } catch (WxErrorException e) {
-            e.printStackTrace();
-        }
-        ModelAndView modelAndView = new ModelAndView("/jsdemo");
-        modelAndView.addObject("appid" , wxJsapiSignature.getAppid());
-        modelAndView.addObject("timestamp" , wxJsapiSignature.getTimestamp()  );
-        modelAndView.addObject("nonceStr" , wxJsapiSignature.getNoncestr());
-        modelAndView.addObject("signature" , wxJsapiSignature.getSignature()  );
-        return modelAndView;
-    }
 
 
     @RequestMapping("/gardenAvatarUpload")
