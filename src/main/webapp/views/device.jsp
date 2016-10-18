@@ -29,9 +29,6 @@
     ArrayList water = (ArrayList)request.getAttribute("messageWaterLevelList");
 
     int temptureSize = ((tempture==null)?0:tempture.size());
-    String temptureX[] = {"1","2","3","4","5"};
-    int temptureY[] = {10,20,30,40,50};
-    /*
     String temptureX[] = new String[temptureSize];
     int temptureY[] = new int[temptureSize];
     for(int i=0;i<temptureSize;i++) {
@@ -44,7 +41,6 @@
       temptureY[i] = temp;
 
     }
-    */
 
     int humiditSize = ((humidit==null)?0:humidit.size());
     String humiditX[] = new String[humiditSize];
@@ -187,26 +183,24 @@
         var myChart2 = echarts.init(document.getElementById('moisture'));
         var myChart3 = echarts.init(document.getElementById('light'));
 
-        var testX = new Array();
+        var tempX = new Array();
         <%
-            //String[] array = new String[]{"red","yellow","green"};
-            for (int i=0; i<temptureX.length; i++)
-            {
+          for (int i=0; i<temptureX.length; i++)
+          {
         %>
-        testX[<%=i%>] = '<%=temptureX[i]%>';
+        tempX[<%=i%>] = '<%=temptureX[i]%>';
         <%
-            }
+          }
         %>
 
-        var testY = new Array();
+        var tempY = new Array();
         <%
-            //String[] array = new String[]{"red","yellow","green"};
-            for (int i=0; i<temptureY.length; i++)
-            {
+          for (int i=0; i<temptureY.length; i++)
+          {
         %>
-        testY[<%=i%>] = '<%=temptureY[i]%>';
+        tempY[<%=i%>] = '<%=temptureY[i]%>';
         <%
-            }
+          }
         %>
         // 指定图表的配置项和数据
         var option1 = {
@@ -218,7 +212,7 @@
             data:['温度']
           },
           xAxis: {
-            data: testX
+            data: tempX
           },
           yAxis: {
             type: 'value',
@@ -229,30 +223,28 @@
           series: [{
             name: '温度',
             type: 'line',
-            data: testY
+            data: tempY
           }]
         };
 
-        var test2X = new Array();
+        var humiX = new Array();
         <%
-            //String[] array = new String[]{"red","yellow","green"};
-            for (int i=0; i<humiditX.length; i++)
-            {
+          for (int i=0; i<humiditX.length; i++)
+          {
         %>
-        test2X[<%=i%>] = '<%=humiditX[i]%>';
+        humiX[<%=i%>] = '<%=humiditX[i]%>';
         <%
-            }
+          }
         %>
 
-        var test2Y = new Array();
+        var humiY = new Array();
         <%
-            //String[] array = new String[]{"red","yellow","green"};
-            for (int i=0; i<humiditY.length; i++)
-            {
+          for (int i=0; i<humiditY.length; i++)
+          {
         %>
-        test2Y[<%=i%>] = '<%=humiditY[i]%>';
+        humiY[<%=i%>] = '<%=humiditY[i]%>';
         <%
-            }
+          }
         %>
         var option2 = {
           title: {
@@ -263,7 +255,7 @@
             data:['湿度']
           },
           xAxis: {
-            data: test2X
+            data: humiX
           },
           yAxis: {
             type: 'value',
@@ -274,30 +266,28 @@
           series: [{
             name: '湿度',
             type: 'line',
-            data: test2Y
+            data: humiY
           }]
         };
 
-        var test3X = new Array();
+        var illumX = new Array();
         <%
-            //String[] array = new String[]{"red","yellow","green"};
-            for (int i=0; i<illuminationX.length; i++)
-            {
+          for (int i=0; i<illuminationX.length; i++)
+          {
         %>
-        test3X[<%=i%>] = '<%=illuminationX[i]%>';
+        illumX[<%=i%>] = '<%=illuminationX[i]%>';
         <%
-            }
+          }
         %>
 
-        var test3Y = new Array();
+        var illumY = new Array();
         <%
-            //String[] array = new String[]{"red","yellow","green"};
-            for (int i=0; i<illuminationY.length; i++)
-            {
+          for (int i=0; i<illuminationY.length; i++)
+          {
         %>
-        test3Y[<%=i%>] = '<%=illuminationY[i]%>';
+        illumY[<%=i%>] = '<%=illuminationY[i]%>';
         <%
-            }
+          }
         %>
 
         var option3 = {
@@ -309,7 +299,7 @@
             data:['光照']
           },
           xAxis: {
-            data: test3X
+            data: illumX
           },
           yAxis: {
             type: 'value',
@@ -320,7 +310,7 @@
           series: [{
             name: '光照',
             type: 'line',
-            data: test3Y
+            data: illumY
           }]
         };                
 
