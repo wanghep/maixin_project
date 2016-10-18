@@ -42,7 +42,7 @@
     </form>
 
   	<div class="container" align="center" style="margin-top:30px;">
-      <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" style="color:red;">
+      <button type="button" class="btn btn-primary" onclick="deleteFarm()" data-toggle="button" aria-pressed="false" autocomplete="off" style="color:red;">
       删除此花园
       </button>
   	</div>
@@ -52,6 +52,27 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="${pageContext.request.contextPath}/views/js/bootstrap.min.js"></script>
     <script type="text/javascript">
+      function deleteFarm() {
+        var gardenId;
+        <% 
+          gardenId = garden.getId();
+        %>
+        $.ajax({
+            url: 'http://localhost:8888',
+            type: 'POST',
+            data: {value:gardenId},
+            dataType: 'json',
+            cache: false,
+            timeout: 5000,
+            success: function(data){
+              //TODO
+
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                alert('error ' + textStatus + " " + errorThrown);  
+            }
+        });        
+      }
       $('#profile-image').on('click', function() {
         $('#profile-image-upload').click();
       });
