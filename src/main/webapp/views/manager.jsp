@@ -212,13 +212,42 @@
       c=0;
       timedCount(id);
     }
+
     $("#myButton").on('click', function() {
       var btn = document.getElementById("myButton")
+
+      var mode = 0;
       if (btn.innerHTML == "手动") {
-        btn.innerHTML="自动"
+        //btn.innerHTML="自动"
+        mode = 0;
       } else {
-        btn.innerHTML="手动"
+        //btn.innerHTML="手动"
+        mode = 1;
       }
+
+      $.ajax({
+          url: 'weiXinDevice/mode',
+          type: 'post',
+          data: {mode:mode},
+          dataType: 'json',
+          cache: false,
+          timeout: 5000,
+          success: function(data){
+              //test bool is for test
+              if(testBool == 0) {
+                btn.innerHTML="手动"
+                testBool = 1;
+              } else {
+                btn.innerHTML="自动"
+                testBool = 0;
+              }
+              
+          },
+          error: function(jqXHR, textStatus, errorThrown){
+              alert('error ' + textStatus + " " + errorThrown);  
+          }
+      }); 
+
     })
 
     window.onload = function() {
