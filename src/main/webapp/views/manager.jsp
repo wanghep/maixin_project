@@ -328,24 +328,29 @@
 
     })
 
-	  var control_mode = 0;
-    window.onload = function() {
+	window.onload = function() {
     <%
-	  control_mode = garden.getRunMode();
+	  int control_mode = garden.getRunMode();
+
+	  if( 0 == control_mode) {
     %>
-	  if( control_mode == 0) {
-		  document.getElementById("myButton").src="${pageContext.request.contextPath}/views/img/img_control_switcher_manual.png"  
-	  } else {
-		  document.getElementById("myButton").src="${pageContext.request.contextPath}/views/img/img_control_switcher.png"   
-	  }
-		
-      var allIdNames = new Array();
-      var allDeviceId = new Array();
-      var allTypeId = new Array();
-      <%
-        for (int i=0; i<image_ids.size(); i++)
-        {
+      document.getElementById("myButton").src="${pageContext.request.contextPath}/views/img/img_control_switcher_manual.png"
+    <%
+      }
+      else {
       %>
+        document.getElementById("myButton").src="${pageContext.request.contextPath}/views/img/img_control_switcher.png"
+      <%
+        }
+      %>
+
+             var allIdNames = new Array();
+             var allDeviceId = new Array();
+             var allTypeId = new Array();
+             <%
+               for (int i=0; i<image_ids.size(); i++)
+               {
+             %>
         allIdNames[<%=i%>] = '<%=image_ids.get(i).idName%>';
         allDeviceId[<%=i%>] = '<%=image_ids.get(i).deviceId%>';
         allTypeId[<%=i%>] = '<%=image_ids.get(i).typeId%>';
