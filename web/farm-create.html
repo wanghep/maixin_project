@@ -24,7 +24,7 @@
   			<ul class="list-inline">
           <li>
             <div class="container">
-              <input id="name-farm" onfocusout="nameFarm()" type="text" style="font-size:16px;color:blue;border:none;" placeholder="新添花园名称"></input>
+              <input id="name-farm" onfocusout='nameFarm()' type="text" style="font-size:16px;color:blue;border:none;" placeholder="新添花园名称"></input>
             </div>
           </li>
           <li><p id="name-write" style="font-size:12px;">长按修改花园名称</p></li>
@@ -53,7 +53,7 @@
         $.ajax({
             url: 'http://localhost:8888',
             type: 'POST',
-            data: {name:farm.value}
+            data: {name:farm.value},
             dataType: 'json',
             cache: false,
             timeout: 5000,

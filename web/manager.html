@@ -71,7 +71,6 @@
           <ul class="list-inline">
             <li><img id="indicator_02" src="img/img_indicator_happy.png" /></li>
             <li><p>湿度</p></li>
-            <li><button type="button" class="btn btn-default" onclick='start2();'>浇水</button></li>
             <li>
               <input type="button" class="btn btn-default" onclick='start2();' value="浇水" style="width:80px;font-size:13px;" />
             </li>
@@ -250,7 +249,7 @@
 			timedCount3();
 		}
       
-	var mode = 0;
+    var mode = 0;
     $("#myButton").on('click', function() {
       var btn = document.getElementById("myButton")
 
@@ -271,11 +270,11 @@
               timeout: 5000,
               success: function(data){
                   //alert(data);
-                  if(testBool == 0) {
-                    btn.innerHTML="手动"
-                  } else {
-                    btn.innerHTML="自动"
-                  }
+                if (mode == 0) {
+                  btn.src="img/img_control_switcher.png"
+                } else {
+                  btn.src="img/img_control_switcher_manual.png"
+                }
                   
               },
               error: function(jqXHR, textStatus, errorThrown){
