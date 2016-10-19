@@ -253,28 +253,21 @@
     $("#myButton").on('click', function() {
       var btn = document.getElementById("myButton")
 
-      if (mode == 0) {
-        btn.src="img/img_control_switcher.png"
-        mode = 1;
-      } else {
-        btn.src="img/img_control_switcher_manual.png"
-        mode = 0;
-      }
-
       $.ajax({
               url: 'http://localhost:8888',
-              type: 'POST',
-              data: {mode:11},
+              type: 'get',
+              data: {"mode":mode},
               dataType: 'json',
               cache: false,
               timeout: 5000,
               success: function(data){
-                  //alert(data);
-                if (mode == 0) {
+                //alert(data);
+                if (data.data == 0) {
                   btn.src="img/img_control_switcher.png"
                 } else {
                   btn.src="img/img_control_switcher_manual.png"
                 }
+                mode = data.data
                   
               },
               error: function(jqXHR, textStatus, errorThrown){
