@@ -334,7 +334,7 @@
 
             },
             error: function(jqXHR, textStatus, errorThrown){
-                alert('error ' + textStatus + " " + errorThrown);  
+                //alert('error ' + textStatus + " " + errorThrown);
             }
         });        
 

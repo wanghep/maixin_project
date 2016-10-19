@@ -170,7 +170,7 @@
               <input type="button" class="btn btn-default col-md-1" onclick='start("<%= prog_ids[position] %>", "<%= dev.getId() %>", 3);' value="浇水" style="width:80px;font-size:13px;" />
             </li>
             <li>
-              <progress id="<%= prog_ids[position] %>" value="22" max="100" style="width:100px;height:18px;">
+              <progress id="<%= prog_ids[position] %>" value="0" max="100" style="width:100px;height:18px;">
             </li>
           </ul>
         </li>
@@ -196,7 +196,7 @@
               <input  type="button" class="btn btn-default" onclick='start("<%= prog_ids[position] %>", "<%= dev.getId() %>", 4);' value="增加光照" style="width:80px;font-size:13px;" />
             </li>
             <li>
-              <progress id="<%= prog_ids[position] %>" value="22" max="100" style="width:100px;height:18px;">
+              <progress id="<%= prog_ids[position] %>" value="0" max="100" style="width:100px;height:18px;">
             </li>
           </ul>
         </li>
@@ -295,7 +295,7 @@
               
           },
           error: function(jqXHR, textStatus, errorThrown){
-              alert('error ' + textStatus + " " + errorThrown);  
+              //alert('error ' + textStatus + " " + errorThrown);
           }
       }); 
 
@@ -305,24 +305,29 @@
     $("#myButton").on('click', function() {
       var btn = document.getElementById("myButton")
 
+     <%int control_mode = garden.getRunMode();%>
       $.ajax({
           url: '${pageContext.request.contextPath}/weiXinDevice/mode',
           type: 'get',
-          data: {"mode":control_mode , "gardenId":<%=garden.getId()%>},
+          data: {"mode":<%=control_mode%> , "gardenId":<%=garden.getId()%>},
           dataType: 'json',
           cache: false,
           timeout: 5000,
           success: function(data){
-
+            <%
 			  if( control_mode == 0) {
+			%>
 				document.getElementById("myButton").src="${pageContext.request.contextPath}/views/img/img_control_switcher_manual.png"  
-			  } else {
-				document.getElementById("myButton").src="${pageContext.request.contextPath}/views/img/img_control_switcher.png"   
-			  }
-              
+			<%
+			} else {
+			%>
+			document.getElementById("myButton").src="${pageContext.request.contextPath}/views/img/img_control_switcher.png"
+			<%
+			   }
+            %>
           },
           error: function(jqXHR, textStatus, errorThrown){
-              alert('error ' + textStatus + " " + errorThrown);  
+              //alert('error ' + textStatus + " " + errorThrown);
           }
       }); 
 
@@ -330,7 +335,6 @@
 
 	window.onload = function() {
     <%
-	  int control_mode = garden.getRunMode();
 
 	  if( 0 == control_mode) {
     %>

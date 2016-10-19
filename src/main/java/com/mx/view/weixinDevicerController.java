@@ -227,6 +227,11 @@ public class weixinDevicerController {
     @RequestMapping("deviceCommand")
     @ResponseBody
     public void  deviceCommand(HttpServletRequest request, HttpServletResponse response) throws IOException, InvocationTargetException, IllegalAccessException {
+        long deviceId = Long.parseLong(request.getParameter("deviceId"));
+        int Type = Integer.parseInt(request.getParameter("controlType"));
+
+        LogUtil.info(this.getClass(),deviceId);
+        LogUtil.info(this.getClass(),Type);
 
     }
 
