@@ -71,7 +71,8 @@ public class weixinDevicerController {
     private MessageRepository messageRepository;
 
     @Autowired
-    private LatestMessageRepository latestMessageRepository;
+    private RuleRepository ruleRepository;
+
 
     @RequestMapping("myGarden")
     @ResponseBody
@@ -233,12 +234,14 @@ public class weixinDevicerController {
         LogUtil.info(this.getClass(),deviceId);
         LogUtil.info(this.getClass(),Type);
 
+
+
     }
 
-    @RequestMapping("deviceStatusIndication")
+    @RequestMapping("deviceStatusReq")
     @ResponseBody
     /* 笑脸 */
-    public void  deviceStatusIndication(HttpServletRequest request, HttpServletResponse response) throws IOException, InvocationTargetException, IllegalAccessException {
+    public void  deviceStatusReq(HttpServletRequest request, HttpServletResponse response) throws IOException, InvocationTargetException, IllegalAccessException {
 
         long deviceId = Long.parseLong(request.getParameter("deviceId"));
         int Type = Integer.parseInt(request.getParameter("Type"));
@@ -260,6 +263,148 @@ public class weixinDevicerController {
         LogUtil.info(this.getClass(),type);
         LogUtil.info(this.getClass(),value);
 
+        Rule rule = new Rule();
+
+        int p = property.PROPERTY_TEMPERATURE;
+        switch( type )
+        {
+            /* 温度 */
+            case 1:
+            {
+                p = property.PROPERTY_TEMPERATURE;
+                List<Rule> ruleList = ruleRepository.findRuleByDeviceIdAndProperty( deviceId ,property.PROPERTY_TEMPERATURE );
+
+
+                if( ( ruleList!=null ) && ( ruleList.size() > 0 ))
+                {
+                    rule = ruleList.get(0);
+                }
+
+                rule.setValue1( value );
+                break;
+            }
+            /* 温度 */
+            case 2:
+            {
+                p = property.PROPERTY_TEMPERATURE;
+                List<Rule> ruleList = ruleRepository.findRuleByDeviceIdAndProperty( deviceId ,property.PROPERTY_TEMPERATURE );
+
+                if( ( ruleList!=null ) && ( ruleList.size() > 0 ))
+                {
+                    rule = ruleList.get(0);
+                }
+
+                rule.setValue2(value);
+                break;
+            }
+            /* 温度 */
+            case 3:
+            {
+                p = property.PROPERTY_TEMPERATURE;
+                List<Rule> ruleList = ruleRepository.findRuleByDeviceIdAndProperty( deviceId ,property.PROPERTY_TEMPERATURE );
+
+                if( ( ruleList!=null ) && ( ruleList.size() > 0 ))
+                {
+                    rule = ruleList.get(0);
+                }
+
+                rule.setValue3(value);
+                break;
+            }
+            /* 温度 */
+            case 4:
+            {
+                p = property.PROPERTY_TEMPERATURE;
+                List<Rule> ruleList = ruleRepository.findRuleByDeviceIdAndProperty( deviceId ,property.PROPERTY_TEMPERATURE );
+
+                if( ( ruleList!=null ) && ( ruleList.size() > 0 ))
+                {
+                    rule = ruleList.get(0);
+                }
+
+                rule.setValue4(value);
+                break;
+            }
+
+            /* 湿度 */
+            case 5:
+            {
+                p = property.PROPERTY_HUMIDITY;
+                List<Rule> ruleList = ruleRepository.findRuleByDeviceIdAndProperty( deviceId ,property.PROPERTY_HUMIDITY );
+
+                if( ( ruleList!=null ) && ( ruleList.size() > 0 ))
+                {
+                    rule = ruleList.get(0);
+                }
+
+                rule.setValue1( value);
+                break;
+            }
+
+            /* 湿度 */
+            case 6:
+            {
+                p = property.PROPERTY_HUMIDITY;
+                List<Rule> ruleList = ruleRepository.findRuleByDeviceIdAndProperty( deviceId ,property.PROPERTY_HUMIDITY );
+
+                if( ( ruleList!=null ) && ( ruleList.size() > 0 ))
+                {
+                    rule = ruleList.get(0);
+                }
+
+                rule.setValue2( value);
+                break;
+            }
+
+            /* 湿度 */
+            case 7:
+            {
+                p = property.PROPERTY_HUMIDITY;
+                List<Rule> ruleList = ruleRepository.findRuleByDeviceIdAndProperty( deviceId ,property.PROPERTY_HUMIDITY );
+
+                if( ( ruleList!=null ) && ( ruleList.size() > 0 ))
+                {
+                    rule = ruleList.get(0);
+                }
+
+                rule.setValue3(value);
+                break;
+            }
+
+            /* 光照 */
+            case 8:
+            {
+                p = property.PROPERTY_ILLUMINATION;
+                List<Rule> ruleList = ruleRepository.findRuleByDeviceIdAndProperty( deviceId ,property.PROPERTY_ILLUMINATION );
+
+                if( ( ruleList!=null ) && ( ruleList.size() > 0 ))
+                {
+                    rule = ruleList.get(0);
+                }
+
+                rule.setValue1( value);
+                break;
+            }
+
+            /* 光照 */
+            case 9:
+            {
+                p = property.PROPERTY_ILLUMINATION;
+                List<Rule> ruleList = ruleRepository.findRuleByDeviceIdAndProperty( deviceId ,property.PROPERTY_ILLUMINATION );
+
+                if( ( ruleList!=null ) && ( ruleList.size() > 0 ))
+                {
+                    rule = ruleList.get(0);
+                }
+                rule.setValue2(value);
+                break;
+            }
+
+        }
+
+        rule.setDeviceId( deviceId );
+        rule.setProperty( p );
+        ruleRepository.save( rule );
 
     }
 }

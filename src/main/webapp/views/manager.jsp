@@ -245,7 +245,7 @@
       }, 1000);
 
       $.ajax({
-          url: '${pageContext.request.contextPath}/weiXinDevice/deviceStatusIndication',
+          url: '${pageContext.request.contextPath}/weiXinDevice/deviceStatusReq',
           type: 'get',
           dataType: 'json',
           data: {"deviceId":deviceId , "Type":typeId},

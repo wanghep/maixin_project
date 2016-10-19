@@ -120,8 +120,8 @@
       </li>
       <li class="list-group-item">
         <ul class="list-inline">
-          <li><p>手动模式加热</p></li>
-          <li><input type="text" id="0104" onfocusout="setParameter("0104",<%= dev.getId() %>, 4)"></input></li>
+          <li><p>手动模式加热时间</p></li>
+          <li><input type="text" id="0104" onfocusout='setParameter("0104",<%= dev.getId() %>, 4)'></input></li>
           <li><p>分钟</p></li>
         </ul>
       </li>                           
