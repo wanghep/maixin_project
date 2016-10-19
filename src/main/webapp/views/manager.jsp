@@ -135,16 +135,16 @@
         %>
         <li class="list-group-item">
           <ul class="list-inline">
-            <li><img id="<%= item.idName %>"src="${pageContext.request.contextPath}/views/img/img_indicator_happy.png" /></li>
+            <li><img id="<%= item.idName %>" src="${pageContext.request.contextPath}/views/img/img_indicator_happy.png" /></li>
             <li><p>温度</p></li>
             <li>
-              <input type="button" id="b01" type="button" class="btn btn-default" onclick='start("<%= prog_ids[position] %>");' value="通风降温" style="width:80px; font-size:13px;" />
+              <input type="button" id="b01" type="button" class="btn btn-default" onclick='start("<%= prog_ids[position] %>", "<%= dev.getId() %>", 1);' value="通风降温" style="width:80px; font-size:13px;" />
             </li>
             <li>
-              <progress id=<%= prog_ids[position] %> value="0" max="100" style="width:100px;height:18px;">
+              <progress id="<%= prog_ids[position] %>" value="0" max="100" style="width:100px;height:18px;">
             </li>
             <li>
-              <input type="button" class="btn btn-default" onclick='start("<%= prog_ids[position] %>");' value="加湿升温" style="width:80px; font-size:13px;"/>
+              <input type="button" class="btn btn-default" onclick='start("<%= prog_ids[position] %>", "<%= dev.getId() %>", 2);' value="加湿升温" style="width:80px; font-size:13px;"/>
             </li>
           </ul>
         </li>
@@ -155,11 +155,11 @@
         <% 
           if((dev.getPropertyCombine()&0x02)==0x02) {
             position += 1;
-              ImageIds item = new ImageIds();
-              item.idName = "image_"+dev.getId()+"_02";
-              item.deviceId = dev.getId();
-              item.typeId = 0x02;
-              image_ids.add(item);
+            ImageIds item = new ImageIds();
+            item.idName = "image_"+dev.getId()+"_02";
+            item.deviceId = dev.getId();
+            item.typeId = 0x02;
+            image_ids.add(item);
             prog_ids[position] = "prog_"+dev.getId()+"_02";
         %>        
         <li class="list-group-item">
@@ -167,10 +167,10 @@
             <li><img id="<%= item.idName %>" src="${pageContext.request.contextPath}/views/img/img_indicator_happy.png" /></li>
             <li><p>湿度</p></li>
              <li>
-              <input type="button" class="btn btn-default col-md-1" onclick='start("<%= prog_ids[position] %>");' value="浇水" style="width:80px;font-size:13px;" />
+              <input type="button" class="btn btn-default col-md-1" onclick='start("<%= prog_ids[position] %>", "<%= dev.getId() %>", 3);' value="浇水" style="width:80px;font-size:13px;" />
             </li>
             <li>
-              <progress id=<%= prog_ids[position] %> value="22" max="100" style="width:100px;height:18px;">
+              <progress id="<%= prog_ids[position] %>" value="22" max="100" style="width:100px;height:18px;">
             </li>
           </ul>
         </li>
@@ -181,11 +181,11 @@
         <% 
           if((dev.getPropertyCombine()&0x04)==0x04) {
             position += 1;
-              ImageIds item = new ImageIds();
-              item.idName = "image_"+dev.getId()+"_04";
-              item.deviceId = dev.getId();
-              item.typeId = 0x04;
-              image_ids.add(item);
+            ImageIds item = new ImageIds();
+            item.idName = "image_"+dev.getId()+"_04";
+            item.deviceId = dev.getId();
+            item.typeId = 0x04;
+            image_ids.add(item);
             prog_ids[position] = "prog_"+dev.getId()+"_03";
         %>          
         <li class="list-group-item">
@@ -193,10 +193,10 @@
             <li><img id="<%= item.idName %>" src="${pageContext.request.contextPath}/views/img/img_indicator_happy.png" /></li>
             <li><p>光照</p></li>
             <li>
-              <input  type="button" class="btn btn-default" onclick='start("<%= prog_ids[position] %>");' value="增加光照" style="width:80px;font-size:13px;" />
+              <input  type="button" class="btn btn-default" onclick='start("<%= prog_ids[position] %>", "<%= dev.getId() %>", 4);' value="增加光照" style="width:80px;font-size:13px;" />
             </li>
             <li>
-              <progress id=<%= prog_ids[position] %> value="22" max="100" style="width:100px;height:18px;">
+              <progress id="<%= prog_ids[position] %>" value="22" max="100" style="width:100px;height:18px;">
             </li>
           </ul>
         </li>
@@ -207,11 +207,11 @@
         <% 
           if((dev.getPropertyCombine()&0x08)==0x08) {
             position += 1;
-              ImageIds item = new ImageIds();
-              item.idName = "image_"+dev.getId()+"_08";
-              item.deviceId = dev.getId();
-              item.typeId = 0x08;
-              image_ids.add(item);
+            ImageIds item = new ImageIds();
+            item.idName = "image_"+dev.getId()+"_08";
+            item.deviceId = dev.getId();
+            item.typeId = 0x08;
+            image_ids.add(item);
             prog_ids[position] = "prog_"+dev.getId()+"_04";
         %>          
         <li class="list-group-item">
@@ -281,9 +281,24 @@
         clearTimeout(t);
       }
     }
-    function start(id) {
+    function start(id, deviceId, controlType) {
       clearTimeout(t);
       c=0;
+      $.ajax({
+          url: '${pageContext.request.contextPath}/weiXinDevice/deviceCommand',
+          type: 'get',
+          data: {"deviceId":deviceId , "controlType":controlType},
+          dataType: 'json',
+          cache: false,
+          timeout: 5000,
+          success: function(data){
+              
+          },
+          error: function(jqXHR, textStatus, errorThrown){
+              alert('error ' + textStatus + " " + errorThrown);  
+          }
+      }); 
+
       timedCount(id);
     }
 
@@ -313,25 +328,25 @@
 
     })
 
-	var control_mode = 0;
+	  var control_mode = 0;
     window.onload = function() {
-      <%
+    <%
 	  control_mode = garden.getRunMode();
-      %>
+    %>
 	  if( control_mode == 0) {
-		document.getElementById("myButton").src="${pageContext.request.contextPath}/views/img/img_control_switcher_manual.png"  
+		  document.getElementById("myButton").src="${pageContext.request.contextPath}/views/img/img_control_switcher_manual.png"  
 	  } else {
-		document.getElementById("myButton").src="${pageContext.request.contextPath}/views/img/img_control_switcher.png"   
+		  document.getElementById("myButton").src="${pageContext.request.contextPath}/views/img/img_control_switcher.png"   
 	  }
 		
       var allIdNames = new Array();
-        var allDeviceId = new Array();
-        var allTypeId = new Array();
+      var allDeviceId = new Array();
+      var allTypeId = new Array();
       <%
         for (int i=0; i<image_ids.size(); i++)
         {
       %>
-                allIdNames[<%=i%>] = '<%=image_ids.get(i).idName%>';
+        allIdNames[<%=i%>] = '<%=image_ids.get(i).idName%>';
         allDeviceId[<%=i%>] = '<%=image_ids.get(i).deviceId%>';
         allTypeId[<%=i%>] = '<%=image_ids.get(i).typeId%>';
       <%
