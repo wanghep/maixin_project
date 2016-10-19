@@ -28,13 +28,11 @@
         </div>
         <div class="btn-group" role="group">
           <a href="farm-avatar.html">
-            <img src="img/img_default_garden.png" />
+            <img src="img/img_default_garden.png" class="img-circle" />
           </a>
         </div>
         <div class="btn-group" role="group">
-          <button type="button" id="myButton" class="btn btn-primary" autocomplete="off">
-            手动
-          </button>
+          <img src="img/img_control_switcher.png" id="myButton" class="img-responsive center-block" />
         </div>
       </div>
     </div>
@@ -251,16 +249,17 @@
 			c=0;
 			timedCount3();
 		}
-
+      
+	var mode = 0;
     $("#myButton").on('click', function() {
       var btn = document.getElementById("myButton")
-      var mode = 0;
-      if (btn.innerHTML == "手动") {
-        //btn.innerHTML="自动"
-        mode = 0;
-      } else {
-        //btn.innerHTML="手动"
+
+      if (mode == 0) {
+        btn.src="img/img_control_switcher.png"
         mode = 1;
+      } else {
+        btn.src="img/img_control_switcher_manual.png"
+        mode = 0;
       }
 
       $.ajax({
@@ -287,7 +286,6 @@
     })
 
     window.onload = function() {
-      document.getElementById("myButton").innerHTML="手动"
       /*
       var test = new Array('indicator_01', 'indicator_02','indicator_03')
       for(var i=0;i<test.length;i++) {

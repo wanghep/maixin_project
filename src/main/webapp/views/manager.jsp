@@ -91,13 +91,11 @@
         </div>
         <div class="btn-group" role="group">
           <a href="farm-avatar.html">
-            <img src=<%= garden.getAvatarUrl() %> />
+            <img src=<%= garden.getAvatarUrl() %> class="img-circle"/>
           </a>
         </div>
         <div class="btn-group" role="group">
-          <button type="button" id="myButton" class="btn btn-primary" autocomplete="off">
-            手动
-          </button>
+          <img src="${pageContext.request.contextPath}/views/img/img_control_switcher.png" id="myButton" class="img-responsive center-block" />
         </div>
       </div>
     </div>
@@ -292,31 +290,20 @@
     $("#myButton").on('click', function() {
       var btn = document.getElementById("myButton")
 
-      var mode = 0;
-      if (btn.innerHTML == "手动") {
-        //btn.innerHTML="自动"
-        mode = 0;
-      } else {
-        //btn.innerHTML="手动"
-        mode = 1;
-      }
-
       $.ajax({
           url: '${pageContext.request.contextPath}/weiXinDevice/mode',
           type: 'get',
-          data: {"mode":mode , "gardenId":<%=garden.getId()%>},
+          data: {"mode":control_mode , "gardenId":<%=garden.getId()%>},
           dataType: 'json',
           cache: false,
           timeout: 5000,
           success: function(data){
-              //test bool is for test
-              if(testBool == 0) {
-                btn.innerHTML="手动"
-                testBool = 1;
-              } else {
-                btn.innerHTML="自动"
-                testBool = 0;
-              }
+
+			  if( control_mode == 0) {
+				document.getElementById("myButton").src="${pageContext.request.contextPath}/views/img/img_control_switcher_manual.png"  
+			  } else {
+				document.getElementById("myButton").src="${pageContext.request.contextPath}/views/img/img_control_switcher.png"   
+			  }
               
           },
           error: function(jqXHR, textStatus, errorThrown){
@@ -326,15 +313,17 @@
 
     })
 
+	var control_mode = 0;
     window.onload = function() {
       <%
-      String runMode = "手动";
-      if( garden.getRunMode() == 1 )
-      {
-        runMode = "自动";
-      }
+	  control_mode = garden.getRunMode();
       %>
-      document.getElementById("myButton").innerHTML="<%=runMode%>"
+	  if( control_mode == 0) {
+		document.getElementById("myButton").src="${pageContext.request.contextPath}/views/img/img_control_switcher_manual.png"  
+	  } else {
+		document.getElementById("myButton").src="${pageContext.request.contextPath}/views/img/img_control_switcher.png"   
+	  }
+		
       var allIdNames = new Array();
         var allDeviceId = new Array();
         var allTypeId = new Array();
