@@ -1,6 +1,7 @@
 package com.mx.view;
 
 import com.alibaba.fastjson.JSONObject;
+import com.mx.FileUtil;
 import com.mx.LogUtil;
 import com.mx.Util;
 import com.mx.commonStuct.property;
@@ -84,9 +85,11 @@ public class weixinDevicerController {
        User user = UserUtils.getCurrentUser();
         {
             //for test
-            user = new User();
-            long id = 2 ;
-            user.setId( id );
+            if( user == null ) {
+                user = new User();
+                long id = 2;
+                user.setId(id);
+            }
         }
         List<Garden> GardenList = gardenRepository.findUserGarden(user.getId());
 
@@ -101,7 +104,7 @@ public class weixinDevicerController {
 
     @RequestMapping("addGarden")
     @ResponseBody
-    public ModelAndView  addGarden(HttpServletRequest request, HttpServletResponse response) throws IOException, InvocationTargetException, IllegalAccessException {
+    public ModelAndView  addA_Garden(HttpServletRequest request, HttpServletResponse response) throws IOException, InvocationTargetException, IllegalAccessException {
 
         response.setContentType("text/html; encoding=utf-8");
         response.setCharacterEncoding("UTF-8");
@@ -111,6 +114,47 @@ public class weixinDevicerController {
 
 
     }
+
+    @RequestMapping("addA_GardenName")
+    @ResponseBody
+    public void  addA_GardenName(HttpServletRequest request, HttpServletResponse response) throws IOException, InvocationTargetException, IllegalAccessException {
+
+        response.setContentType("text/html; encoding=utf-8");
+        response.setCharacterEncoding("UTF-8");
+
+        String name = request.getParameter("name");
+
+        User user = UserUtils.getCurrentUser();
+        {
+            //for test
+            if( user == null ) {
+                user = new User();
+                long id = 2;
+                user.setId(id);
+            }
+        }
+        Garden garden = new Garden();
+        garden.setName( name );
+        garden.setAvatarUrl("");
+        garden.setRunMode( 1 ); // 自动模式
+        garden.setUser(user);
+        garden.setTime( new Date() );
+        gardenRepository.save( garden );
+
+        String avatarPath =  request.getContextPath() + "/views/img/" + garden.getId() + "/avatar";
+        garden.setAvatarUrl( avatarPath );
+        gardenRepository.save( garden );
+
+        //copyCommonAvatarTo
+        String rootPath = request.getSession().getServletContext().getRealPath("/");
+        FileUtil.CreateDirectory(rootPath + "views/img/" + garden.getId());
+        FileUtil.copyFile( rootPath+"views/img/img_default_garden.png" , rootPath + "views/img/" + garden.getId()+"/avatar" );
+        LogUtil.info(this.getClass(),name);
+       return ;
+
+
+    }
+
 
     @RequestMapping("devices")
     @ResponseBody
