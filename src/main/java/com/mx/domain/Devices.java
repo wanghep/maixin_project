@@ -27,6 +27,8 @@ public class Devices {
 
     private String macAddress;        //mac address
 
+    private int online;  //是否在线 ,暂时未实现，需要心跳
+
     @OneToOne
     @JoinColumn(name = "userId")
     private User user;
@@ -109,5 +111,13 @@ public class Devices {
 
     public void setAvatarUrl(String avatarUrl) {
         this.avatarUrl = avatarUrl;
+    }
+
+    public int getOnline() {
+        return online;
+    }
+
+    public void setOnline(int online) {
+        this.online = online;
     }
 }

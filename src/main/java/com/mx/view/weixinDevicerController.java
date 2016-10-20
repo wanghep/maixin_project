@@ -1,5 +1,7 @@
 package com.mx.view;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.mx.FileUtil;
 import com.mx.LogUtil;
@@ -36,7 +38,9 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -50,6 +54,7 @@ import java.util.List;
     @RequestMapping("/weiXinDevice")
 public class weixinDevicerController {
 
+    private int validPeriod = 1 * 60 * 60 * 1000;  // ms ， 1hour
     @Autowired
     private MxService mxService;
 
@@ -73,6 +78,9 @@ public class weixinDevicerController {
 
     @Autowired
     private RuleRepository ruleRepository;
+
+    @Autowired
+    private  LatestMessageRepository latestMessageRepository;
 
 
     @RequestMapping("myGarden")
@@ -287,12 +295,49 @@ public class weixinDevicerController {
     /* 笑脸 */
     public void  deviceStatusReq(HttpServletRequest request, HttpServletResponse response) throws IOException, InvocationTargetException, IllegalAccessException {
 
+        boolean happy = false;
         long deviceId = Long.parseLong(request.getParameter("deviceId"));
         int Type = Integer.parseInt(request.getParameter("Type"));
 
         LogUtil.info(this.getClass(),deviceId);
         LogUtil.info(this.getClass(),Type);
-    //device
+
+
+        //获得最后的数据
+        List<LatestMessage> lmList = latestMessageRepository.findByDeviceIdAndType( deviceId , String.valueOf(Type) ) ;
+
+        if(( lmList != null ) && (lmList.size()>0 ) )
+        {
+            LatestMessage lm = lmList.get(0);
+
+            long diffTime =  new Date().getTime() - lm.getTime().getTime();
+            if( diffTime < validPeriod )
+            {// 数据是有效的
+
+                List<Rule> ruleList = ruleRepository.findRuleByDeviceIdAndProperty(deviceId , Type );
+
+                if( ( ruleList != null ) &&( ruleList.size() > 0 ) )
+                {
+                    Rule rule = ruleList.get(0);
+
+                    int value = Integer.valueOf( lm.getContext() );
+
+                    if(( value  <= rule.getValue1() ) && ( value >= rule.getValue2() ) )
+                    {
+                        happy = true;
+                    }
+                }
+                else
+                { // 暂时无规则限制
+                    happy = true;
+                }
+            }
+
+        }
+
+        Map<String , Object > jasonOut = new HashMap<String , Object >();
+        jasonOut.put("happy", happy );
+        ajaxResponse( response , jasonOut );
     }
 
     @RequestMapping("deviceRuleIndication")
@@ -449,6 +494,37 @@ public class weixinDevicerController {
         rule.setDeviceId( deviceId );
         rule.setProperty( p );
         ruleRepository.save( rule );
+
+    }
+
+    public void ajaxResponse( HttpServletResponse response , Object jasonOut )
+    {
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/javascript");
+        response.setHeader("Cache-Control", "no-cache");
+        PrintWriter out = null;
+        if( jasonOut != null )
+        {
+            String  jsonString = JSON.toJSONString(jasonOut);//装换json
+
+            try {
+                out = response.getWriter();
+
+                out.write( jsonString );
+                out.flush();
+
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            finally
+            {
+                if( out != null )
+                {
+                    out.close();
+                }
+            }
+        }
 
     }
 }
