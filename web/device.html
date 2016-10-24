@@ -16,48 +16,122 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <style type="text/css">
+      #name-farm::-webkit-input-placeholder {
+        color: blue;
+        font-size: 18px;
+      }
+      .luck-ping-body {
+        background-color: #E3E3E3;
+      }
+      .luck-ping-div {
+        margin-top: 18px;
+        margin-bottom: 10px;
+        padding: 5px 10px 5px 10px; 
+      }
+      .luck-ping-p1 {
+        margin: 10px;
+        padding: 0px;
+        font-size: 16px;
+        border:none;
+      }       
+      .luck-ping-p2 {
+        margin: 0px;
+        padding: 0px;
+        font-size: 11px;
+      }
+      .luck-ping-div2 {
+        width:128px;
+        padding-left: 10px;
+      }                    
+    </style>    
   </head>
-  <body>
-
-    <ul class="list-group">
-		  <li class="list-group-item">
-  			<ul class="list-inline">
-          <li><img src="img/img_device_default.png" /></li>
-          <li><p>我的花园</p></li>
-          <li><p>设备1</p></li>
-  			</ul>
-		  </li>
-    </ul>
+  <body class="luck-ping-body">
+    <div class="luck-ping-div">
+      <ul class="list-group">
+  		  <li class="list-group-item">
+    			<ul class="list-inline">
+            <li><img src="img/img_device_default.png" /></li>
+            <li><h4 style="color:blue">我的花园</h4></li>
+            <li><p>设备1</p></li>
+    			</ul>
+  		  </li>
+      </ul>
+    </div>
 
     <div id="tempture" style="width: 400px;height:300px;"></div>
 
     <ul class="list-group">
       <li class="list-group-item">
         <ul class="list-inline">
-          <li><p>自动模式上限</p></li>
-          <li><input type="text"></input></li>
-          <li><p>°C</p></li>
+          <li>
+            <div class="luck-ping-div2">
+              <p class="text-right" style="color:Aqua;">自动模式上限</p>
+            </div>
+          </li>
+          <li>
+            <div style="width:46px">
+              <input type="text" style="width:46px;"></input>
+            </div>
+          </li>
+          <li>
+              <p style="color:Aqua;">°C</p>
+          </li>
         </ul>
       </li>
       <li class="list-group-item">
         <ul class="list-inline">
-          <li><p>自动模式下限</p></li>
-          <li><input type="text"></input></li>
-          <li><p>°C</p></li>
+          <li>
+            <div class="luck-ping-div2">
+              <p class="text-right">自动模式下限</p>
+            </div>
+          </li>
+          <li>
+            <div style="width:46px">
+              <input type="text" style="width:46px;"></input>
+            </div>
+          </li>
+          <li>
+              <p>°C</p>
+          </li>
         </ul>
       </li>
       <li class="list-group-item">
         <ul class="list-inline">
-          <li><p>手动模式通风时间</p></li>
-          <li><input type="text"></input></li>
-          <li><p>分钟</p></li>
+          <li>
+            <div class="luck-ping-div2">
+              <p class="text-right">手动模式通风时间</p>
+            </div>
+          </li>
+          <li>
+            <div style="width:46px">
+              <input type="text" style="width:46px;"></input>
+            </div>
+          </li>
+          <li>
+            <div style="width:36px">
+              <p>分钟</p>
+            </div>
+          </li>
         </ul>
       </li>
       <li class="list-group-item">
         <ul class="list-inline">
-          <li><p>手动模式加热</p></li>
-          <li><input type="text"></input></li>
-          <li><p>分钟</p></li>
+          <li>
+            <div class="luck-ping-div2">
+              <p class="text-right">手动模式加热</p>
+            </div>
+          </li>
+          <li>
+            <div style="width:46px">
+              <input type="text" style="width:46px;"></input>
+            </div>
+          </li>
+          <li>
+            <div style="width:36px">
+              <p>分钟</p>
+            </div>
+          </li>
         </ul>
       </li>                           
     </ul>

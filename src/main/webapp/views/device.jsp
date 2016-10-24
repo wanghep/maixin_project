@@ -19,8 +19,37 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <style type="text/css">
+      #name-farm::-webkit-input-placeholder {
+        color: blue;
+        font-size: 18px;
+      }
+      .luck-ping-body {
+        background-color: #E3E3E3;
+      }
+      .luck-ping-div {
+        margin-top: 18px;
+        margin-bottom: 10px;
+        padding: 5px 10px 5px 10px; 
+      }
+      .luck-ping-p1 {
+        margin: 10px;
+        padding: 0px;
+        font-size: 16px;
+        border:none;
+      }       
+      .luck-ping-p2 {
+        margin: 0px;
+        padding: 0px;
+        font-size: 11px;
+      }
+      .luck-ping-div2 {
+        width:128px;
+        padding-left: 10px;
+      }                    
+    </style>       
   </head>
-  <body>
+  <body class="luck-ping-body">
   <%
     Devices dev = (Devices)request.getAttribute("device");
     ArrayList tempture = (ArrayList)request.getAttribute("messageTemperaterList");
@@ -84,45 +113,79 @@
 
     }            
   %>
-    <ul class="list-group">
-      <li class="list-group-item">
-        <ul class="list-inline">
-          <li><img src="${pageContext.request.contextPath}/views/img/img_device_default.png" /></li>
-          <li><p><%= dev.getName() %></p></li>
-          <li><p>设备<%= dev.getId() %></p></li>
-        </ul>
-      </li>
-    </ul>
+    <div class="luck-ping-div">
+      <ul class="list-group">
+        <li class="list-group-item">
+          <ul class="list-inline">
+            <li><img src="${pageContext.request.contextPath}/views/img/img_device_default.png" /></li>
+            <li><p><%= dev.getName() %></p></li>
+            <li><p>设备<%= dev.getId() %></p></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
 
     <div id="tempture" style="width: 400px;height:300px;"></div>
 
     <ul class="list-group">
       <li class="list-group-item">
         <ul class="list-inline">
-          <li><p>自动模式上限</p></li>
-          <li><input type="text" id="0101" onfocusout='setParameter("0101", <%= dev.getId() %>, 1)'></input></li>
-          <li><p>°C</p></li>
+          <li>
+            <div class="luck-ping-div2">
+              <p class="text-right" style="color:Aqua;">自动模式上限</p>
+            </div>
+          </li>
+          <li>
+            <div style="width:46px">
+              <input type="text" id="0101" style="width:46px;" onfocusout='setParameter("0101", <%= dev.getId() %>, 1)'></input>
+            </div>
+          </li>
+          <li><p style="color:Aqua;">°C</p></li>
         </ul>
       </li>
       <li class="list-group-item">
         <ul class="list-inline">
-          <li><p>自动模式下限</p></li>
-          <li><input type="text" id="0102" onfocusout='setParameter("0102",<%= dev.getId() %>, 2)'></input></li>
-          <li><p>°C</p></li>
+          <li>
+            <div class="luck-ping-div2">
+              <p class="text-right" style="color:Aqua;">自动模式下限</p>
+            </div>
+          </li>
+          <li>
+            <div style="width:46px">
+              <input type="text" id="0102" style="width:46px;" onfocusout='setParameter("0102",<%= dev.getId() %>, 2)'></input>
+            </div>
+          </li>
+          <li><p style="color:Aqua;">°C</p></li>
         </ul>
       </li>
       <li class="list-group-item">
         <ul class="list-inline">
-          <li><p>手动模式通风时间</p></li>
-          <li><input type="text" id="0103" onfocusout='setParameter("0103",<%= dev.getId() %>, 3)'></input></li>
-          <li><p>分钟</p></li>
+          <li>
+            <div class="luck-ping-div2">
+              <p class="text-right" style="color:Aqua;">手动模式通风时间</p>
+            </div>
+          </li>
+          <li>
+            <div style="width:46px">
+              <input type="text" id="0103" style="width:46px;" onfocusout='setParameter("0103",<%= dev.getId() %>, 3)'></input>
+            </div>
+          </li>
+          <li><p style="color:Aqua;">分钟</p></li>
         </ul>
       </li>
       <li class="list-group-item">
         <ul class="list-inline">
-          <li><p>手动模式加热时间</p></li>
-          <li><input type="text" id="0104" onfocusout='setParameter("0104",<%= dev.getId() %>, 4)'></input></li>
-          <li><p>分钟</p></li>
+          <li>
+            <div class="luck-ping-div2">
+              <p class="text-right" style="color:Aqua;">手动模式加热时间</p>
+            </div>
+          </li>
+          <li>
+            <div style="width:46px">
+              <input type="text" id="0104" style="width:46px;" onfocusout='setParameter("0104",<%= dev.getId() %>, 4)'></input>
+            </div>
+          </li>
+          <li><p style="color:Aqua;">分钟</p></li>
         </ul>
       </li>                           
     </ul>
@@ -132,23 +195,47 @@
     <ul class="list-group">
       <li class="list-group-item">
         <ul class="list-inline">
-          <li><p>自动模式上限</p></li>
-          <li><input type="text" id="0201" onfocusout='setParameter("0201",<%= dev.getId() %>, 5)'></input></li>
-          <li><p>%RH</p></li>
+          <li>
+            <div class="luck-ping-div2">
+              <p class="text-right" style="color:Aqua;">自动模式上限</p>
+            </div>
+          </li>
+          <li>
+            <div style="width:46px">
+              <input type="text" id="0201" style="width:46px;" onfocusout='setParameter("0201",<%= dev.getId() %>, 5)'></input>
+            </div>
+          </li>
+          <li><p style="color:Aqua;">%RH</p></li>
         </ul>
       </li>
       <li class="list-group-item">
         <ul class="list-inline">
-          <li><p>自动模式下限</p></li>
-          <li><input type="text" id="0202" onfocusout='setParameter("0202",<%= dev.getId() %>, 6)'></input></li>
-          <li><p>%RH</p></li>
+          <li>
+            <div class="luck-ping-div2">
+              <p class="text-right" style="color:Aqua;">自动模式下限</p>
+            </div>
+          </li>
+          <li>
+            <div style="width:46px">
+              <input type="text" id="0202" style="width:46px;" onfocusout='setParameter("0202",<%= dev.getId() %>, 6)'></input>
+            </div>
+          </li>
+          <li><p style="color:Aqua;">%RH</p></li>
         </ul>
       </li>
       <li class="list-group-item">
         <ul class="list-inline">
-          <li><p>手动模式浇水时间</p></li>
-          <li><input type="text" id="0203" onfocusout='setParameter("0203",<%= dev.getId() %>, 7)'></input></li>
-          <li><p>分钟</p></li>
+          <li>
+            <div class="luck-ping-div2">
+              <p class="text-right" style="color:Aqua;">手动模式浇水时间</p>
+            </div>
+          </li>
+          <li>
+            <div style="width:46px">
+              <input type="text" id="0203" style="width:46px;" onfocusout='setParameter("0203",<%= dev.getId() %>, 7)'></input>
+            </div>
+          </li>
+          <li><p style="color:Aqua;">分钟</p></li>
         </ul>
       </li>                        
     </ul>
@@ -158,16 +245,32 @@
     <ul class="list-group">
       <li class="list-group-item">
         <ul class="list-inline">
-          <li><p>自动模式上限</p></li>
-          <li><input type="text" id="0301" onfocusout='setParameter("0301",<%= dev.getId() %>, 8)'></input></li>
-          <li><p>μmol</p></li>
+          <li>
+            <div class="luck-ping-div2">
+              <p class="text-right" style="color:Aqua;">自动模式上限</p>
+            </div>
+          </li>
+          <li>
+            <div style="width:46px">
+              <input type="text" id="0301" style="width:46px;" onfocusout='setParameter("0301",<%= dev.getId() %>, 8)'></input>
+            </div>
+          </li>
+          <li><p style="color:Aqua;">μmol</p></li>
         </ul>
       </li>
       <li class="list-group-item">
         <ul class="list-inline">
-          <li><p>自动模式下限</p></li>
-          <li><input type="text" id="0302" onfocusout='setParameter("0302",<%= dev.getId() %>, 9)'></input></li>
-          <li><p>μmol</p></li>
+          <li>
+            <div class="luck-ping-div2">
+              <p class="text-right" style="color:Aqua;">自动模式下限</p>
+            </div>
+          </li>
+          <li>
+            <div style="width:46px">
+              <input type="text" id="0302" style="width:46px;" onfocusout='setParameter("0302",<%= dev.getId() %>, 9)'></input>
+            </div>
+          </li>
+          <li><p style="color:Aqua;">μmol</p></li>
         </ul>
       </li>                         
     </ul>    
