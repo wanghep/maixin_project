@@ -311,16 +311,13 @@
             text: '温度历史数据表 单位°C'
           },
           tooltip: {},
-          legend: {
-            data:['温度']
-          },
           xAxis: {
             data: tempX
           },
           yAxis: {
             type: 'value',
             axisLabel: {
-              formatter: '{value} °C'
+              formatter: '{value}'
             }
           },
           series: [{
@@ -354,16 +351,13 @@
             text: '湿度历史数据表 单位%RH'
           },
           tooltip: {},
-          legend: {
-            data:['湿度']
-          },
           xAxis: {
             data: humiX
           },
           yAxis: {
             type: 'value',
             axisLabel: {
-              formatter: '{value} %RH'
+              formatter: '{value}'
             }
           },
           series: [{
@@ -398,16 +392,13 @@
             text: '光照历史数据表 单位μmol'
           },
           tooltip: {},
-          legend: {
-            data:['光照']
-          },
           xAxis: {
             data: illumX
           },
           yAxis: {
             type: 'value',
             axisLabel: {
-              formatter: '{value} μmol'
+              formatter: '{value}'
             }
           },
           series: [{
