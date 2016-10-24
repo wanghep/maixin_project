@@ -16,21 +16,48 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <style type="text/css">
+      #name-farm::-webkit-input-placeholder {
+        color: blue;
+        font-size: 18px;
+      }
+      .luck-ping-body {
+          background-color: #E3E3E3;
+      }
+      .luck-ping-div {
+          margin-top: 18px;
+          margin-bottom: 10px;
+          padding: 5px 10px 5px 10px; 
+      }
+      .luck-ping-p1 {
+          margin: 10px;
+          padding: 0px;
+          font-size: 16px;
+          border:none;
+      }       
+      .luck-ping-p2 {
+          margin: 0px;
+          padding: 0px;
+          font-size: 11px;
+      }                       
+    </style>    
   </head>
-  <body>
-
-    <ul class="list-group">
-		  <li class="list-group-item">
-  			<ul class="list-inline">
-          <li>
-            <div class="container">
-              <input id="name-farm" onfocusout='nameFarm()' type="text" style="font-size:16px;color:blue;border:none;" placeholder="新添花园名称"></input>
-            </div>
-          </li>
-          <li><p id="name-write" style="font-size:12px;">长按修改花园名称</p></li>
-  			</ul>
-		  </li>
-    </ul>
+  <body class="luck-ping-body">
+    
+    <div class="luck-ping-div">
+      <ul class="list-group">
+        <li class="list-group-item">
+          <ul class="list-inline">
+            <li>
+              <div class="container">
+                <input id="name-farm" onfocusout='nameFarm()' type="text" class="luck-ping-p1" placeholder="新添花园名称"></input>
+              </div>
+            </li>
+            <li><p id="name-write" class="luck-ping-p2">长按修改花园名称</p></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
 
     <form id="form" enctype="multipart/form-data" method="post">
       <div class="container" align="center">

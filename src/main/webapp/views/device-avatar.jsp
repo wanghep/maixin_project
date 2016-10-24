@@ -33,7 +33,7 @@
       </div> 
 
       <div class="container" align="center" style="margin-top:30px;">
-        <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off">
+        <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" style="background-color:white;">
         保存
         </button>
       </div>

@@ -16,31 +16,59 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <style type="text/css">
+      #name-farm::-webkit-input-placeholder {
+        color: blue;
+        font-size: 18px;
+      }
+      .luck-ping-body {
+          background-color: #E3E3E3;
+      }
+      .luck-ping-div {
+          margin-top: 18px;
+          margin-bottom: 10px;
+          padding: 5px 10px 5px 10px; 
+      }
+      .luck-ping-p1 {
+          margin: 10px;
+          padding: 0px;
+          font-size: 16px;
+          border:none;
+      }       
+      .luck-ping-p2 {
+          margin: 0px;
+          padding: 0px;
+          font-size: 11px;
+      }                       
+    </style>    
   </head>
-  <body>
-
-    <ul class="list-group">
-		  <li class="list-group-item">
-  			<ul class="list-inline">
-          <li>
-            <h2 style="color:blue;">我的花园</h2>
-          </li>
-          <li><p>长按修改花园名称</p></li>
-  			</ul>
-		  </li>
-    </ul>
+  <body  class="luck-ping-body">
+    <div class="luck-ping-div">
+      <ul class="list-group">
+        <li class="list-group-item">
+          <ul class="list-inline">
+            <li>
+              <div class="container">
+                <input id="name-farm" onfocusout='nameFarm()' type="text" class="luck-ping-p1" placeholder="我的花园"></input>
+              </div>
+            </li>
+            <li><p id="name-write" class="luck-ping-p2">长按修改花园名称</p></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
 
     <form id="form" enctype="multipart/form-data" method="post">
       <div class="container" align="center">
         <input id="profile-image-upload" class="hidden" type="file">
         <div id="profile-image"><image src="img/img_default_garden.png" /></div>
-        <h4>点击上传花园头像</h4>
+        <h4 style="color:white;">点击上传花园头像</h4>
       </div>
     </form>
   
 
   	<div class="container" align="center" style="margin-top:30px;">
-      <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" style="color:red;">
+      <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" style="background-color:white;color:red;">
       删除此花园
       </button>
   	</div>
