@@ -1,6 +1,7 @@
 ﻿<%@ page import="com.mx.domain.Devices" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="com.mx.domain.Message" %>
+<%@ page import="com.mx.DateUtil" %>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -56,13 +57,14 @@
     ArrayList humidit = (ArrayList)request.getAttribute("MessageHumiditList");
     ArrayList illumination = (ArrayList)request.getAttribute("messageIlluminationList");
     ArrayList water = (ArrayList)request.getAttribute("messageWaterLevelList");
+    ArrayList messageVocList = (ArrayList)request.getAttribute("messageVocList");
 
     int temptureSize = ((tempture==null)?0:tempture.size());
     String temptureX[] = new String[temptureSize];
     int temptureY[] = new int[temptureSize];
     for(int i=0;i<temptureSize;i++) {
       Message item = (Message)tempture.get(i);
-      temptureX[i] = item.getTime().toString();
+      temptureX[i] = DateUtil.formatDate(item.getTime(), "HH:mm" );
       int temp = 0;
       try {
         temp = Integer.parseInt(item.getContext());
@@ -76,7 +78,7 @@
     int humiditY[] = new int[humiditSize];
     for(int i=0;i<humiditSize;i++) {
       Message item = (Message)humidit.get(i);
-      humiditX[i] = item.getTime().toString();
+      humiditX[i] = DateUtil.formatDate(item.getTime(), "HH:mm");
       int temp = 0;
       try {
         temp = Integer.parseInt(item.getContext());
@@ -90,7 +92,7 @@
     int illuminationY[] = new int[illuminationSize];
     for(int i=0;i< illuminationSize;i++) {
       Message item = (Message)illumination.get(i);
-      illuminationX[i] = item.getTime().toString();
+      illuminationX[i] = DateUtil.formatDate(item.getTime(), "HH:mm");
       int temp = 0;
       try {
         temp = Integer.parseInt(item.getContext());
@@ -104,22 +106,40 @@
     int waterY[] = new int[waterSize];
     for(int i=0;i<waterSize;i++) {
       Message item = (Message)water.get(i);
-      waterX[i] = item.getTime().toString();
+      waterX[i] = DateUtil.formatDate(item.getTime(), "HH:mm");
       int temp = 0;
       try {
         temp = Integer.parseInt(item.getContext());
       } catch(NumberFormatException e) {}
       waterY[i] = temp;
 
-    }            
+    }
+
+    //voc
+    int vocSize = ((messageVocList==null)?0:messageVocList.size());
+    String messageVocListX[] = new String[vocSize];
+    int messageVocListY[] = new int[vocSize];
+    for(int i=0;i<vocSize;i++) {
+      Message item = (Message)messageVocList.get(i);
+      messageVocListX[i] = DateUtil.formatDate(item.getTime(), "HH:mm");
+      int temp = 0;
+      try {
+        temp = Integer.parseInt(item.getContext());
+      } catch(NumberFormatException e) {}
+      messageVocListY[i] = temp;
+
+    }
   %>
     <div class="luck-ping-div">
       <ul class="list-group">
-        <li class="list-group-item">
+        <li class="list-group-item" style="border-radius: 20px">
           <ul class="list-inline">
-            <li><img src="${pageContext.request.contextPath}/views/img/img_device_default.png" /></li>
-            <li><p style="color:#009999;font-size:50px;"><%= dev.getName() %></p></li>
-            <li><p style="color:#009999;font-size:50px;">设备<%= dev.getId() %></p></li>
+            <li>
+              <div class="container">
+                <img src="${pageContext.request.contextPath}/views/img/img_device_default.png" />
+              </div>
+            </li>
+            <li><p style="color:#009999;font-size:36px;" class="text-center"><%= dev.getName() %></p></li>
           </ul>
         </li>
       </ul>
@@ -273,7 +293,9 @@
           <li><p style="color:#009999;font-size:22px;">μmol</p></li>
         </ul>
       </li>                         
-    </ul>    
+    </ul>
+
+    <div id="voc" style="width: 400px;height:300px;"></div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -285,6 +307,7 @@
         var myChart1 = echarts.init(document.getElementById('tempture'));
         var myChart2 = echarts.init(document.getElementById('moisture'));
         var myChart3 = echarts.init(document.getElementById('light'));
+        var myChart4 = echarts.init(document.getElementById('voc'));
 
         var tempX = new Array();
         <%
@@ -308,7 +331,12 @@
         // 指定图表的配置项和数据
         var option1 = {
           title: {
-            text: '温度历史数据表 单位°C'
+            text: '温度历史数据表       单位°C',
+            textStyle: {
+              fontSize: 18,
+              fontWeight: 'normal',
+            },
+            x:'center',
           },
           tooltip: {},
           xAxis: {
@@ -348,7 +376,12 @@
         %>
         var option2 = {
           title: {
-            text: '湿度历史数据表 单位%RH'
+            text: '湿度历史数据表       单位%RH',
+            textStyle: {
+              fontSize: 18,
+              fontWeight: 'normal',
+            },
+            x:'center',
           },
           tooltip: {},
           xAxis: {
@@ -389,7 +422,12 @@
 
         var option3 = {
           title: {
-            text: '光照历史数据表 单位μmol'
+            text: '光照历史数据表       单位μmol',
+            textStyle: {
+              fontSize: 18,
+              fontWeight: 'normal',
+            },
+            x:'center',
           },
           tooltip: {},
           xAxis: {
@@ -406,12 +444,58 @@
             type: 'line',
             data: illumY
           }]
-        };                
+        };
 
+        var vocX = new Array();
+        <%
+          for (int i=0; i<messageVocListX.length; i++)
+          {
+        %>
+        vocX[<%=i%>] = '<%=messageVocListX[i]%>';
+        <%
+          }
+        %>
+
+        var vocY = new Array();
+        <%
+          for (int i=0; i<messageVocListY.length; i++)
+          {
+        %>
+        vocY[<%=i%>] = '<%=messageVocListY[i]%>';
+        <%
+          }
+        %>
+        var option4 = {
+          title: {
+            text: 'VOC历史数据表       单位g/L',
+            textStyle: {
+              fontSize: 18,
+              fontWeight: 'normal',
+            },
+            x:'center',
+          },
+          tooltip: {},
+          xAxis: {
+            data: vocX
+          },
+          yAxis: {
+            type: 'value',
+            axisLabel: {
+              formatter: '{value}'
+            }
+          },
+          series: [{
+            name: 'VOC',
+            type: 'line',
+            data: vocY
+          }]
+        };
         // 使用刚指定的配置项和数据显示图表。
         myChart1.setOption(option1);
         myChart2.setOption(option2);
         myChart3.setOption(option3);
+        myChart4.setOption(option4);
+
 
       function setParameter(id, devid, type) {
         var item = document.getElementById(id);

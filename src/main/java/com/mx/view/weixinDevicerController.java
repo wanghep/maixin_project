@@ -319,7 +319,7 @@ public class weixinDevicerController {
         modelAndView.addObject("messageHumiditList" , messageHumiditList );
         modelAndView.addObject("messageIlluminationList" , messageIlluminationList );
         modelAndView.addObject("messageWaterLevelList" , messageWaterLevelList );
-        modelAndView.addObject("messageVocList" , messageWaterLevelList );
+        modelAndView.addObject("messageVocList" , messageVocList );
         modelAndView.addObject("ruleSet",ruleSet);
 
         return modelAndView;
