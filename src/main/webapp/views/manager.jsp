@@ -119,8 +119,8 @@
                 <img src=<%= ((Devices)list.get(i)).getAvatarUrl() %> />
               </a>
             </li> 
-            <li><p>设备<%= i %></p></li>
-            <li><img src="${pageContext.request.contextPath}/views/img/img_indicator_green.png" /></li>
+            <li><p><%= dev.getName() %></p></li>
+            <li "><img src="${pageContext.request.contextPath}/views/img/img_indicator_green.png"  /></li>
           </ul>
         </div>
 
@@ -133,6 +133,7 @@
             image_ids.add(item);
             prog_ids[position] = "prog_"+dev.getId()+"_01";
         %>
+        <!-- FOR 演示
         <li class="list-group-item">
           <ul class="list-inline">
             <li><img id="<%= item.idName %>" src="${pageContext.request.contextPath}/views/img/img_indicator_happy.png" /></li>
@@ -148,6 +149,7 @@
             </li>
           </ul>
         </li>
+        -->
         <%
         }
         %>
@@ -213,14 +215,16 @@
             item.typeId = 0x08;
             image_ids.add(item);
             prog_ids[position] = "prog_"+dev.getId()+"_04";
-        %>          
+        %>
+        <!-- FOR 演示
         <li class="list-group-item">
           <ul class="list-inline">
             <li><img id="<%= item.idName %>" src="${pageContext.request.contextPath}/views/img/img_indicator_sad.png" /></li>
             <li><p>水位</p></li>
             <li><p>请您亲自浇水</p></li>
           </ul>
-        </li> 
+        </li>
+        -->
         <%
         }
         %>                                  
@@ -302,29 +306,31 @@
       timedCount(id);
     }
 
+    var control_mode = <%= garden.getRunMode()%>
     $("#myButton").on('click', function() {
       var btn = document.getElementById("myButton")
 
-     <%int control_mode = garden.getRunMode();%>
+        if( control_mode  == 0 )
+        {
+            control_mode = 1;
+        }
+        else
+        {
+            control_mode = 0;
+        }
       $.ajax({
           url: '${pageContext.request.contextPath}/weiXinDevice/mode',
           type: 'get',
-          data: {"mode":<%=control_mode%> , "gardenId":<%=garden.getId()%>},
+          data: {"mode":control_mode , "gardenId":<%=garden.getId()%>},
           dataType: 'json',
           cache: false,
           timeout: 5000,
           success: function(data){
-            <%
-			  if( control_mode == 0) {
-			%>
-				document.getElementById("myButton").src="${pageContext.request.contextPath}/views/img/img_control_switcher_manual.png"  
-			<%
+            if( control_mode == 0) {
+				document.getElementById("myButton").src="${pageContext.request.contextPath}/views/img/img_control_switcher_manual.png"
 			} else {
-			%>
-			document.getElementById("myButton").src="${pageContext.request.contextPath}/views/img/img_control_switcher.png"
-			<%
+			    document.getElementById("myButton").src="${pageContext.request.contextPath}/views/img/img_control_switcher.png"
 			   }
-            %>
           },
           error: function(jqXHR, textStatus, errorThrown){
               //alert('error ' + textStatus + " " + errorThrown);
@@ -334,19 +340,14 @@
     })
 
 	window.onload = function() {
-    <%
 
 	  if( 0 == control_mode) {
-    %>
-      document.getElementById("myButton").src="${pageContext.request.contextPath}/views/img/img_control_switcher_manual.png"
-    <%
+        document.getElementById("myButton").src="${pageContext.request.contextPath}/views/img/img_control_switcher_manual.png"
       }
-      else {
-      %>
+      else
+      {
         document.getElementById("myButton").src="${pageContext.request.contextPath}/views/img/img_control_switcher.png"
-      <%
-        }
-      %>
+      }
 
              var allIdNames = new Array();
              var allDeviceId = new Array();
