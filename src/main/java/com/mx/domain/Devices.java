@@ -19,7 +19,7 @@ public class Devices {
     @Column(name = "id")
     private Long id;
 
-    private final String DEFAULT_AVATARURL = "web\\img\\img_device_default";
+        private final String DEFAULT_AVATARURL = "web\\img\\img_device_default";
 
     private  String name;       //设备 name
 
@@ -37,6 +37,13 @@ public class Devices {
     @JoinColumn(name = "gardenId")
     private Garden garden;
 
+    /*
+    propertyCombine:    0x01 温度
+                        0x02 湿度
+                        0x04 光照
+                        0x08 水位
+                        0x10 VOC
+     */
     private  int propertyCombine; // 具有哪些属性组合
 
     @Temporal(TemporalType.TIMESTAMP)

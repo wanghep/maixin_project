@@ -149,14 +149,14 @@ public class weixinDevicerController {
         garden.setTime( new Date() );
         gardenRepository.save( garden );
 
-        String avatarPath =  request.getContextPath() + "/views/img/" + garden.getId() + "/avatar";
+        String avatarPath =  request.getContextPath() + "/views/img/" + garden.getId() + "/garden_avatar";
         garden.setAvatarUrl( avatarPath );
         gardenRepository.save( garden );
 
         //copyCommonAvatarTo
         String rootPath = request.getSession().getServletContext().getRealPath("/");
         FileUtil.CreateDirectory(rootPath + "views/img/" + garden.getId());
-        FileUtil.copyFile( rootPath+"views/img/img_default_garden.png" , rootPath + "views/img/" + garden.getId()+"/avatar" );
+        FileUtil.copyFile( rootPath+"views/img/img_default_garden.png" , rootPath + "views/img/" + garden.getId()+"/garden_avatar" );
         LogUtil.info(this.getClass(),name);
        return ;
 
@@ -203,12 +203,69 @@ public class weixinDevicerController {
     @ResponseBody
     public void  mode(HttpServletRequest request, HttpServletResponse response) throws IOException, InvocationTargetException, IllegalAccessException, ParseException {
 
-        int deviceId = Integer.parseInt( request.getParameter("gardenId") );
+        long deviceId = Long.parseLong(request.getParameter("gardenId"));
         int mode = Integer.parseInt(request.getParameter("mode"));
 
         LogUtil.info(this.getClass(),deviceId);
         LogUtil.info(this.getClass(),mode);
-        //update into garden  ????
+
+        Garden garden = gardenRepository.findOne(deviceId);
+
+        if( garden != null )
+        {
+            garden.setRunMode( mode );
+            gardenRepository.save(garden);
+        }
+
+        List<Devices> deviceList = devicesRepository.findDevicesByGardenId( garden.getId() );
+        for( int i = 0 ; i < deviceList.size() ; i++ ) {
+            if( mode == 1 ) { //自动模式
+                Devices device = deviceList.get(i);
+
+                Map<String,Integer> ruleSet = mxService.getRuleById( device.getId() );
+
+                String rule ="";
+
+                if(ruleSet.get( "temperatureHigh") != null  )        ;
+                {
+                    rule += " " +  ruleSet.get( "temperatureHigh");
+                }
+                if(ruleSet.get( "temperatureLow") != null  )        ;
+                {
+                    rule += " " +  ruleSet.get( "temperatureLow");
+                }
+
+                if(ruleSet.get( "humidityHigh") != null  )        ;
+                {
+                    rule += " " +  ruleSet.get( "humidityHigh");
+                }
+                if(ruleSet.get( "humidityLow") != null  )        ;
+                {
+                    rule += " " +  ruleSet.get( "humidityLow");
+                }
+
+                if(ruleSet.get( "illuminationHigh") != null  )        ;
+                {
+                    rule += " " +  ruleSet.get( "illuminationHigh");
+                }
+                if(ruleSet.get( "illuminationLow") != null  )        ;
+                {
+                    rule += " " +  ruleSet.get( "illuminationLow");
+                }
+
+
+
+                mxService.sendCommandToDevice(deviceList.get(i).getMacAddress(), "205", rule, "0");
+            }
+            else
+            { //手动模式
+                mxService.sendCommandToDevice(deviceList.get(i).getMacAddress(), "206", "0", "0");
+            }
+        }
+
+        Map<String , Object > jasonOut = new HashMap<String , Object >();
+        jasonOut.put("mode", mode );
+        ajaxResponse( response , jasonOut );
 
         return ;
     }
@@ -224,7 +281,12 @@ public class weixinDevicerController {
         String scanCode = request.getParameter("scanQRCodeResult");
         LogUtil.info(this.getClass(), scanCode);
 
-        mxService.addA_DeviceByScanResult( gardenId , scanCode );
+        long newDeviceId = mxService.addA_DeviceByScanResult( request , gardenId , scanCode );
+
+        if( newDeviceId != -1 )
+        {
+            mxService.generateRuleAccording( newDeviceId ); // 更新 rule
+        }
         ModelAndView modelAndView = new ModelAndView("forward:/devices");
 
         return modelAndView;
@@ -243,10 +305,13 @@ public class weixinDevicerController {
 
         Devices device = devicesRepository.findOne( deviceId );
 
-        List<Message> messageTemperaterList = messageRepository.findStormManageByDeviceAndType( deviceId , property.DEVICE_MESSAGE_TYPE_TEMPERATURE );
-        List<Message> messageHumiditList = messageRepository.findStormManageByDeviceAndType(deviceId, property.DEVICE_MESSAGE_TYPE_HUMIDITY);
-        List<Message> messageIlluminationList = messageRepository.findStormManageByDeviceAndType( deviceId , property.DEVICE_MESSAGE_TYPE_ILLUMINATION );
-        List<Message> messageWaterLevelList = messageRepository.findStormManageByDeviceAndType( deviceId , property.DEVICE_MESSAGE_WATER_LEVEL );
+        List<Message> messageTemperaterList = messageRepository.findStormManageByDeviceAndTypeInOneHour(deviceId, property.DEVICE_MESSAGE_TYPE_TEMPERATURE);
+        List<Message> messageHumiditList = messageRepository.findStormManageByDeviceAndTypeInOneHour(deviceId, property.DEVICE_MESSAGE_TYPE_HUMIDITY);
+        List<Message> messageIlluminationList = messageRepository.findStormManageByDeviceAndTypeInOneHour(deviceId, property.DEVICE_MESSAGE_TYPE_ILLUMINATION);
+        List<Message> messageWaterLevelList = messageRepository.findStormManageByDeviceAndTypeInOneHour(deviceId, property.DEVICE_MESSAGE_WATER_LEVEL);
+        List<Message> messageVocList = messageRepository.findStormManageByDeviceAndTypeInOneHour( deviceId , property.DEVICE_MESSAGE_VOC );
+
+        Map ruleSet = mxService.getRuleById( deviceId );
 
         ModelAndView modelAndView = new ModelAndView("/device");
         modelAndView.addObject("device" , device );
@@ -254,6 +319,8 @@ public class weixinDevicerController {
         modelAndView.addObject("messageHumiditList" , messageHumiditList );
         modelAndView.addObject("messageIlluminationList" , messageIlluminationList );
         modelAndView.addObject("messageWaterLevelList" , messageWaterLevelList );
+        modelAndView.addObject("messageVocList" , messageWaterLevelList );
+        modelAndView.addObject("ruleSet",ruleSet);
 
         return modelAndView;
     }
@@ -281,12 +348,17 @@ public class weixinDevicerController {
     @ResponseBody
     public void  deviceCommand(HttpServletRequest request, HttpServletResponse response) throws IOException, InvocationTargetException, IllegalAccessException {
         long deviceId = Long.parseLong(request.getParameter("deviceId"));
-        int Type = Integer.parseInt(request.getParameter("controlType"));
+        int type = Integer.parseInt(request.getParameter("controlType"));
 
         LogUtil.info(this.getClass(),deviceId);
-        LogUtil.info(this.getClass(),Type);
+        LogUtil.info(this.getClass(),type);
 
-
+        int deviceType = property.properyToCommand(type);
+        Devices device = devicesRepository.findOne( deviceId );
+        if( device != null )
+        {
+            mxService.sendCommandToDevice( device.getMacAddress() ,String.valueOf(deviceType),"0","0" );
+        }
 
     }
 

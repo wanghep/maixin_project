@@ -1,18 +1,23 @@
 package com.mx.service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.mx.FileUtil;
 import com.mx.LogUtil;
+import com.mx.commonStuct.property;
 import com.mx.domain.*;
-import com.mx.repositories.DevicesRepository;
-import com.mx.repositories.GardenRepository;
-import com.mx.repositories.LatestMessageRepository;
-import com.mx.repositories.MessageRepository;
+import com.mx.repositories.*;
 import com.mx.service.mqttService.MessageListener;
+import freemarker.ext.beans.HashAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by wanghp1 on 2016/10/11.
@@ -30,6 +35,9 @@ public class MxService implements MessageListener {
     private DevicesRepository devicesRepository;
     @Autowired
     private MessageRepository mssageRepository;
+
+    @Autowired
+    private RuleRepository ruleRepository;
 
     @Autowired
     private LatestMessageRepository latestMessageRepository;
@@ -53,6 +61,8 @@ public class MxService implements MessageListener {
     String COMMAND_REPORT_HUMIDITY_VALUE      = "201"  ;     //上报湿度值
     String COMMAND_REPORT_ILLUMINATION_VALUE  = "202"  ;     //上报光照值
     String COMMAND_REPORT_WATER_LEVEL_VALUE   = "203"  ;     //上报水位值
+
+
 
 
     public void sendCommandToDevice( String macAddress , String type , String value1 , String Value2 )
@@ -87,6 +97,7 @@ public class MxService implements MessageListener {
 
             mssageRepository.save( message );
 
+            /* for test temp delete
             List<LatestMessage> lmList = latestMessageRepository.findByDeviceIdAndType(message.getDevice().getId() , message.getType() );
 
 
@@ -103,6 +114,8 @@ public class MxService implements MessageListener {
             }
             message.covertToLatestMessage( lm );
             latestMessageRepository.save(lm);
+
+            */
         }
 
 
@@ -110,11 +123,12 @@ public class MxService implements MessageListener {
     }
 
     //"macId:"123456789","type"="3";
-    public void addA_DeviceByScanResult( String gardenId , String scanResult )
+    public long  addA_DeviceByScanResult( HttpServletRequest request, String gardenId , String scanResult )
     {
         JSONObject json= JSONObject.parseObject(scanResult);
         String errMsg = json.getString("errMsg");
         String resultStr = json.getString("resultStr");
+        long deviceId = -1;
 
         if( errMsg.equals( "scanQRCode:ok"))
         { // 得到正确结果
@@ -132,11 +146,268 @@ public class MxService implements MessageListener {
                 devices.setUser(user);
                 devices.setMacAddress(mac);
                 devices.setPropertyCombine(Integer.parseInt(type));
+                devices.setAvatarUrl("");
                 devices.setTime(new Date());
 
                 devicesRepository.save(devices);
+                String avatarPath =  request.getContextPath() + "/views/img/" + gardenId + "/device" + devices.getId() +"_avatar";
+
+                devices.setAvatarUrl(avatarPath);
+                devicesRepository.save(devices);
+
+                deviceId = devices.getId();
+
+                //copyCommonAvatarTo
+                String rootPath = request.getSession().getServletContext().getRealPath("/");
+                String targetDeviceUrl = rootPath + "/views/img/" + gardenId + "/device" + devices.getId() +"_avatar";
+                try {
+                    FileUtil.copyFile( rootPath+"views/img/img_device_default.png" ,targetDeviceUrl  );
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
             }
         }
+
+
+        return deviceId;
+    }
+
+    public void generateRuleAccording( long deviceId )
+    {
+         Devices device = null;
+
+        device = devicesRepository.findOne( deviceId );
+        int combine = device.getPropertyCombine();
+
+        int p = property.PROPERTY_TEMPERATURE;
+
+
+        if( ( combine & property.PROPERTY_TEMPERATURE) != 0 )
+        { //温度
+            p = property.PROPERTY_TEMPERATURE;
+            List<Rule> ruleList = ruleRepository.findRuleByDeviceIdAndProperty( deviceId ,p );
+
+
+            if( ( ruleList!=null ) && ( ruleList.size() > 0 ))
+            {
+
+            }
+            else
+            {
+                Rule rule = new Rule();
+                rule.setDeviceId( deviceId );
+                rule.setProperty( p );
+                rule.setValue1( 40 );
+                rule.setValue1( 5 );
+                ruleRepository.save( rule );
+            }
+
+
+        }
+        else  if( ( combine & property.PROPERTY_HUMIDITY) != 0 )
+        { //湿度
+            p = property.PROPERTY_HUMIDITY;
+            List<Rule> ruleList = ruleRepository.findRuleByDeviceIdAndProperty( deviceId ,p );
+
+
+            if( ( ruleList!=null ) && ( ruleList.size() > 0 ))
+            {
+
+            }
+            else
+            {
+                Rule rule = new Rule();
+                rule.setDeviceId( deviceId );
+                rule.setProperty( p );
+                rule.setValue1( 100 );//湿度上限100%，下限10%，湿度上限100%，下限10%，
+                rule.setValue1( 10 );
+                ruleRepository.save( rule );
+            }
+        }
+        else  if( ( combine & property.PROPERTY_ILLUMINATION) != 0 )
+        { //光照
+            p = property.PROPERTY_ILLUMINATION;
+            List<Rule> ruleList = ruleRepository.findRuleByDeviceIdAndProperty( deviceId ,p );
+
+
+            if( ( ruleList!=null ) && ( ruleList.size() > 0 ))
+            {
+
+            }
+            else
+            {
+                Rule rule = new Rule();
+                rule.setDeviceId( deviceId );
+                rule.setProperty( p );
+                rule.setValue1( 300 );//光照上限300,：下限40
+                rule.setValue1( 40 );
+                ruleRepository.save( rule );
+            }
+        }
+        else  if( ( combine & property.PROPERTY_WATER_LEVEL) != 0 )
+        { //水位
+            p = property.PROPERTY_WATER_LEVEL;
+            List<Rule> ruleList = ruleRepository.findRuleByDeviceIdAndProperty( deviceId ,p );
+
+
+            if( ( ruleList!=null ) && ( ruleList.size() > 0 ))
+            {
+
+            }
+            else
+            {
+                Rule rule = new Rule();
+                rule.setDeviceId( deviceId );
+                rule.setProperty( p );
+                rule.setValue1( 20 );//
+                rule.setValue1( 10 );
+                ruleRepository.save( rule );
+            }
+        }
+        else  if( ( combine & property.PROPERTY_VOC) != 0 )
+        { //VOC
+            p = property.PROPERTY_VOC;
+            List<Rule> ruleList = ruleRepository.findRuleByDeviceIdAndProperty( deviceId ,p );
+
+
+            if( ( ruleList!=null ) && ( ruleList.size() > 0 ))
+            {
+
+            }
+            else
+            {
+                Rule rule = new Rule();
+                rule.setDeviceId( deviceId );
+                rule.setProperty( p );
+                rule.setValue1( 30 );//
+                rule.setValue1( 10 );
+                ruleRepository.save( rule );
+            }
+        }
+    }
+
+    /*
+    ruleSet.put( "temperatureHigh" , rule.getValue1() );
+    ruleSet.put( "temperatureLow"  , rule.getValue2() );
+    ruleSet.put("humidityHigh", rule.getValue1());
+    ruleSet.put("humidityLow", rule.getValue2());
+    ruleSet.put("illuminationHigh", rule.getValue1());
+    ruleSet.put("illuminationLow", rule.getValue2());
+    ruleSet.put("waterLevelHigh", rule.getValue1());
+    ruleSet.put("waterLevelLow", rule.getValue2());
+    ruleSet.put("vocHigh", rule.getValue1());
+    ruleSet.put("vocLow", rule.getValue2());
+
+     */
+    public Map getRuleById( long deviceId )
+    {
+        Map ret = null ;
+
+        ret = getRuleAccordingDeviceId( deviceId );
+        if( ret == null )
+        {
+            this.generateRuleAccording( deviceId );
+            ret = getRuleAccordingDeviceId( deviceId );
+        }
+
+        return ret;
+    }
+    private Map getRuleAccordingDeviceId( long deviceId )
+    {
+        Devices device = null;
+
+        Map<String , Integer > ruleSet = new HashMap<>();
+        device = devicesRepository.findOne( deviceId );
+        int combine = device.getPropertyCombine();
+
+        int p = property.PROPERTY_TEMPERATURE;
+
+
+        if( ( combine & property.PROPERTY_TEMPERATURE) != 0 )
+        { //温度
+            p = property.PROPERTY_TEMPERATURE;
+            List<Rule> ruleList = ruleRepository.findRuleByDeviceIdAndProperty( deviceId ,p );
+
+
+            if( ( ruleList!=null ) && ( ruleList.size() > 0 ))
+            {
+                Rule rule = ruleList.get(0);
+                ruleSet.put( "temperatureHigh" , rule.getValue1() );
+                ruleSet.put( "temperatureLow"  , rule.getValue2() );
+            }
+            else
+            {
+                return null;
+            }
+
+        }
+        else  if( ( combine & property.PROPERTY_HUMIDITY) != 0 )
+        { //湿度
+            p = property.PROPERTY_HUMIDITY;
+            List<Rule> ruleList = ruleRepository.findRuleByDeviceIdAndProperty( deviceId ,p );
+
+            if( ( ruleList!=null ) && ( ruleList.size() > 0 ))
+            {
+                Rule rule = ruleList.get(0);
+                ruleSet.put("humidityHigh", rule.getValue1());
+                ruleSet.put("humidityLow", rule.getValue2());
+            }
+            else
+            {
+                return null;
+            }
+        }
+        else  if( ( combine & property.PROPERTY_ILLUMINATION) != 0 )
+        { //光照
+            p = property.PROPERTY_ILLUMINATION;
+            List<Rule> ruleList = ruleRepository.findRuleByDeviceIdAndProperty( deviceId ,p );
+
+            if( ( ruleList!=null ) && ( ruleList.size() > 0 ))
+            {
+                Rule rule = ruleList.get(0);
+                ruleSet.put("illuminationHigh", rule.getValue1());
+                ruleSet.put("illuminationLow", rule.getValue2());
+            }
+            else
+            {
+                return null;
+            }
+        }
+        else  if( ( combine & property.PROPERTY_WATER_LEVEL) != 0 )
+        { //水位
+            p = property.PROPERTY_WATER_LEVEL;
+            List<Rule> ruleList = ruleRepository.findRuleByDeviceIdAndProperty( deviceId ,p );
+
+            if( ( ruleList!=null ) && ( ruleList.size() > 0 ))
+            {
+                Rule rule = ruleList.get(0);
+                ruleSet.put("waterLevelHigh", rule.getValue1());
+                ruleSet.put("waterLevelLow", rule.getValue2());
+            }
+            else
+            {
+                return null;
+            }
+        }
+        else  if( ( combine & property.PROPERTY_VOC) != 0 )
+        { //VOC
+            p = property.PROPERTY_VOC;
+            List<Rule> ruleList = ruleRepository.findRuleByDeviceIdAndProperty( deviceId ,p );
+
+            if( ( ruleList!=null ) && ( ruleList.size() > 0 ))
+            {
+                Rule rule = ruleList.get(0);
+                ruleSet.put("vocHigh", rule.getValue1());
+                ruleSet.put("vocLow", rule.getValue2());
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        return ruleSet;
     }
 }
 
