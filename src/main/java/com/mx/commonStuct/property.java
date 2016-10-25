@@ -28,7 +28,7 @@ public class property {
 
 
 
-    public static int properyToCommand( int controlType )
+    public static int properyToStartCommand(int controlType)
     {
         int ret = DEVICE_COMMAND_START_REDUCE_TEMPERATURE;
 
@@ -55,6 +55,32 @@ public class property {
         return ret;
     }
 
+    public static int properyToStopCommand(int controlType)
+    {
+        int ret = DEVICE_COMMAND_ST0P_REDUCE_TEMPERATURE;
+
+        switch( controlType )
+        {
+            case 1: {
+                ret = DEVICE_COMMAND_ST0P_REDUCE_TEMPERATURE;
+                break;
+            }
+            case 2: {
+                ret = DEVICE_COMMAND_ST0P_HUMIDITY;
+                break;
+            }
+            case 3: {
+                ret = DEVICE_COMMAND_ST0P_EATER;
+                break;
+            }
+            case 4: {
+                ret = DEVICE_COMMAND_ST0P_ILLUMINATION;
+                break;
+            }
+
+        }
+        return ret;
+    }
     public static int properyToDeviceType( int property )
     {
         int ret = DEVICE_MESSAGE_TYPE_TEMPERATURE;

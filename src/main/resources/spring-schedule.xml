@@ -15,10 +15,26 @@
     <!-- 要调用的工作类 -->
     <bean id="quartzJob" class="com.mx.schedule.CleanMsgJob"></bean>
 
+    <!-- 要调用的工作类 -->
+    <bean id="everySecondJob" class="com.mx.schedule.EverySecondJob"></bean>
+
     <!-- 定义调度作业 -->
     <bean id="jobtask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
         <property name="targetObject">
             <ref bean="quartzJob"/>
+        </property>
+
+        <property name="targetMethod">
+            <value>execute</value>
+        </property>
+        <!-- 是否允许任务并发执行。当值为false时，表示必须等到前一个线程处理完毕后才再启一个新的线程 -->
+        <property name="concurrent" value="true"/>
+    </bean>
+
+    <!-- 定义调度作业 -->
+    <bean id="everySecondTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject">
+            <ref bean="everySecondJob"/>
         </property>
         <property name="targetMethod">
             <value>execute</value>
@@ -39,11 +55,24 @@
         </property>
     </bean>
 
+    <!-- 定义触发时间 -->
+    <bean id="everySecondTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail">
+            <ref bean="everySecondTask"/>
+        </property>
+        <!-- cron表达式 -->
+        <property name="cronExpression">
+            <!--每1秒-->
+            <value>* * * * * ?</value>
+        </property>
+    </bean>
+
     <!-- 总管理类 如果将lazy-init='false'那么容器启动就会执行调度程序  -->
     <bean id="startQuertz" lazy-init="false" autowire="no" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
         <property name="triggers">
             <list>
                 <ref bean="doTime"/>
+                <ref bean="everySecondTrigger"/>
             </list>
         </property>
     </bean>

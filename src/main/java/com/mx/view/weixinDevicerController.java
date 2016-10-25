@@ -1,42 +1,35 @@
 package com.mx.view;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.mx.FileUtil;
 import com.mx.LogUtil;
 import com.mx.Util;
 import com.mx.commonStuct.property;
 import com.mx.domain.*;
 import com.mx.repositories.*;
+import com.mx.schedule.EverySecondJob;
+import com.mx.schedule.EverySecondJobCallback;
 import com.mx.service.LoginService;
 import com.mx.service.MxService;
 import com.mx.service.WeiXinService;
-import com.mx.util.SignUtil;
 import me.chanjar.weixin.common.bean.WxJsapiSignature;
 import me.chanjar.weixin.common.exception.WxErrorException;
-import org.hibernate.internal.util.ConfigHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpUtils;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
-import java.math.BigDecimal;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -52,7 +45,7 @@ import java.util.Map;
 @Controller
 @Transactional
     @RequestMapping("/weiXinDevice")
-public class weixinDevicerController {
+public class weixinDevicerController implements EverySecondJobCallback {
 
     private int validPeriod = 1 * 60 * 60 * 1000;  // ms ， 1hour
     @Autowired
@@ -81,6 +74,9 @@ public class weixinDevicerController {
 
     @Autowired
     private  LatestMessageRepository latestMessageRepository;
+
+    @Autowired
+    private EverySecondJob everySecondJob;
 
 
     @RequestMapping("myGarden")
@@ -353,11 +349,15 @@ public class weixinDevicerController {
         LogUtil.info(this.getClass(),deviceId);
         LogUtil.info(this.getClass(),type);
 
-        int deviceType = property.properyToCommand(type);
+        int startCommand = property.properyToStartCommand(type);
+        int stopCommand = property.properyToStopCommand( type );
         Devices device = devicesRepository.findOne( deviceId );
         if( device != null )
         {
-            mxService.sendCommandToDevice( device.getMacAddress() ,String.valueOf(deviceType),"0","0" );
+            mxService.sendCommandToDevice( device.getMacAddress() ,String.valueOf(startCommand),"0","0" );
+
+            //暂时固定设置为10秒钟后执行
+            everySecondJob.registTask( new Date(System.currentTimeMillis() + 10000) ,this, device, stopCommand, null );
         }
 
     }
@@ -598,5 +598,15 @@ public class weixinDevicerController {
             }
         }
 
+    }
+
+    @Override
+    public void everySecondCallBackRun(Object para1, Object para2, Object para3) {
+        int stopCommand = (int)para2;
+        Devices device = (Devices)para1;
+        if( device != null ) {
+            LogUtil.info(getClass(), "everySecondCallBackRun : sendCommandToDevice  " + device.getMacAddress() + "  " +String.valueOf(stopCommand) );
+            mxService.sendCommandToDevice( device.getMacAddress() ,String.valueOf(stopCommand),"0","0" );
+        }
     }
 }
