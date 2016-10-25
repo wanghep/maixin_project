@@ -357,7 +357,7 @@ public class weixinDevicerController implements EverySecondJobCallback {
             mxService.sendCommandToDevice( device.getMacAddress() ,String.valueOf(startCommand),"0","0" );
 
             //暂时固定设置为10秒钟后执行
-            everySecondJob.registTask( new Date(System.currentTimeMillis() + 10000) ,this, device, stopCommand, null );
+            everySecondJob.registTask( new Date(System.currentTimeMillis() + 1000000) ,this, device, stopCommand, null );
         }
 
     }

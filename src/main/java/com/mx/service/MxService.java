@@ -97,8 +97,8 @@ public class MxService implements MessageListener {
 
             mssageRepository.save( message );
 
-            /* for test temp delete
-            List<LatestMessage> lmList = latestMessageRepository.findByDeviceIdAndType(message.getDevice().getId() , message.getType() );
+
+            List<LatestMessage> lmList = latestMessageRepository.findByDeviceIdAndType(device.getId() , type );
 
 
             //更新到最新的消息库中
@@ -115,7 +115,7 @@ public class MxService implements MessageListener {
             message.covertToLatestMessage( lm );
             latestMessageRepository.save(lm);
 
-            */
+
         }
 
 
