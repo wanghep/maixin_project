@@ -129,6 +129,9 @@
       messageVocListY[i] = temp;
 
     }
+
+    //for display default value
+
   %>
     <div class="luck-ping-div">
       <ul class="list-group">
@@ -157,7 +160,7 @@
           </li>
           <li>
             <div style="width:46px">
-              <input type="text" id="0101" style="width:46px;" onfocusout='setParameter("0101", <%= dev.getId() %>, 1)'></input>
+              <input type="text" id="0101" style="width:46px;" value="<%= getMode() %>" onfocusout='setParameter("0101", <%= dev.getId() %>, 1)'></input>
             </div>
           </li>
           <li><p style="color:#009999;font-size:22px;">°C</p></li>
@@ -172,7 +175,7 @@
           </li>
           <li>
             <div style="width:46px">
-              <input type="text" id="0102" style="width:46px;" onfocusout='setParameter("0102",<%= dev.getId() %>, 2)'></input>
+              <input type="text" id="0102" style="width:46px;" value="<%= getMode() %>" onfocusout='setParameter("0102",<%= dev.getId() %>, 2)'></input>
             </div>
           </li>
           <li><p style="color:#009999;font-size:22px;">°C</p></li>
@@ -187,7 +190,7 @@
           </li>
           <li>
             <div style="width:46px">
-              <input type="text" id="0103" style="width:46px;" onfocusout='setParameter("0103",<%= dev.getId() %>, 3)'></input>
+              <input type="text" id="0103" style="width:46px;" value="<%= getMode() %>" onfocusout='setParameter("0103",<%= dev.getId() %>, 3)'></input>
             </div>
           </li>
           <li><p style="color:#009999;font-size:22px;">分钟</p></li>
@@ -202,7 +205,7 @@
           </li>
           <li>
             <div style="width:46px">
-              <input type="text" id="0104" style="width:46px;" onfocusout='setParameter("0104",<%= dev.getId() %>, 4)'></input>
+              <input type="text" id="0104" style="width:46px;" value="<%= getMode() %>" onfocusout='setParameter("0104",<%= dev.getId() %>, 4)'></input>
             </div>
           </li>
           <li><p style="color:#009999;font-size:22px;">分钟</p></li>
@@ -222,7 +225,7 @@
           </li>
           <li>
             <div style="width:46px">
-              <input type="text" id="0201" style="width:46px;" onfocusout='setParameter("0201",<%= dev.getId() %>, 5)'></input>
+              <input type="text" id="0201" style="width:46px;" value="<%= getMode() %>" onfocusout='setParameter("0201",<%= dev.getId() %>, 5)'></input>
             </div>
           </li>
           <li><p style="color:#009999;font-size:22px;">%RH</p></li>
@@ -237,7 +240,7 @@
           </li>
           <li>
             <div style="width:46px">
-              <input type="text" id="0202" style="width:46px;" onfocusout='setParameter("0202",<%= dev.getId() %>, 6)'></input>
+              <input type="text" id="0202" style="width:46px;" value="<%= getMode() %>" onfocusout='setParameter("0202",<%= dev.getId() %>, 6)'></input>
             </div>
           </li>
           <li><p style="color:#009999;font-size:22px;">%RH</p></li>
@@ -252,7 +255,7 @@
           </li>
           <li>
             <div style="width:46px">
-              <input type="text" id="0203" style="width:46px;" onfocusout='setParameter("0203",<%= dev.getId() %>, 7)'></input>
+              <input type="text" id="0203" style="width:46px;" value="<%= getMode() %>" onfocusout='setParameter("0203",<%= dev.getId() %>, 7)'></input>
             </div>
           </li>
           <li><p style="color:#009999;font-size:22px;">分钟</p></li>
@@ -272,7 +275,7 @@
           </li>
           <li>
             <div style="width:46px">
-              <input type="text" id="0301" style="width:46px;" onfocusout='setParameter("0301",<%= dev.getId() %>, 8)'></input>
+              <input type="text" id="0301" style="width:46px;" value="<%= getMode() %>" onfocusout='setParameter("0301",<%= dev.getId() %>, 8)'></input>
             </div>
           </li>
           <li><p style="color:#009999;font-size:22px;">μmol</p></li>
@@ -287,7 +290,7 @@
           </li>
           <li>
             <div style="width:46px">
-              <input type="text" id="0302" style="width:46px;" onfocusout='setParameter("0302",<%= dev.getId() %>, 9)'></input>
+              <input type="text" id="0302" style="width:46px;" value="<%= getMode() %>" onfocusout='setParameter("0302",<%= dev.getId() %>, 9)'></input>
             </div>
           </li>
           <li><p style="color:#009999;font-size:22px;">μmol</p></li>
