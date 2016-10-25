@@ -150,7 +150,7 @@
               </a>
             </li> 
             <li><p><%= dev.getName() %></p></li>
-            <li style="float:right;margin-top:10px;margin-right:30px;"><img src="${pageContext.request.contextPath}/views/img/img_indicator_green.png"  /></li>
+            <li style="float:right;margin-top:10px;margin-right:30px;"><img id="onlineButton" src="${pageContext.request.contextPath}/views/img/img_indicator_online.png"  /></li>
           </ul>
         </div>
 
@@ -382,6 +382,14 @@
       {
         document.getElementById("myButton").src="${pageContext.request.contextPath}/views/img/img_control_switcher.png"
       }
+
+    if( 0 == online_mode) {
+        document.getElementById("onlineButton").src="${pageContext.request.contextPath}/views/img/img_indicator_offline.png"
+      }
+      else
+      {
+        document.getElementById("onlineButton").src="${pageContext.request.contextPath}/views/img/img_indicator_online.png"
+      }      
 
              var allIdNames = new Array();
              var allDeviceId = new Array();
