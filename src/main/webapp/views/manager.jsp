@@ -373,6 +373,8 @@
 
     })
 
+  var online_mode = <%= garden.getOnline()%>
+
 	window.onload = function() {
 
 	  if( 0 == control_mode) {
