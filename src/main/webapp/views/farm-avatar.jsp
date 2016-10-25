@@ -22,7 +22,7 @@
         font-size: 18px;
       }
       .luck-ping-body {
-          background-color: #E3E3E3;
+          background-color: #eee;
       }
       .luck-ping-div {
           margin-top: 18px;
