@@ -205,7 +205,7 @@ public class MxService implements MessageListener {
 
 
         }
-        else  if( ( combine & property.PROPERTY_HUMIDITY) != 0 )
+        if( ( combine & property.PROPERTY_HUMIDITY) != 0 )
         { //湿度
             p = property.PROPERTY_HUMIDITY;
             List<Rule> ruleList = ruleRepository.findRuleByDeviceIdAndProperty( deviceId ,p );
@@ -225,7 +225,7 @@ public class MxService implements MessageListener {
                 ruleRepository.save( rule );
             }
         }
-        else  if( ( combine & property.PROPERTY_ILLUMINATION) != 0 )
+        if( ( combine & property.PROPERTY_ILLUMINATION) != 0 )
         { //光照
             p = property.PROPERTY_ILLUMINATION;
             List<Rule> ruleList = ruleRepository.findRuleByDeviceIdAndProperty( deviceId ,p );
@@ -245,7 +245,7 @@ public class MxService implements MessageListener {
                 ruleRepository.save( rule );
             }
         }
-        else  if( ( combine & property.PROPERTY_WATER_LEVEL) != 0 )
+        if( ( combine & property.PROPERTY_WATER_LEVEL) != 0 )
         { //水位
             p = property.PROPERTY_WATER_LEVEL;
             List<Rule> ruleList = ruleRepository.findRuleByDeviceIdAndProperty( deviceId ,p );
@@ -265,7 +265,7 @@ public class MxService implements MessageListener {
                 ruleRepository.save( rule );
             }
         }
-        else  if( ( combine & property.PROPERTY_VOC) != 0 )
+        if( ( combine & property.PROPERTY_VOC) != 0 )
         { //VOC
             p = property.PROPERTY_VOC;
             List<Rule> ruleList = ruleRepository.findRuleByDeviceIdAndProperty( deviceId ,p );
@@ -342,7 +342,7 @@ public class MxService implements MessageListener {
             }
 
         }
-        else  if( ( combine & property.PROPERTY_HUMIDITY) != 0 )
+        if( ( combine & property.PROPERTY_HUMIDITY) != 0 )
         { //湿度
             p = property.PROPERTY_HUMIDITY;
             List<Rule> ruleList = ruleRepository.findRuleByDeviceIdAndProperty( deviceId ,p );
@@ -358,7 +358,7 @@ public class MxService implements MessageListener {
                 return null;
             }
         }
-        else  if( ( combine & property.PROPERTY_ILLUMINATION) != 0 )
+        if( ( combine & property.PROPERTY_ILLUMINATION) != 0 )
         { //光照
             p = property.PROPERTY_ILLUMINATION;
             List<Rule> ruleList = ruleRepository.findRuleByDeviceIdAndProperty( deviceId ,p );
@@ -374,7 +374,7 @@ public class MxService implements MessageListener {
                 return null;
             }
         }
-        else  if( ( combine & property.PROPERTY_WATER_LEVEL) != 0 )
+        if( ( combine & property.PROPERTY_WATER_LEVEL) != 0 )
         { //水位
             p = property.PROPERTY_WATER_LEVEL;
             List<Rule> ruleList = ruleRepository.findRuleByDeviceIdAndProperty( deviceId ,p );
@@ -390,7 +390,7 @@ public class MxService implements MessageListener {
                 return null;
             }
         }
-        else  if( ( combine & property.PROPERTY_VOC) != 0 )
+        if( ( combine & property.PROPERTY_VOC) != 0 )
         { //VOC
             p = property.PROPERTY_VOC;
             List<Rule> ruleList = ruleRepository.findRuleByDeviceIdAndProperty( deviceId ,p );

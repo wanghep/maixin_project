@@ -35,11 +35,14 @@ public class WeiXinService {
 
     //TODO(user) 填写公众号开发信息
     //商站宝测试公众号 APP_ID
-    //protected static final String APP_ID = "wx7f8b1923a3a9f157";
-    protected static final String APP_ID = "wx86c6863828fa0a3d";
+    protected static final String APP_ID = "wx7f8b1923a3a9f157";
+    //test
+    //protected static final String APP_ID = "wx86c6863828fa0a3d";
     //商站宝测试公众号 APP_SECRET
-    //protected static final String APP_SECRET = "d924090936a9b9d81c83e4972f3d1577";
-    protected static final String APP_SECRET = "3d44684bdd3a00c3d731902bd7c447cf";
+    protected static final String APP_SECRET = "d924090936a9b9d81c83e4972f3d1577";
+    //test
+    //protected static final String APP_SECRET = "3d44684bdd3a00c3d731902bd7c447cf";
+
     //商站宝测试公众号 TOKEN
     protected static final String TOKEN = "123456";
     //商站宝测试公众号 AES_KEY
