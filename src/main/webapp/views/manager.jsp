@@ -20,8 +20,38 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <style type="text/css">
+      #name-farm::-webkit-input-placeholder {
+        color: blue;
+        font-size: 18px;
+      }
+      .luck-ping-body {
+        background-color: #eee;
+      }
+      .luck-ping-div {
+        margin-top: 18px;
+        margin-bottom: 10px;
+        padding: 5px 10px 5px 10px; 
+      }
+      .luck-ping-p1 {
+        margin: 10px;
+        padding: 0px;
+        font-size: 16px;
+        border:none;
+      }       
+      .luck-ping-p2 {
+        margin: 0px;
+        padding: 0px;
+        font-size: 11px;
+      }
+      .luck-ping-div2 {
+        width:200px;
+        padding-left: 10px;
+    
+      }                    
+    </style>     
   </head>
-  <body>
+  <body class="luck-ping-body">
   <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 
   <%
@@ -134,7 +164,7 @@
             prog_ids[position] = "prog_"+dev.getId()+"_01";
         %>
         <!-- FOR 演示
-        <li class="list-group-item">
+        <li class="list-group-item" style="background-color: #eee;">
           <ul class="list-inline">
             <li><img id="<%= item.idName %>" src="${pageContext.request.contextPath}/views/img/img_indicator_happy.png" /></li>
             <li><p>温度</p></li>
@@ -164,7 +194,7 @@
             image_ids.add(item);
             prog_ids[position] = "prog_"+dev.getId()+"_02";
         %>        
-        <li class="list-group-item">
+        <li class="list-group-item" style="background-color: #eee;">
           <ul class="list-inline">
             <li><img id="<%= item.idName %>" src="${pageContext.request.contextPath}/views/img/img_indicator_happy.png" /></li>
             <li><p>湿度</p></li>
@@ -190,7 +220,7 @@
             image_ids.add(item);
             prog_ids[position] = "prog_"+dev.getId()+"_03";
         %>          
-        <li class="list-group-item">
+        <li class="list-group-item" style="background-color: #eee;">
           <ul class="list-inline">
             <li><img id="<%= item.idName %>" src="${pageContext.request.contextPath}/views/img/img_indicator_happy.png" /></li>
             <li><p>光照</p></li>
@@ -217,7 +247,7 @@
             prog_ids[position] = "prog_"+dev.getId()+"_04";
         %>
         <!-- FOR 演示
-        <li class="list-group-item">
+        <li class="list-group-item" style="background-color: #eee;">
           <ul class="list-inline">
             <li><img id="<%= item.idName %>" src="${pageContext.request.contextPath}/views/img/img_indicator_sad.png" /></li>
             <li><p>水位</p></li>
