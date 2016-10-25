@@ -369,14 +369,15 @@ public class weixinDevicerController implements EverySecondJobCallback {
 
         boolean happy = false;
         long deviceId = Long.parseLong(request.getParameter("deviceId"));
-        int Type = Integer.parseInt(request.getParameter("Type"));
+        int type = Integer.parseInt(request.getParameter("Type"));
 
         LogUtil.info(this.getClass(),deviceId);
-        LogUtil.info(this.getClass(),Type);
+        LogUtil.info(this.getClass(),type);
 
 
+        int reportType = property.properyToDeviceType( type );
         //获得最后的数据
-        List<LatestMessage> lmList = latestMessageRepository.findByDeviceIdAndType( deviceId , String.valueOf(Type) ) ;
+        List<LatestMessage> lmList = latestMessageRepository.findByDeviceIdAndType( deviceId , String.valueOf(reportType) ) ;
 
         if(( lmList != null ) && (lmList.size()>0 ) )
         {
@@ -386,7 +387,7 @@ public class weixinDevicerController implements EverySecondJobCallback {
             if( diffTime < validPeriod )
             {// 数据是有效的
 
-                List<Rule> ruleList = ruleRepository.findRuleByDeviceIdAndProperty(deviceId , Type );
+                List<Rule> ruleList = ruleRepository.findRuleByDeviceIdAndProperty(deviceId , type );
 
                 if( ( ruleList != null ) &&( ruleList.size() > 0 ) )
                 {
@@ -606,7 +607,7 @@ public class weixinDevicerController implements EverySecondJobCallback {
         Devices device = (Devices)para1;
         if( device != null ) {
             LogUtil.info(getClass(), "everySecondCallBackRun : sendCommandToDevice  " + device.getMacAddress() + "  " +String.valueOf(stopCommand) );
-            mxService.sendCommandToDevice( device.getMacAddress() ,String.valueOf(stopCommand),"0","0" );
+            mxService.sendCommandToDevice(device.getMacAddress(), String.valueOf(stopCommand), "0", "0");
         }
     }
 }

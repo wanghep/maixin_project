@@ -133,7 +133,7 @@ public class MxService implements MessageListener {
         if( errMsg.equals( "scanQRCode:ok"))
         { // 得到正确结果
             JSONObject jsonDeviceInfo = JSONObject.parseObject( resultStr );
-            String mac = jsonDeviceInfo.getString("macId");
+            String mac = jsonDeviceInfo.getString("mac");
             String type = jsonDeviceInfo.getString("type");
             if( ( mac != null) && (type!= null)
                     && ( mac != "") && (type!= ""))

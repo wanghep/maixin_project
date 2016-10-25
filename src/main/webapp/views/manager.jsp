@@ -141,7 +141,7 @@
           Devices dev = (Devices)list.get(i);
       %>
 
-      <li class="list-group-item">
+      <li class="list-group-item" style="background-color: #eee;">
         <div class="container">
           <ul class="list-inline">
             <li>
@@ -150,7 +150,7 @@
               </a>
             </li> 
             <li><p><%= dev.getName() %></p></li>
-            <li style="float:right;margin-top:30px;"><img src="${pageContext.request.contextPath}/views/img/img_indicator_green.png"  /></li>
+            <li style="float:right;margin-top:10px;margin-right:30px;"><img src="${pageContext.request.contextPath}/views/img/img_indicator_green.png"  /></li>
           </ul>
         </div>
 
@@ -291,6 +291,7 @@
                 //testBool = 1;
               } else {
                 document.getElementById(id).src="${pageContext.request.contextPath}/views/img/img_indicator_sad.png";
+
                 //testBool = 0;
               }
               
@@ -423,6 +424,8 @@
         }
       });
     });
+
+
     </script>
 
 
