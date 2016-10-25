@@ -286,13 +286,16 @@
           cache: false,
           timeout: 5000,
           success: function(data){
-              if(data.happy == true) {
-                document.getElementById(id).src="${pageContext.request.contextPath}/views/img/img_indicator_happy.png";
-                //testBool = 1;
-              } else {
-                document.getElementById(id).src="${pageContext.request.contextPath}/views/img/img_indicator_sad.png";
+              if( document.getElementById(id) != null )
+              {
+                  if(data.happy == true) {
+                    document.getElementById(id).src="${pageContext.request.contextPath}/views/img/img_indicator_happy.png";
+                    //testBool = 1;
+                  } else {
+                    document.getElementById(id).src="${pageContext.request.contextPath}/views/img/img_indicator_sad.png";
 
-                //testBool = 0;
+                    //testBool = 0;
+                  }
               }
               
           },
