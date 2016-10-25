@@ -136,7 +136,7 @@
           <ul class="list-inline">
             <li>
               <div class="container">
-                <img src="${pageContext.request.contextPath}/views/img/img_device_default.png" />
+                <img style="margin-bottom:20px;" src="${pageContext.request.contextPath}/views/img/img_device_default.png" />
               </div>
             </li>
             <li><p style="color:#009999;font-size:36px;" class="text-center"><%= dev.getName() %></p></li>

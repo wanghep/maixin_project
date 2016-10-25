@@ -150,7 +150,7 @@
               </a>
             </li> 
             <li><p><%= dev.getName() %></p></li>
-            <li "><img src="${pageContext.request.contextPath}/views/img/img_indicator_green.png"  /></li>
+            <li style="float:right;margin-top:30px;"><img src="${pageContext.request.contextPath}/views/img/img_indicator_green.png"  /></li>
           </ul>
         </div>
 
