@@ -67,6 +67,12 @@
       </div>
     </form>
 
+    <div class="container" align="center" style="margin-top:30px;">
+      <button type="button" onclick='testJump()' class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" style="background-color:white; color:blue;">
+      确认
+      </button>
+    </div>
+
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
@@ -74,9 +80,15 @@
     <script src="js/jquery.mobile-1.4.5.js"></script>
     
     <script type="text/javascript">
+      function testJump() {
+        var farm = document.getElementById("name-farm");
+        window.location.href='manager.html?name='+farm.value;
+      }
+
       function nameFarm() {
         var farm = document.getElementById("name-farm");
         //farm.value = farm.value.toUpperCase();
+        /*
         $.ajax({
             url: 'http://localhost:8888',
             type: 'POST',
@@ -93,7 +105,8 @@
             error: function(jqXHR, textStatus, errorThrown){
                 alert('error ' + textStatus + " " + errorThrown);  
             }
-        });        
+        });
+        */
 
       }
 

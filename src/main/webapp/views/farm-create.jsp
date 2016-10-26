@@ -67,12 +67,11 @@
       </div>
     </form>
 
-      <div class="container" align="center" style="margin-top:30px;">
-        <button type="button" onclick='nameFarm()' class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" style="background-color:white;">
-        确认
-        </button>
-      </div>
-    </form>
+    <div class="container" align="center" style="margin-top:30px;">
+      <button type="button" onclick='testJump()' class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" style="background-color:white; color:blue;">
+      确认
+      </button>
+    </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -80,6 +79,12 @@
     <script src="${pageContext.request.contextPath}/views/js/bootstrap.min.js"></script>
     <script src="${pageContext.request.contextPath}/views/js/jquery.mobile-1.4.5.js"></script>
     <script type="text/javascript">
+
+      function testJump() {
+        var farm = document.getElementById("name-farm");
+        window.location.href='manager.html?name='+farm.value;
+      }
+
       function nameFarm() {
         var farm = document.getElementById("name-farm");
         //farm.value = farm.value.toUpperCase();
