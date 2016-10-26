@@ -63,7 +63,7 @@
       <div class="container" align="center">
         <input id="profile-image-upload" class="hidden" type="file">
         <div id="profile-image"><image src="${pageContext.request.contextPath}/views/img/img_default_garden.png" /></div>
-        <h4>点击上传花园头像</h4>
+        <!-- <h4>点击上传花园头像</h4> -->
       </div>
     </form>
 

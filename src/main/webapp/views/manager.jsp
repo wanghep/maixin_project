@@ -139,6 +139,19 @@
 
         for (int i=0;i<list.size();i++) {
           Devices dev = (Devices)list.get(i);
+
+          int online_mode = dev.getOnline();
+          String onlineStr;
+          if( 0 == online_mode) {
+            //onlineStr ="${pageContext.request.contextPath}/views/img/img_indicator_offline.png";
+            onlineStr ="/views/img/img_indicator_offline.png";
+          }
+          else
+          {
+            //onlineStr="${pageContext.request.contextPath}/views/img/img_indicator_online.png";
+            onlineStr="/views/img/img_indicator_online.png";
+          }
+
       %>
 
       <li class="list-group-item" style="background-color: #eee;">
@@ -150,7 +163,7 @@
               </a>
             </li> 
             <li><p><%= dev.getName() %></p></li>
-            <li style="float:right;margin-top:10px;margin-right:30px;"><img id="onlineButton" src="${pageContext.request.contextPath}/views/img/img_indicator_online.png"  /></li>
+            <li style="float:right;margin-top:10px;margin-right:30px;"><img id="onlineButton" src="${pageContext.request.contextPath}<%=onlineStr %>"  /></li>
           </ul>
         </div>
 
@@ -373,7 +386,7 @@
 
     })
 
-  var online_mode = <%= garden.getOnline()%>
+
 
 	window.onload = function() {
 
@@ -385,13 +398,7 @@
         document.getElementById("myButton").src="${pageContext.request.contextPath}/views/img/img_control_switcher.png"
       }
 
-    if( 0 == online_mode) {
-        document.getElementById("onlineButton").src="${pageContext.request.contextPath}/views/img/img_indicator_offline.png"
-      }
-      else
-      {
-        document.getElementById("onlineButton").src="${pageContext.request.contextPath}/views/img/img_indicator_online.png"
-      }      
+   
 
              var allIdNames = new Array();
              var allDeviceId = new Array();

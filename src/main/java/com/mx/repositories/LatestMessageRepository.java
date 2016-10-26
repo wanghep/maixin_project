@@ -15,4 +15,7 @@ public interface LatestMessageRepository extends CrudRepository<LatestMessage, L
 
     @Query(value = "select * from latest_message where device_id = ?1 and type = ?2 ", nativeQuery = true)
     public List<LatestMessage> findByDeviceIdAndType( long deviceId , String type );
+
+    @Query(value = "select * from latest_message where device_id = ?1 ", nativeQuery = true)
+    public List<LatestMessage> findByDeviceId( long deviceId );
 }

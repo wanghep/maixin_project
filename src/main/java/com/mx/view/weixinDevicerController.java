@@ -113,6 +113,7 @@ public class weixinDevicerController implements EverySecondJobCallback {
         response.setContentType("text/html; encoding=utf-8");
         response.setCharacterEncoding("UTF-8");
 
+
         ModelAndView modelAndView = new ModelAndView("/farm-create");
         return modelAndView;
 
@@ -173,6 +174,27 @@ public class weixinDevicerController implements EverySecondJobCallback {
 
         Garden garden = gardenRepository.findOne( gardenId );
         List<Devices> devicesList = devicesRepository.findDevicesByGardenId(gardenId);
+
+        /* 更新设备是否在线标识 */
+        long now = new Date().getTime();
+        for( int i = 0 ; i < devicesList.size() ; i++ )
+        {
+            List<LatestMessage> lmList =  latestMessageRepository.findByDeviceId(devicesList.get(i).getId());
+            if( ( lmList != null) && (lmList.size() >0 ) )
+            {
+                Date lastTime = lmList.get(0).getTime();
+
+                if( now - lastTime.getTime() > 5 * 60 * 1000 )
+                {
+                    devicesList.get(i).setOnline( 0 );
+                }
+                else
+                {
+                    devicesList.get(i).setOnline( 1 );
+                }
+            }
+        }
+
 
         WxJsapiSignature wxJsapiSignature = null;
         try {

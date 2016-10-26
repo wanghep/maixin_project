@@ -27,7 +27,7 @@ public class Devices {
 
     private String macAddress;        //mac address
 
-    private int online;  //是否在线 ,暂时未实现，需要心跳
+    private int online;  //在有请求的时候更新此域 1 在线 ， 0 不在线
 
     @OneToOne
     @JoinColumn(name = "userId")
