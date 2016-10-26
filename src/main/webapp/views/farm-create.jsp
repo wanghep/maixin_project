@@ -50,7 +50,7 @@
           <ul class="list-inline">
             <li>
               <div class="container">
-                <input id="name-farm" onfocusout='nameFarm()' type="text" class="luck-ping-p1" placeholder="新添花园名称"></input>
+                <input id="name-farm" type="text" class="luck-ping-p1" placeholder="新添花园名称"></input>
               </div>
             </li>
             <li><p id="name-write" class="luck-ping-p2">长按修改花园名称</p></li>
@@ -64,6 +64,13 @@
         <input id="profile-image-upload" class="hidden" type="file">
         <div id="profile-image"><image src="${pageContext.request.contextPath}/views/img/img_default_garden.png" /></div>
         <!-- <h4>点击上传花园头像</h4> -->
+      </div>
+    </form>
+
+      <div class="container" align="center" style="margin-top:30px;">
+        <button type="button" onclick='nameFarm()' class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" style="background-color:white;">
+        确认
+        </button>
       </div>
     </form>
 
@@ -99,9 +106,11 @@
       $('#name-write').on("tap",function(){
         document.getElementById("name-farm").readOnly = false;
       });
+      /*
       $('#profile-image').on('click', function() {
         $('#profile-image-upload').click();
       });
+      */
     </script>       
   </body>
 </html>

@@ -44,9 +44,11 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="${pageContext.request.contextPath}/views/js/bootstrap.min.js"></script>
     <script type="text/javascript">
+      /*
       $('#profile-image').on('click', function() {
         $('#profile-image-upload').click();
       });
+      */
     </script>       
   </body>
 </html>
