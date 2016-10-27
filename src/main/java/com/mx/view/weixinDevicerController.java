@@ -101,7 +101,7 @@ public class weixinDevicerController implements EverySecondJobCallback {
 
         ModelAndView modelAndView = new ModelAndView("/garden");
         modelAndView.addObject("GardenList", GardenList );
-        modelAndView.addObject("userId", user.getId() );
+        modelAndView.addObject("userId", user.getId().longValue() );
         return modelAndView;
 
     }
@@ -116,7 +116,7 @@ public class weixinDevicerController implements EverySecondJobCallback {
         String userId = request.getParameter("userId");
 
         ModelAndView modelAndView = new ModelAndView("/farm-create");
-        modelAndView.addObject("userId", userId );
+        modelAndView.addObject("userId", Long.valueOf( userId).longValue() );
         return modelAndView;
 
 
@@ -130,6 +130,7 @@ public class weixinDevicerController implements EverySecondJobCallback {
         response.setCharacterEncoding("UTF-8");
 
         String name = request.getParameter("name");
+
         long userId = Long.parseLong(request.getParameter("userId"));
 
         /*
@@ -170,6 +171,7 @@ public class weixinDevicerController implements EverySecondJobCallback {
 
 
         ModelAndView modelAndView = new ModelAndView("/garden");
+        modelAndView.addObject("userId", userId );
         modelAndView.addObject("GardenList", GardenList );
         return modelAndView;
 
@@ -183,7 +185,6 @@ public class weixinDevicerController implements EverySecondJobCallback {
 
         response.setContentType("text/html; encoding=utf-8");
         response.setCharacterEncoding("UTF-8");
-        User user =loginService.checkLogIn(Util.getUUID());
 
         //request 中获取garden Id
         long  gardenId = Long.parseLong(request.getParameter("gardenID"));

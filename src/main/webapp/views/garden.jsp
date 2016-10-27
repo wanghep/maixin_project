@@ -1,5 +1,7 @@
 ﻿<%@ page import="java.util.ArrayList" %>
 <%@ page import="com.mx.domain.Garden" %>
+<%@ page import="com.mx.LogUtil" %>
+<%@ page import="sun.rmi.runtime.Log" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,7 +26,10 @@
 <ul class="list-group">
   <%
     ArrayList list = (ArrayList)request.getAttribute("GardenList");
-    int userId = (int)request.getAttribute("userId");
+    Object userIdObjext = request.getAttribute("userId");
+
+    long userId = 0;
+    userId = ((Long)(userIdObjext) ).longValue();
 
     for  (int i=0;i<list.size();i++) {
   %>
@@ -42,6 +47,7 @@
   %>
 </ul>
 
+<script alert(<%=userIdObjext%>) ></script>
 
 <div class="container">
   <a href="${pageContext.request.contextPath}/weiXinDevice/addGarden?userId=<%= userId %>">

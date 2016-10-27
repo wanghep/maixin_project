@@ -93,9 +93,10 @@ public class WeiXinLoginController {
 
 
 
+        LogUtil.info( this.getClass() , "userId = " + user.getId() );
         ModelAndView modelAndView = new ModelAndView("/garden");
         modelAndView.addObject("GardenList", GardenList );
-        modelAndView.addObject("userId", user.getId() );
+        modelAndView.addObject("userId", user.getId().longValue() );
         return modelAndView;
 
     }

@@ -56,7 +56,7 @@
 
   <%
     String appId  = (String) request.getAttribute("appid");
-    long timestamp  = (long) request.getAttribute("timestamp");
+    long timestamp  = ((Long) request.getAttribute("timestamp")).longValue();
     String nonceStr  = (String) request.getAttribute("nonceStr");
     String signature  = (String) request.getAttribute("signature");
   %>
