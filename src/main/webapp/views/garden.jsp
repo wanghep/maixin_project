@@ -24,6 +24,7 @@
 <ul class="list-group">
   <%
     ArrayList list = (ArrayList)request.getAttribute("GardenList");
+    int userId = (int)request.getAttribute("userId");
 
     for  (int i=0;i<list.size();i++) {
   %>
@@ -43,7 +44,7 @@
 
 
 <div class="container">
-  <a href="${pageContext.request.contextPath}/weiXinDevice/addGarden ">
+  <a href="${pageContext.request.contextPath}/weiXinDevice/addGarden?userId=<%= userId %>">
     <img  src="${pageContext.request.contextPath}/views/img/img_btn_add.png" />
   </a>
 </div>
