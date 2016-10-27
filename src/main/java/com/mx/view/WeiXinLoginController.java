@@ -95,6 +95,7 @@ public class WeiXinLoginController {
 
         ModelAndView modelAndView = new ModelAndView("/garden");
         modelAndView.addObject("GardenList", GardenList );
+        modelAndView.addObject("userId", user.getId() );
         return modelAndView;
 
     }

@@ -101,6 +101,7 @@ public class weixinDevicerController implements EverySecondJobCallback {
 
         ModelAndView modelAndView = new ModelAndView("/garden");
         modelAndView.addObject("GardenList", GardenList );
+        modelAndView.addObject("userId", user.getId() );
         return modelAndView;
 
     }
@@ -112,32 +113,39 @@ public class weixinDevicerController implements EverySecondJobCallback {
 
         response.setContentType("text/html; encoding=utf-8");
         response.setCharacterEncoding("UTF-8");
-
+        String userId = request.getParameter("userId");
 
         ModelAndView modelAndView = new ModelAndView("/farm-create");
+        modelAndView.addObject("userId", userId );
         return modelAndView;
 
 
     }
 
-    @RequestMapping("addA_GardenName")
+    @RequestMapping("addA_GardenResult")
     @ResponseBody
-    public void  addA_GardenName(HttpServletRequest request, HttpServletResponse response) throws IOException, InvocationTargetException, IllegalAccessException {
+    public ModelAndView  addA_GardenResult(HttpServletRequest request, HttpServletResponse response) throws IOException, InvocationTargetException, IllegalAccessException {
 
         response.setContentType("text/html; encoding=utf-8");
         response.setCharacterEncoding("UTF-8");
 
         String name = request.getParameter("name");
+        long userId = Long.parseLong(request.getParameter("userId"));
 
+        /*
         User user = UserUtils.getCurrentUser();
         {
             //for test
+
             if( user == null ) {
+                LogUtil.error( this.getClass() , "fatal error no find user error");
                 user = new User();
                 long id = 2;
                 user.setId(id);
             }
         }
+        */
+        User user = userRepository.findOne( userId );
         Garden garden = new Garden();
         garden.setName( name );
         garden.setAvatarUrl("");
@@ -155,7 +163,15 @@ public class weixinDevicerController implements EverySecondJobCallback {
         FileUtil.CreateDirectory(rootPath + "views/img/" + garden.getId());
         FileUtil.copyFile( rootPath+"views/img/img_default_garden.png" , rootPath + "views/img/" + garden.getId()+"/garden_avatar" );
         LogUtil.info(this.getClass(),name);
-       return ;
+
+
+        List<Garden> GardenList = gardenRepository.findUserGarden(user.getId());
+
+
+
+        ModelAndView modelAndView = new ModelAndView("/garden");
+        modelAndView.addObject("GardenList", GardenList );
+        return modelAndView;
 
 
     }
@@ -167,7 +183,7 @@ public class weixinDevicerController implements EverySecondJobCallback {
 
         response.setContentType("text/html; encoding=utf-8");
         response.setCharacterEncoding("UTF-8");
-        User user =loginService.checkLogIn( Util.getUUID());
+        User user =loginService.checkLogIn(Util.getUUID());
 
         //request 中获取garden Id
         long  gardenId = Long.parseLong(request.getParameter("gardenID"));
