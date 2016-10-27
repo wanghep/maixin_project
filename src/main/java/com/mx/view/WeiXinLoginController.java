@@ -1,8 +1,11 @@
 package com.mx.view;
 
+import com.mx.HttpUtil;
 import com.mx.LogUtil;
+import com.mx.Util;
 import com.mx.domain.Garden;
 import com.mx.domain.User;
+import com.mx.domain.UserLog;
 import com.mx.domain.UserUtils;
 import com.mx.repositories.GardenRepository;
 import com.mx.repositories.UserLogRepository;
@@ -73,7 +76,18 @@ public class WeiXinLoginController {
         {
             user = userList.get(0);
         }
+        LogUtil.info(getClass(), "putCurrentUser user.id =  " + user.getId());
         UserUtils.putCurrentUser( user );
+
+        UserLog userLog = userLogRepository.findByUser(user);
+        if (userLog == null) {
+            userLog = new UserLog();
+        }
+        userLog.setLoginTime(new Date());
+        userLog.setUser(user);
+        userLog.setSessionId(Util.getUUID());
+        userLogRepository.save(userLog);
+        response.setHeader( "sessionId",userLog.getSessionId());
 
         List<Garden> GardenList = gardenRepository.findUserGarden(user.getId());
 

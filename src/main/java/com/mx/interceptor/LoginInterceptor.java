@@ -20,10 +20,15 @@ public class LoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String contextPath = request.getRequestURI();
-        LogUtil.info(getClass(), "contextPath = " + contextPath);
 
         String sessionId = request.getHeader("sessionId");
+        LogUtil.info(getClass(), "sessionId = " + sessionId  + "    contextPath = " + contextPath);
         User tyUser = loginService.checkLogIn(sessionId);
+
+        if( tyUser == null )
+        {
+            LogUtil.error( this.getClass() , "loginService.checkLogIn(sessionId) = null");
+        }
 //        if (tyUser != null) {
             UserUtils.putCurrentUser(tyUser);
 //        }
