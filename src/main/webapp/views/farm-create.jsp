@@ -78,7 +78,7 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="${pageContext.request.contextPath}/views/js/bootstrap.min.js"></script>
     <script src="${pageContext.request.contextPath}/views/js/jquery.mobile-1.4.5.js"></script>
-    <script type="text/javascript">
+    <script charset="gb2312" language="javascript" type="text/javascript">
 
       function testJump() {
         var farm = document.getElementById("name-farm");
