@@ -129,7 +129,13 @@ public class weixinDevicerController implements EverySecondJobCallback {
         response.setContentType("text/html; encoding=utf-8");
         response.setCharacterEncoding("UTF-8");
 
-        String name = request.getParameter("name");
+        request.setCharacterEncoding("UTF-8");
+
+        String name = new String(request.getParameter("name").getBytes("ISO-8859-1"), "UTF-8");
+
+       // String name = request.getParameter("name");
+
+        LogUtil.info( this.getClass() ,"addA_GardenResult :" + name  );
 
         long userId = Long.parseLong(request.getParameter("userId"));
 
@@ -315,6 +321,10 @@ public class weixinDevicerController implements EverySecondJobCallback {
         String gardenId = request.getParameter("gardenId");
         String scanCode = request.getParameter("scanQRCodeResult");
         LogUtil.info(this.getClass(), scanCode);
+
+        Garden garden = gardenRepository.findOne( Long.parseLong( gardenId));
+        garden.setDeviceCount( garden.getDeviceCount()+1);
+        gardenRepository.save( garden );
 
         long newDeviceId = mxService.addA_DeviceByScanResult( request , gardenId , scanCode );
 

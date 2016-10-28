@@ -78,15 +78,19 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="${pageContext.request.contextPath}/views/js/bootstrap.min.js"></script>
     <script src="${pageContext.request.contextPath}/views/js/jquery.mobile-1.4.5.js"></script>
-    <script charset="gb2312" language="javascript" type="text/javascript">
+    <script charset="UTF-8" language="javascript" type="text/javascript">
 
-      function testJump() {
-        var farm = document.getElementById("name-farm");
-        var userId = getUrlParameter('userId');
-        window.location.href='${pageContext.request.contextPath}/weiXinDevice/addA_GardenResult?name='+farm.value+'&userId='+userId;
-      }
+        function testJump() {
+            var farm = document.getElementById("name-farm");
+            var userId = getUrlParameter('userId');
+            var url = '${pageContext.request.contextPath}/weiXinDevice/addA_GardenResult?name='+farm.value+'&userId='+userId;
+            url = encodeURI(url);
+            //open(url);
+            window.location.href=url;
+        }
 
-      function nameFarm() {
+
+        function nameFarm() {
         var farm = document.getElementById("name-farm");
         //farm.value = farm.value.toUpperCase();
         $.ajax({
