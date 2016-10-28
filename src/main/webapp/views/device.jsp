@@ -46,8 +46,8 @@
         font-size: 11px;
       }
       .luck-ping-div2 {
-        width:210px;
-        padding-left: 10px;
+        width:160px;
+        padding-left: 0px;
       }                    
     </style>       
   </head>
@@ -162,14 +162,14 @@
       </ul>
     </div>
 
-    <div id="tempture" style="width: 400px;height:300px;"></div>
+    <div id="tempture" style="width: 320px;height:300px;"></div>
 
     <ul class="list-group">
       <li class="list-group-item" style="background-color: #eee;">
         <ul class="list-inline">
           <li>
             <div class="luck-ping-div2">
-              <p class="text-right" style="color:#009999;font-size:22px;">自动模式上限</p>
+              <p class="text-right" style="color:#009999;font-size:20px;">自动模式上限</p>
             </div>
           </li>
           <li>
@@ -177,14 +177,14 @@
               <input type="text" id="0101" style="width:46px;" value="<%= ruleSet.get("temperatureHigh") %>" onfocusout='setParameter("0101", <%= dev.getId() %>, 1)'></input>
             </div>
           </li>
-          <li><p style="color:#009999;font-size:22px;">°C</p></li>
+          <li><p style="color:#009999;font-size:20px;">°C</p></li>
         </ul>
       </li>
       <li class="list-group-item" style="background-color: #eee;">
         <ul class="list-inline">
           <li>
             <div class="luck-ping-div2">
-              <p class="text-right" style="color:#009999;font-size:22px;">自动模式下限</p>
+              <p class="text-right" style="color:#009999;font-size:20px;">自动模式下限</p>
             </div>
           </li>
           <li>
@@ -192,7 +192,7 @@
               <input type="text" id="0102" style="width:46px;" value="<%= ruleSet.get("temperatureLow") %>" onfocusout='setParameter("0102",<%= dev.getId() %>, 2)'></input>
             </div>
           </li>
-          <li><p style="color:#009999;font-size:22px;">°C</p></li>
+          <li><p style="color:#009999;font-size:20px;">°C</p></li>
         </ul>
       </li>
       <!--
@@ -200,7 +200,7 @@
         <ul class="list-inline">
           <li>
             <div class="luck-ping-div2">
-              <p class="text-right" style="color:#009999;font-size:22px;">手动模式通风时间</p>
+              <p class="text-right" style="color:#009999;font-size:20px;">手动模式通风时间</p>
             </div>
           </li>
           <li>
@@ -208,14 +208,14 @@
               <input type="text" id="0103" style="width:46px;" value=" " onfocusout='setParameter("0103",< %= dev.getId() %>, 3)'></input>
             </div>
           </li>
-          <li><p style="color:#009999;font-size:22px;">分钟</p></li>
+          <li><p style="color:#009999;font-size:20px;">分钟</p></li>
         </ul>
       </li>
       <li class="list-group-item" style="background-color: #eee;">
         <ul class="list-inline">
           <li>
             <div class="luck-ping-div2">
-              <p class="text-right" style="color:#009999;font-size:22px;">手动模式加热时间</p>
+              <p class="text-right" style="color:#009999;font-size:20px;">手动模式加热时间</p>
             </div>
           </li>
           <li>
@@ -223,20 +223,20 @@
               <input type="text" id="0104" style="width:46px;" value=" " onfocusout='setParameter("0104",< %= dev.getId() %>, 4)'></input>
             </div>
           </li>
-          <li><p style="color:#009999;font-size:22px;">分钟</p></li>
+          <li><p style="color:#009999;font-size:20px;">分钟</p></li>
         </ul>
       </li>
       -->
     </ul>
 
-    <div id="moisture" style="width: 400px;height:300px;"></div>
+    <div id="moisture" style="width: 320px;height:300px;"></div>
 
     <ul class="list-group">
       <li class="list-group-item" style="background-color: #eee;">
         <ul class="list-inline">
           <li>
             <div class="luck-ping-div2">
-              <p class="text-right" style="color:#009999;font-size:22px;">自动模式上限</p>
+              <p class="text-right" style="color:#009999;font-size:20px;">自动模式上限</p>
             </div>
           </li>
           <li>
@@ -244,14 +244,14 @@
               <input type="text" id="0201" style="width:46px;" value="<%=  ruleSet.get("humidityHigh") %>" onfocusout='setParameter("0201",<%= dev.getId() %>, 5)'></input>
             </div>
           </li>
-          <li><p style="color:#009999;font-size:22px;">%RH</p></li>
+          <li><p style="color:#009999;font-size:20px;">%RH</p></li>
         </ul>
       </li>
       <li class="list-group-item" style="background-color: #eee;">
         <ul class="list-inline">
           <li>
             <div class="luck-ping-div2">
-              <p class="text-right" style="color:#009999;font-size:22px;">自动模式下限</p>
+              <p class="text-right" style="color:#009999;font-size:20px;">自动模式下限</p>
             </div>
           </li>
           <li>
@@ -259,7 +259,7 @@
               <input type="text" id="0202" style="width:46px;" value="<%= ruleSet.get("humidityLow") %>" onfocusout='setParameter("0202",<%= dev.getId() %>, 6)'></input>
             </div>
           </li>
-          <li><p style="color:#009999;font-size:22px;">%RH</p></li>
+          <li><p style="color:#009999;font-size:20px;">%RH</p></li>
         </ul>
       </li>
       <!--
@@ -267,7 +267,7 @@
         <ul class="list-inline">
           <li>
             <div class="luck-ping-div2">
-              <p class="text-right" style="color:#009999;font-size:22px;">手动模式浇水时间</p>
+              <p class="text-right" style="color:#009999;font-size:20px;">手动模式浇水时间</p>
             </div>
           </li>
           <li>
@@ -275,20 +275,20 @@
               <input type="text" id="0203" style="width:46px;" value="" onfocusout='setParameter("0203",< %= dev.getId() %>, 7)'></input>
             </div>
           </li>
-          <li><p style="color:#009999;font-size:22px;">分钟</p></li>
+          <li><p style="color:#009999;font-size:20px;">分钟</p></li>
         </ul>
       </li>
       -->
     </ul>
 
-    <div id="light" style="width: 400px;height:300px;"></div>
+    <div id="light" style="width: 320px;height:300px;"></div>
 
     <ul class="list-group">
       <li class="list-group-item" style="background-color: #eee;">
         <ul class="list-inline">
           <li>
             <div class="luck-ping-div2">
-              <p class="text-right" style="color:#009999;font-size:22px;">自动模式上限</p>
+              <p class="text-right" style="color:#009999;font-size:20px;">自动模式上限</p>
             </div>
           </li>
           <li>
@@ -296,14 +296,14 @@
               <input type="text" id="0301" style="width:46px;" value="<%= ruleSet.get("illuminationHigh") %>" onfocusout='setParameter("0301",<%= dev.getId() %>, 8)'></input>
             </div>
           </li>
-          <li><p style="color:#009999;font-size:22px;">μmol</p></li>
+          <li><p style="color:#009999;font-size:20px;">μmol</p></li>
         </ul>
       </li>
       <li class="list-group-item" style="background-color: #eee;">
         <ul class="list-inline">
           <li>
             <div class="luck-ping-div2">
-              <p class="text-right" style="color:#009999;font-size:22px;">自动模式下限</p>
+              <p class="text-right" style="color:#009999;font-size:20px;">自动模式下限</p>
             </div>
           </li>
           <li>
@@ -311,12 +311,12 @@
               <input type="text" id="0302" style="width:46px;" value="<%= ruleSet.get("illuminationLow") %>" onfocusout='setParameter("0302",<%= dev.getId() %>, 9)'></input>
             </div>
           </li>
-          <li><p style="color:#009999;font-size:22px;">μmol</p></li>
+          <li><p style="color:#009999;font-size:20px;">μmol</p></li>
         </ul>
       </li>                         
     </ul>
 
-    <div id="voc" style="width: 400px;height:300px;"></div>
+    <div id="voc" style="width: 320px;height:300px;"></div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="${pageContext.request.contextPath}/views/js/jquery-3.1.1.js"></script>

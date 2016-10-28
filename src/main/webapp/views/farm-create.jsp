@@ -27,7 +27,7 @@
       .luck-ping-div {
           margin-top: 18px;
           margin-bottom: 10px;
-          padding: 5px 10px 5px 10px; 
+          padding: 5px 5px 5px 5px; 
       }
       .luck-ping-p1 {
           margin: 10px;
