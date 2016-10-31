@@ -135,36 +135,49 @@ public class MxService implements MessageListener {
             JSONObject jsonDeviceInfo = JSONObject.parseObject( resultStr );
             String mac = jsonDeviceInfo.getString("mac");
             String type = jsonDeviceInfo.getString("type");
+
+
             if( ( mac != null) && (type!= null)
                     && ( mac != "") && (type!= ""))
             {
-                Devices devices = new Devices();
+                List<Devices>  devicesesList = devicesRepository.findDevicesByMac(mac);
+                if( ( devicesesList == null ) || ( devicesesList.size() == 0 ) )
+                {// 设备没有添加过
+                    Devices devices = new Devices();
 
-                devices.setName("新增设备");
-                devices.setGarden(gardenRepository.findOne(Long.parseLong(gardenId)));
-                User user = UserUtils.getCurrentUser();
-                devices.setUser(user);
-                devices.setMacAddress(mac);
-                devices.setPropertyCombine(Integer.parseInt(type));
-                devices.setAvatarUrl("");
-                devices.setTime(new Date());
+                    devices.setName("新增设备" );
+                    devices.setGarden(gardenRepository.findOne(Long.parseLong(gardenId)));
+                    User user = UserUtils.getCurrentUser();
+                    devices.setUser(user);
+                    devices.setMacAddress(mac);
+                    devices.setPropertyCombine(Integer.parseInt(type));
+                    devices.setAvatarUrl("");
+                    devices.setTime(new Date());
 
-                devicesRepository.save(devices);
-                String avatarPath =  request.getContextPath() + "/views/img/" + gardenId + "/device" + devices.getId() +"_avatar";
+                    devicesRepository.save(devices);
+                    String avatarPath =  request.getContextPath() + "/views/img/" + gardenId + "/device" + devices.getId() +"_avatar";
 
-                devices.setAvatarUrl(avatarPath);
-                devicesRepository.save(devices);
+                    devices.setAvatarUrl(avatarPath);
+                    devices.setName( devices.getName() + devices.getId() );
+                    devicesRepository.save(devices);
 
-                deviceId = devices.getId();
+                    deviceId = devices.getId();
 
-                //copyCommonAvatarTo
-                String rootPath = request.getSession().getServletContext().getRealPath("/");
-                String targetDeviceUrl = rootPath + "/views/img/" + gardenId + "/device" + devices.getId() +"_avatar";
-                try {
-                    FileUtil.copyFile( rootPath+"views/img/img_device_default.png" ,targetDeviceUrl  );
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    //copyCommonAvatarTo
+                    String rootPath = request.getSession().getServletContext().getRealPath("/");
+                    String targetDeviceUrl = rootPath + "/views/img/" + gardenId + "/device" + devices.getId() +"_avatar";
+                    try {
+                        FileUtil.copyFile( rootPath+"views/img/img_device_default.png" ,targetDeviceUrl  );
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
+                else
+                {// already added
+
+                }
+
+
 
             }
         }

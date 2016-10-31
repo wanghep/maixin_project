@@ -17,4 +17,8 @@ public interface GardenRepository extends CrudRepository<Garden, Long> {
 
     @Query(value = "select * from garden where user_id = ?1", nativeQuery = true)
     public List<Garden> findUserGarden( long userId );
+
+    @Query(value = "select * from garden where user_id = ?1 and name = ?2", nativeQuery = true)
+    public List<Garden> findUserGardenByIdAndName( long userId , String gardenName );
+
 }

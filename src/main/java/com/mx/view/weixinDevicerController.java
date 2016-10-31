@@ -131,9 +131,9 @@ public class weixinDevicerController implements EverySecondJobCallback {
 
         request.setCharacterEncoding("UTF-8");
 
-        String name = new String(request.getParameter("name").getBytes("ISO-8859-1"), "UTF-8");
+        //String name = new String(request.getParameter("name").getBytes("ISO-8859-1"), "UTF-8");
 
-       // String name = request.getParameter("name");
+       String name = request.getParameter("name");
 
         LogUtil.info( this.getClass() ,"addA_GardenResult :" + name  );
 
@@ -152,29 +152,35 @@ public class weixinDevicerController implements EverySecondJobCallback {
             }
         }
         */
-        User user = userRepository.findOne( userId );
-        Garden garden = new Garden();
-        garden.setName( name );
-        garden.setAvatarUrl("");
-        garden.setRunMode( 1 ); // 自动模式
-        garden.setUser(user);
-        garden.setTime( new Date() );
-        gardenRepository.save( garden );
 
-        String avatarPath =  request.getContextPath() + "/views/img/" + garden.getId() + "/garden_avatar";
-        garden.setAvatarUrl( avatarPath );
-        gardenRepository.save( garden );
+        /*
+               判断是否重复
+         */
+        List< Garden> gardenList = gardenRepository.findUserGardenByIdAndName( userId , name );
+        if( ( gardenList == null) || ( gardenList.size() == 0 ) )
+        {   // 之前没有这个garden
+            User user = userRepository.findOne( userId );
+            Garden garden = new Garden();
+            garden.setName( name );
+            garden.setAvatarUrl("");
+            garden.setRunMode( 1 ); // 自动模式
+            garden.setUser(user);
+            garden.setTime( new Date() );
+            gardenRepository.save( garden );
 
-        //copyCommonAvatarTo
-        String rootPath = request.getSession().getServletContext().getRealPath("/");
-        FileUtil.CreateDirectory(rootPath + "views/img/" + garden.getId());
-        FileUtil.copyFile( rootPath+"views/img/img_default_garden.png" , rootPath + "views/img/" + garden.getId()+"/garden_avatar" );
-        LogUtil.info(this.getClass(),name);
+            String avatarPath =  request.getContextPath() + "/views/img/" + garden.getId() + "/garden_avatar";
+            garden.setAvatarUrl( avatarPath );
+            gardenRepository.save( garden );
 
+            //copyCommonAvatarTo
+            String rootPath = request.getSession().getServletContext().getRealPath("/");
+            FileUtil.CreateDirectory(rootPath + "views/img/" + garden.getId());
+            FileUtil.copyFile( rootPath+"views/img/img_default_garden.png" , rootPath + "views/img/" + garden.getId()+"/garden_avatar" );
+            LogUtil.info(this.getClass(),name);
 
-        List<Garden> GardenList = gardenRepository.findUserGarden(user.getId());
+        }
 
-
+        List<Garden> GardenList = gardenRepository.findUserGarden( userId );
 
         ModelAndView modelAndView = new ModelAndView("/garden");
         modelAndView.addObject("userId", userId );
@@ -313,7 +319,7 @@ public class weixinDevicerController implements EverySecondJobCallback {
 
     @RequestMapping("addDevice")
     @ResponseBody
-    public ModelAndView  addDevice(HttpServletRequest request, HttpServletResponse response) throws IOException, InvocationTargetException, IllegalAccessException {
+    public void  addDevice(HttpServletRequest request, HttpServletResponse response) throws IOException, InvocationTargetException, IllegalAccessException {
 
         response.setContentType("text/html; encoding=utf-8");
         response.setCharacterEncoding("UTF-8");
@@ -332,9 +338,12 @@ public class weixinDevicerController implements EverySecondJobCallback {
         {
             mxService.generateRuleAccording( newDeviceId ); // 更新 rule
         }
-        ModelAndView modelAndView = new ModelAndView("forward:/devices");
+        //ModelAndView modelAndView = new ModelAndView("forward:/devices");
 
-        return modelAndView;
+        Map<String , Object > jasonOut = new HashMap<String , Object >();
+        jasonOut.put("result", "fine" );
+        ajaxResponse( response , jasonOut );
+        return ;
     }
 
     @RequestMapping("deviceChart")

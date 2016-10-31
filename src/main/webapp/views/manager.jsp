@@ -63,7 +63,7 @@
 
   <script>
   wx.config({
-              debug: true,
+              debug: false,
               appId: '<%=appId %>',
               timestamp:  <%=timestamp %>,
               nonceStr: '<%=nonceStr %>',
@@ -425,7 +425,7 @@
         needResult: 1,
         desc: 'scanQRCode desc',
         success: function (res) {
-            alert(JSON.stringify(res));
+            //alert(JSON.stringify(res));
             $.ajax({
                 url: '${pageContext.request.contextPath}/weiXinDevice/addDevice',
                 type: 'get',
@@ -434,7 +434,8 @@
                 cache: false,
                 timeout: 5000,
                 success: function(data){
-                   console.log( "scanQRCode result", JSON.stringify(res) );
+                   //console.log( "scanQRCode result", JSON.stringify(res) );
+                    window.location.reload();
 
                 },
                 error: function(jqXHR, textStatus, errorThrown){
