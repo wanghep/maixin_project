@@ -120,7 +120,7 @@
             </li>
         </div>
         <div class="btn-group" role="group">
-          <a href="farm-avatar.html">
+          <a href="${pageContext.request.contextPath}/weiXinDevice/gardenDetail?gardenId=<%=garden.getId() %>">
             <img src=<%= garden.getAvatarUrl() %> class="img-circle"/>
           </a>
         </div>

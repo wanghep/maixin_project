@@ -190,6 +190,55 @@ public class weixinDevicerController implements EverySecondJobCallback {
 
     }
 
+    @RequestMapping("gardenDetail")
+    @ResponseBody
+    public ModelAndView  gardenDetail(HttpServletRequest request, HttpServletResponse response) throws IOException, InvocationTargetException, IllegalAccessException {
+
+        response.setContentType("text/html; encoding=utf-8");
+        response.setCharacterEncoding("UTF-8");
+
+        //request 中获取garden Id
+        long gardenId = Long.parseLong(request.getParameter("gardenId"));
+
+        Garden garden = gardenRepository.findOne(gardenId);
+
+        ModelAndView modelAndView = new ModelAndView("/farm-avatar");
+        modelAndView.addObject("garden", garden );
+
+        return modelAndView;
+    }
+
+    @RequestMapping("deleteGarden")
+    @ResponseBody
+    public ModelAndView  deleteGarden(HttpServletRequest request, HttpServletResponse response) throws IOException, InvocationTargetException, IllegalAccessException {
+
+        response.setContentType("text/html; encoding=utf-8");
+        response.setCharacterEncoding("UTF-8");
+
+        //request 中获取garden Id
+        long gardenId = Long.parseLong(request.getParameter("gardenId"));
+
+        Garden garden = gardenRepository.findOne( gardenId );
+
+        List<Devices> devices = devicesRepository.findDevicesByGardenId( gardenId );
+
+        //删除所有属于这个garden的设备
+        for ( int i = 0 ; i < devices.size() ; i++ )
+        {
+            devicesRepository.delete( devices.get(i) );
+        }
+        //删除这个garden
+        gardenRepository.delete( gardenId );
+
+        List<Garden> GardenList = gardenRepository.findUserGarden( garden.getUser().getId() );
+
+        ModelAndView modelAndView = new ModelAndView("/garden");
+        modelAndView.addObject("GardenList", GardenList );
+        modelAndView.addObject("userId", garden.getId().longValue());
+        return modelAndView;
+    }
+
+
 
     @RequestMapping("devices")
     @ResponseBody
@@ -208,7 +257,7 @@ public class weixinDevicerController implements EverySecondJobCallback {
         long now = new Date().getTime();
         for( int i = 0 ; i < devicesList.size() ; i++ )
         {
-            List<LatestMessage> lmList =  latestMessageRepository.findByDeviceId(devicesList.get(i).getId());
+            List<LatestMessage> lmList =  latestMessageRepository.findByMac(devicesList.get(i).getMacAddress());
             if( ( lmList != null) && (lmList.size() >0 ) )
             {
                 Date lastTime = lmList.get(0).getTime();
@@ -435,7 +484,8 @@ public class weixinDevicerController implements EverySecondJobCallback {
 
         int reportType = property.properyToDeviceType( type );
         //获得最后的数据
-        List<LatestMessage> lmList = latestMessageRepository.findByDeviceIdAndType( deviceId , String.valueOf(reportType) ) ;
+        Devices devices = devicesRepository.findOne( deviceId );
+        List<LatestMessage> lmList = latestMessageRepository.findByMacAndType( devices.getMacAddress() , String.valueOf(reportType) ) ;
 
         if(( lmList != null ) && (lmList.size()>0 ) )
         {

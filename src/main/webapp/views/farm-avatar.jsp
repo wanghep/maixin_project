@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿<%@ page import="com.mx.domain.Garden" %>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -44,7 +45,7 @@
   </head>
   <body class="luck-ping-body">
   <%
-    Garden garden = (Device)request.getAttribute("Garden");
+    Garden garden = (Garden)request.getAttribute("garden");
   %>
     <div class="luck-ping-div">
       <ul class="list-group">
@@ -52,7 +53,7 @@
           <ul class="list-inline">
             <li>
               <div class="container">
-                <input id="name-farm" onfocusout='nameFarm()' type="text" class="luck-ping-p1" placeholder="我的花园"></input>
+                <input id="name-farm" onfocusout='nameFarm()' type="text" class="luck-ping-p1" placeholder="<%=garden.getName()%>"></input>
               </div>
             </li>
             <li><p id="name-write" class="luck-ping-p2">长按修改花园名称</p></li>
@@ -71,9 +72,10 @@
     </form>
 
   	<div class="container" align="center" style="margin-top:30px;">
-      <button type="button" class="btn btn-primary" onclick="deleteFarm()" data-toggle="button" aria-pressed="false" autocomplete="off" style="background-color:white;color:red;">
-      删除此花园
-      </button>
+        <a type="button" class="btn btn-primary" href="${pageContext.request.contextPath}/weiXinDevice/deleteGarden?gardenId=<%=garden.getId() %>">
+            删除此花园
+        </a>
+
   	</div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -83,11 +85,9 @@
     <script type="text/javascript">
       function deleteFarm() {
         var gardenId;
-        <% 
-          gardenId = garden.getId();
-        %>
+        gardenId = <%=garden.getId()%>;
         $.ajax({
-            url: 'http://localhost:8888',
+            url: '${pageContext.request.contextPath}/weiXinDevice/deleteGarden',
             type: 'POST',
             data: {value:gardenId},
             dataType: 'json',

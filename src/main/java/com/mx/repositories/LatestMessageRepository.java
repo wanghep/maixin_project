@@ -13,9 +13,11 @@ import java.util.List;
  */
 public interface LatestMessageRepository extends CrudRepository<LatestMessage, Long> {
 
-    @Query(value = "select * from latest_message where device_id = ?1 and type = ?2 ", nativeQuery = true)
-    public List<LatestMessage> findByDeviceIdAndType( long deviceId , String type );
+    @Query(value = "select * from latest_message where macAddress = ?1 and type = ?2 ", nativeQuery = true)
+    public List<LatestMessage> findByMacAndType( String mac , String type );
 
-    @Query(value = "select * from latest_message where device_id = ?1 ", nativeQuery = true)
-    public List<LatestMessage> findByDeviceId( long deviceId );
+    @Query(value = "select * from latest_message where macAddress = ?1 ", nativeQuery = true)
+    public List<LatestMessage> findByMac(  String mac );
+
+
 }

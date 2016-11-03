@@ -89,7 +89,7 @@ public class MxService implements MessageListener {
         if( deviceList != null && ( deviceList.size() > 0 ) )
         {
             device = deviceList.get( 0 );
-            message.setDevice( device );
+            message.setMcAddress( deviceID );
             message.setType( type );
             message.setContext( data1 );
 
@@ -98,7 +98,7 @@ public class MxService implements MessageListener {
             mssageRepository.save( message );
 
 
-            List<LatestMessage> lmList = latestMessageRepository.findByDeviceIdAndType(device.getId() , type );
+            List<LatestMessage> lmList = latestMessageRepository.findByMacAndType(device.getMacAddress() , type );
 
 
             //更新到最新的消息库中

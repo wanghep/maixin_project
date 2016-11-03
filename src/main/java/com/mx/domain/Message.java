@@ -15,7 +15,7 @@ public class Message extends BaseMessage {
     public void covertToLatestMessage( LatestMessage lm )
     {
         lm.setContext(this.getContext());
-        lm.setDevice( this.getDevice());
+        lm.setMcAddress( this.getmMcAddress());
         lm.setType(this.getType());
         lm.setTime(this.getTime());
     }

@@ -86,7 +86,7 @@ public class MQTTService {
 
 						if(contextArray.length > 2  )
 						{
-							String deviceId = contextArray[0]; // 8 bytes
+							String deviceId = contextArray[0]; // 8 bytes,即MAC address
 
 							String type = contextArray[1];
 

@@ -16,9 +16,7 @@ public abstract   class BaseMessage {
     private Long id;
 
 
-    @OneToOne
-    @JoinColumn(name = "deviceId")
-    private  Devices device; // 那个device的消息
+    private String macAddress;        //mac address
 
     private String type; //是什么类型消息消息
 
@@ -37,12 +35,12 @@ public abstract   class BaseMessage {
         this.id = id;
     }
 
-    public Devices getDevice() {
-        return device;
+    public String getmMcAddress() {
+        return macAddress;
     }
 
-    public void setDevice(Devices device) {
-        this.device = device;
+    public void setMcAddress(String device) {
+        this.macAddress = macAddress;
     }
 
     public Date getTime() {
