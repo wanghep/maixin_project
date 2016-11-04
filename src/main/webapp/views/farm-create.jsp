@@ -53,7 +53,7 @@
                 <input id="name-farm" type="text" class="luck-ping-p1" placeholder="新添花园名称"></input>
               </div>
             </li>
-            <li><p id="name-write" class="luck-ping-p2">长按修改花园名称</p></li>
+            <li><p id="name-write" class="luck-ping-p2">点击修改花园名称</p></li>
           </ul>
         </li>
       </ul>
@@ -90,28 +90,7 @@
         }
 
 
-        function nameFarm() {
-        var farm = document.getElementById("name-farm");
-        //farm.value = farm.value.toUpperCase();
-        $.ajax({
-            url: '${pageContext.request.contextPath}/weiXinDevice/addA_GardenName',
-            type: 'POST',
-            data: {name:farm.value},
-            dataType: 'json',
-            cache: false,
-            timeout: 5000,
-            success: function(data){
-                if(data == 0) {
-                  farm.readOnly = true;
-                } 
-                
-            },
-            error: function(jqXHR, textStatus, errorThrown){
-                alert('error ' + textStatus + " " + errorThrown);  
-            }
-        });        
 
-      }
 
       var getUrlParameter = function getUrlParameter(sParam) {
           var sPageURL = decodeURIComponent(window.location.search.substring(1)),

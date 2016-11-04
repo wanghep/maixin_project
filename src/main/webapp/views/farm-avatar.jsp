@@ -53,10 +53,10 @@
           <ul class="list-inline">
             <li>
               <div class="container">
-                <input id="name-farm" onfocusout='nameFarm()' type="text" class="luck-ping-p1" placeholder="<%=garden.getName()%>"></input>
+                <input id="name-farm" type="text" class="luck-ping-p1" value="<%=garden.getName()%>"></input>
               </div>
             </li>
-            <li><p id="name-write" class="luck-ping-p2">长按修改花园名称</p></li>
+            <li><p id="name-write" class="luck-ping-p2">点击修改花园名称</p></li>
           </ul>
         </li>
       </ul>
@@ -72,10 +72,12 @@
     </form>
 
   	<div class="container" align="center" style="margin-top:30px;">
-        <a type="button" class="btn btn-primary" href="${pageContext.request.contextPath}/weiXinDevice/deleteGarden?gardenId=<%=garden.getId() %>">
+        <a type="button" class="btn btn-primary btn-lg btn-block" href="${pageContext.request.contextPath}/weiXinDevice/deleteGarden?gardenId=<%=garden.getId() %>">
             删除此花园
         </a>
-
+        <a type="button" class="btn btn-primary btn-lg btn-block" onclick="quit()" >
+            退 出
+        </a>
   	</div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -107,6 +109,17 @@
         $('#profile-image-upload').click();
       });
       */
+
+      function quit() {
+          var farm = document.getElementById("name-farm");
+
+          var url = '${pageContext.request.contextPath}/weiXinDevice/gardenDetailQuit?newName='+farm.value+'&gardenId='+<%=garden.getId() %>;
+          url = encodeURI(url);
+          //open(url);
+          window.location.href=url;
+      }
+
+
     </script>       
   </body>
 </html>

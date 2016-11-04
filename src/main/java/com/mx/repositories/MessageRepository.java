@@ -16,13 +16,12 @@ import java.util.List;
 public interface MessageRepository extends CrudRepository<Message, Long> {
 
     //根据id获取数据源
-    @Query(value = "select * from message where device_id = ?1 and type = ?2  ", nativeQuery = true)
-    public List<Message> findStormManageByDeviceAndType( long deviceId , int type );
+    @Query(value = "select * from message where mac_address = ?1 and type = ?2  ", nativeQuery = true)
+    public List<Message> findStormManageByMacAndType( String mac_address , int type );
 
-    @Query(value = "select * from message where device_id = ?1 and type = ?2  and time > DATE_SUB(now(), INTERVAL 1 HOUR )   ", nativeQuery = true)
-    public List<Message> findStormManageByDeviceAndTypeInOneHour( long deviceId , int type );
+    @Query(value = "select * from message where mac_address = ?1 and type = ?2  and time > DATE_SUB(now(), INTERVAL 1 HOUR )   ", nativeQuery = true)
+    public List<Message> findStormManageByDeviceAndTypeInOneHour( String mac_address , int type );
 
-    @Query(value = "select * from message where device_id = ?1 ", nativeQuery = true)
-    public List<Message> findAllManageByDeviceId( long deviceId  );
+
 
 }

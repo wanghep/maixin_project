@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
@@ -119,7 +121,34 @@ public class weixinDevicerController implements EverySecondJobCallback {
         modelAndView.addObject("userId", Long.valueOf( userId).longValue() );
         return modelAndView;
 
+    }
 
+
+
+    @RequestMapping("modifyGardenName")
+    @ResponseBody
+    public void  modifyGardenName(HttpServletRequest request, HttpServletResponse response) throws IOException, InvocationTargetException, IllegalAccessException {
+
+        response.setContentType("text/html; encoding=utf-8");
+        response.setCharacterEncoding("UTF-8");
+
+        request.setCharacterEncoding("UTF-8");
+
+        String newName = request.getParameter("name");
+        long gardId = Long.parseLong(request.getParameter("gardenId"));
+
+
+
+         Garden garden = gardenRepository.findOne( gardId);       ;
+
+        if( garden!= null )
+        {
+            garden.setName( newName );
+        }
+
+        Map<String , Object > jasonOut = new HashMap<String , Object >();
+        jasonOut.put("result", 0 );
+        ajaxResponse( response , jasonOut );
     }
 
     @RequestMapping("addA_GardenResult")
@@ -239,6 +268,21 @@ public class weixinDevicerController implements EverySecondJobCallback {
     }
 
 
+    @RequestMapping("gardenDetailQuit")
+    public String  gardenDetailQuit(HttpServletRequest request, HttpServletResponse response) throws IOException, InvocationTargetException, IllegalAccessException {
+
+        long  gardenId = Long.parseLong(request.getParameter("gardenId"));
+        String newName = request.getParameter("newName");
+        if( newName != null && (!newName.isEmpty() )) {
+            Garden garden = gardenRepository.findOne(gardenId);
+            if (garden != null) {
+                garden.setName(newName);
+            }
+        }
+
+        return "forward:devices";
+
+    }
 
     @RequestMapping("devices")
     @ResponseBody
@@ -248,7 +292,7 @@ public class weixinDevicerController implements EverySecondJobCallback {
         response.setCharacterEncoding("UTF-8");
 
         //request 中获取garden Id
-        long  gardenId = Long.parseLong(request.getParameter("gardenID"));
+        long  gardenId = Long.parseLong(request.getParameter("gardenId"));
 
         Garden garden = gardenRepository.findOne( gardenId );
         List<Devices> devicesList = devicesRepository.findDevicesByGardenId(gardenId);
@@ -408,11 +452,11 @@ public class weixinDevicerController implements EverySecondJobCallback {
 
         Devices device = devicesRepository.findOne( deviceId );
 
-        List<Message> messageTemperaterList = messageRepository.findStormManageByDeviceAndTypeInOneHour(deviceId, property.DEVICE_MESSAGE_TYPE_TEMPERATURE);
-        List<Message> messageHumiditList = messageRepository.findStormManageByDeviceAndTypeInOneHour(deviceId, property.DEVICE_MESSAGE_TYPE_HUMIDITY);
-        List<Message> messageIlluminationList = messageRepository.findStormManageByDeviceAndTypeInOneHour(deviceId, property.DEVICE_MESSAGE_TYPE_ILLUMINATION);
-        List<Message> messageWaterLevelList = messageRepository.findStormManageByDeviceAndTypeInOneHour(deviceId, property.DEVICE_MESSAGE_WATER_LEVEL);
-        List<Message> messageVocList = messageRepository.findStormManageByDeviceAndTypeInOneHour( deviceId , property.DEVICE_MESSAGE_VOC );
+        List<Message> messageTemperaterList = messageRepository.findStormManageByDeviceAndTypeInOneHour(device.getMacAddress(), property.DEVICE_MESSAGE_TYPE_TEMPERATURE);
+        List<Message> messageHumiditList = messageRepository.findStormManageByDeviceAndTypeInOneHour(device.getMacAddress(), property.DEVICE_MESSAGE_TYPE_HUMIDITY);
+        List<Message> messageIlluminationList = messageRepository.findStormManageByDeviceAndTypeInOneHour(device.getMacAddress(), property.DEVICE_MESSAGE_TYPE_ILLUMINATION);
+        List<Message> messageWaterLevelList = messageRepository.findStormManageByDeviceAndTypeInOneHour(device.getMacAddress(), property.DEVICE_MESSAGE_WATER_LEVEL);
+        List<Message> messageVocList = messageRepository.findStormManageByDeviceAndTypeInOneHour( device.getMacAddress() , property.DEVICE_MESSAGE_VOC );
 
         Map ruleSet = mxService.getRuleById( deviceId );
 
