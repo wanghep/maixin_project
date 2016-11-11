@@ -1,32 +1,39 @@
-var http=require("http");
+var http = require("http");
 var url = require("url");
+var express =   require("express");
+var multer  =   require('multer');
+var app         =   express();
+app.use(express.static(__dirname + '/'));
 
-var server=http.createServer(function(req,res){
-
-    if(req.url!=="/favicon.ico"){
-	    var m = url.parse(req.url, true);
-	    console.log(m.query["mode"])
-        //res.writeHead(200,{"Content-Type":"text/plain","Access-Control-Allow-Origin":"http://localhost:8080"});
-		//res.write("hello,我是从服务器端接收的");
-		res.writeHead(200, {"Content-Type":"application/json","Access-Control-Allow-Origin":"http://localhost:8080"});
-		if(m.query["mode"]!= null) {
-			if(m.query["mode"] == 0) {
-				res.write(JSON.stringify({data:1}));
-			} else {
-				res.write(JSON.stringify({data:0}));
-			}
-		} else {
-			res.write(JSON.stringify({data:"hello,我是从服务器端接收的"}));
-		}
-		
-    }
-
-    res.end();
-
+app.get('/',function(req,res){
+      res.sendFile(__dirname + "/farm-avatar.html");
 });
 
-server.listen(8888,"localhost",function(){
+var storage =   multer.diskStorage({
+  destination: function (req, file, callback) {
+    callback(null, './uploads');
+  },
+  filename: function (req, file, callback) {
+    callback(null, file.fieldname + '-' + Date.now());
+  }
+});
+var upload = multer({ storage : storage}).single('userPhoto');
 
+app.get('/',function(req,res){
+      res.sendFile(__dirname + "/farm-avatar.html");
+});
+
+app.post('/api/photo',function(req,res){
+  console.log("api photo");
+    upload(req,res,function(err) {
+        if(err) {
+          console.log("error: "+err);
+            return res.end("Error uploading file.");
+        }
+        res.end("File is uploaded");
+    });
+});
+
+app.listen(8888,function(){
     console.log("开始监听...");
-
 });

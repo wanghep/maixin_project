@@ -27,20 +27,20 @@
       .luck-ping-div {
           margin-top: 18px;
           margin-bottom: 10px;
-          padding: 5px 10px 5px 10px; 
+          padding: 5px 10px 5px 10px;
       }
       .luck-ping-p1 {
           margin: 10px;
           padding: 0px;
           font-size: 16px;
           border:none;
-      }       
+      }
       .luck-ping-p2 {
           margin: 0px;
           padding: 0px;
           font-size: 11px;
-      }                       
-    </style>    
+      }
+    </style>
   </head>
   <body  class="luck-ping-body">
     <div class="luck-ping-div">
@@ -58,14 +58,13 @@
       </ul>
     </div>
 
-    <form id="form" enctype="multipart/form-data" method="post">
+    <form enctype="multipart/form-data" action="/api/photo" method="post">
       <div class="container" align="center">
-        <input id="profile-image-upload" class="hidden" type="file">
-        <div id="profile-image"><image src="img/img_default_garden.png" /></div>
-        <h4 style="color:white;">点击上传花园头像</h4>
-      </div>
+         <input id="profile-image-upload" class="hidden" type="file" name="userPhoto">
+         <div id="profile-image"><image src="img/img_default_garden.png" /></div>
+         <input type="submit" value="点击上传花园头像" name="submit" style="margin-top:10px;color:white;font-size:16px;border:none;"></input>
+       </div>
     </form>
-  
 
   	<div class="container" align="center" style="margin-top:30px;">
       <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" style="background-color:white;color:red;">
