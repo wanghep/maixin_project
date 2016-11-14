@@ -9,6 +9,10 @@ app.get('/',function(req,res){
       res.sendFile(__dirname + "/farm-avatar.html");
 });
 
+app.get('/avatar',function(req,res){
+      res.sendFile(__dirname + "/farm-avatar.html");
+});
+
 var storage =   multer.diskStorage({
   destination: function (req, file, callback) {
     callback(null, './uploads');
@@ -19,10 +23,6 @@ var storage =   multer.diskStorage({
 });
 var upload = multer({ storage : storage}).single('userPhoto');
 
-app.get('/',function(req,res){
-      res.sendFile(__dirname + "/farm-avatar.html");
-});
-
 app.post('/api/photo',function(req,res){
   console.log("api photo");
     upload(req,res,function(err) {
@@ -31,7 +31,7 @@ app.post('/api/photo',function(req,res){
             return res.end("Error uploading file.");
         }
         //res.end("File is uploaded");
-        res.redirect(__dirname + "/farm-avatar.html");
+        res.redirect("/avatar");
     });
 });
 
