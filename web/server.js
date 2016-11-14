@@ -30,7 +30,8 @@ app.post('/api/photo',function(req,res){
           console.log("error: "+err);
             return res.end("Error uploading file.");
         }
-        res.end("File is uploaded");
+        //res.end("File is uploaded");
+        res.redirect(__dirname + "/farm-avatar.html");
     });
 });
 
